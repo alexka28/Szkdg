@@ -1,0 +1,38 @@
+# depslib dependency file v1.0
+1519653747 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\graphgen.cpp
+	<iostream>
+	<stdlib.h>
+
+1519660687 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\unifind.cpp
+	"UniFind.h"
+	<iostream>
+
+1519661265 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\main.cpp
+	<iostream>
+	"UniFind.h"
+
+1519660551 d:\suli\proginfó\szakdolgozat\szakdolgozat\unifind.h
+
+1519657001 d:\suli\proginfó\szakdolgozat\szakdolgozat\proba.h
+
+1519657172 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\probahoz.cpp
+	<iostream>
+
+1519653747 source:d:\suli\proginfó\szkdg\graphgen.cpp
+	<iostream>
+	<stdlib.h>
+
+1519660687 source:d:\suli\proginfó\szkdg\unifind.cpp
+	"UniFind.h"
+	<iostream>
+
+1519660551 d:\suli\proginfó\szkdg\unifind.h
+
+1519664245 source:d:\suli\proginfó\szkdg\createinsertquerry.cpp
+	"CreateInsertQuerry.h"
+	<time.h>
+	<stdlib.h>
+
+1519663005 d:\suli\proginfó\szkdg\createinsertquerry.h
+	<list>
+
