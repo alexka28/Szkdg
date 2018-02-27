@@ -1,10 +1,6 @@
 #include "UniFind.h"
 #include <iostream>
-// To represent Disjoint Sets
-/*struct DisjointSets
-{
-    int *parent, *rnk;
-    int n;*/
+
 // Constructor, which equals the Create method
 DisjointSets::DisjointSets(int n)
 {
@@ -70,7 +66,3 @@ bool DisjointSets::querry(int x, int y)
     }
     return false;
 }
-
-//};
-
-

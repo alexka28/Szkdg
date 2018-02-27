@@ -42,12 +42,6 @@ struct Graph* CreateGraph(int n)
 	return vlist;
 }
 
-
-
-
-
-
-
 struct node* NewNode(int value)
 {
 	struct node *newnode = new node;
@@ -64,7 +58,7 @@ void InsertNode(Graph *G, int v1, int v2)
 	node *newnode2 = NewNode(v2);
 	node *temp = new node;
 
-	// oda-vissza connect bc undirected
+	// one side connect bc undirected
 	if(G->vl[v2].vlisthead == NULL)
 	{
 
@@ -72,11 +66,11 @@ void InsertNode(Graph *G, int v1, int v2)
 	}
 	else
 	{
-		//dobjuk be az elejere
+
 		newnode1->link = G->vl[v2].vlisthead;
 		G->vl[v2].vlisthead = newnode1;
 	}
-	// a masik connect
+	// and the other side connect
 	if(G->vl[v1].vlisthead == NULL)
 	{
 

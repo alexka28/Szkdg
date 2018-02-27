@@ -31,8 +31,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="CreateInsertQuerry.cpp" />
-		<Unit filename="CreateInsertQuerry.h" />
+		<Unit filename="CreateInsertQuery.cpp" />
+		<Unit filename="CreateInsertQuery.h" />
 		<Unit filename="GraphGen.cpp" />
 		<Unit filename="Main.cpp" />
 		<Unit filename="UniFind.cpp" />
