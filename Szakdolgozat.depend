@@ -18,7 +18,7 @@
 1519657172 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\probahoz.cpp
 	<iostream>
 
-1519665505 source:d:\suli\proginfó\szkdg\graphgen.cpp
+1519759421 source:d:\suli\proginfó\szkdg\graphgen.cpp
 	<iostream>
 	<stdlib.h>
 
@@ -42,7 +42,7 @@
 	<time.h>
 	<stdlib.h>
 
-1519759246 d:\suli\proginfó\szkdg\createinsertquery.h
+1519759753 d:\suli\proginfó\szkdg\createinsertquery.h
 	<list>
 
 1519759269 source:d:\suli\proginfó\szkdg\createinsertquery.cpp
