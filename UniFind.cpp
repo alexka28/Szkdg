@@ -58,7 +58,7 @@ void DisjointSets::insert(int x, int y)
     }
 
 }
-bool DisjointSets::querry(int x, int y)
+bool DisjointSets::query(int x, int y)
 {
     if(find(x) == find(y))
     {

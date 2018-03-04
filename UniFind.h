@@ -9,7 +9,7 @@ int *parent, *rnk;
     int find(int u);
     void merge(int,int);
     void insert(int, int);
-    bool querry(int, int);
+    bool query(int, int);
 };
 
 
