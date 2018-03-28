@@ -18,15 +18,14 @@
 1519657172 source:d:\suli\proginfó\szakdolgozat\szakdolgozat\probahoz.cpp
 	<iostream>
 
-1520121294 source:d:\suli\proginfó\szkdg\graphgen.cpp
+1520122485 source:d:\suli\proginfó\szkdg\graphgen.cpp
 	"GraphGen.h"
-	<stdlib.h>
 
-1519665404 source:d:\suli\proginfó\szkdg\unifind.cpp
+1520122009 source:d:\suli\proginfó\szkdg\unifind.cpp
 	"UniFind.h"
 	<iostream>
 
-1519660551 d:\suli\proginfó\szkdg\unifind.h
+1520122017 d:\suli\proginfó\szkdg\unifind.h
 
 1519759269 source:d:\suli\proginfó\szkdg\createinsertquerry.cpp
 	"CreateInsertquery.h"
@@ -36,22 +35,25 @@
 1519663005 d:\suli\proginfó\szkdg\createinsertquerry.h
 	<list>
 
-1520121650 source:d:\suli\proginfó\szkdg\main.cpp
+1521408311 source:d:\suli\proginfó\szkdg\main.cpp
 	<iostream>
 	"UniFind.h"
 	<time.h>
 	<stdlib.h>
 	"CreateInsertQuery.h"
 	"GraphGen.h"
+	<ctime>
 
-1519759753 d:\suli\proginfó\szkdg\createinsertquery.h
+1521215394 d:\suli\proginfó\szkdg\createinsertquery.h
 	<list>
 
-1519759269 source:d:\suli\proginfó\szkdg\createinsertquery.cpp
+1521215542 source:d:\suli\proginfó\szkdg\createinsertquery.cpp
 	"CreateInsertquery.h"
 	<time.h>
 	<stdlib.h>
 
 1520121127 d:\suli\proginfó\szkdg\graphgen.h
 	<list>
+
+1521215628 source:d:\suli\proginfó\szkdg\test.cpp
 

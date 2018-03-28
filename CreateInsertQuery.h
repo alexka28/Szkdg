@@ -6,7 +6,7 @@ struct IQ
     int iq, a, b;
     IQ(int iq, int a, int b);
 };
-std::list<struct IQ> createIQ(int n, int numIQ);
+std::list<struct IQ> createIQ(int n, int numInserts);
 
 
 #endif // CREATEINSERTQUERY_H_INCLUDED

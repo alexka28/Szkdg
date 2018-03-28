@@ -36,6 +36,8 @@
 		<Unit filename="GraphGen.cpp" />
 		<Unit filename="GraphGen.h" />
 		<Unit filename="Main.cpp" />
+		<Unit filename="Test.cpp" />
+		<Unit filename="Test.h" />
 		<Unit filename="UniFind.cpp" />
 		<Unit filename="UniFind.h" />
 		<Extensions>

@@ -14,9 +14,9 @@ IQ::IQ(int iq, int a, int b)
 }
 /*
 n: number of nodes
-numIQ: number of inserts and queries
+numInserts: number of inserts and queries
 */
-std::list<struct IQ> createIQ(int n, int numIQ)
+std::list<struct IQ> createIQ(int n, int numInserts)
 {
     /*
     rnd: random number the chance we make an insert or query
@@ -29,7 +29,7 @@ std::list<struct IQ> createIQ(int n, int numIQ)
     std::list<struct IQ> iqList;
     srand (time(NULL));
 
-    while((count_i+count_q) != numIQ )
+    while(count_i != numInserts )
     {
         /* generate a number between 1 and 10, which decides it will be an insert or a query */
         rnd = rand() % 10 + 1;
