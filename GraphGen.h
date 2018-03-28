@@ -5,17 +5,12 @@ class Graph
 {
     int V;    // No. of vertices
 
-    // Pointer to an array containing adjacency lists
-    std::list<int> *adj;
-
-    // A function used by DFS
-    bool DFSUtil(int v, bool visited[], int f, bool *ret);
+    std::list<int> *adj; // Pointer to an array containing adjacency lists
 public:
     Graph(int V);   // Constructor
     void addEdge(int v, int w);
-    //a bool ptr to track the query
-    bool queryGraph(int v, int f, bool *ret);
+    int getV();
+    std::list<int>* getList();
 };
-
 
 #endif // GRAPHGEN_H_INCLUDED
