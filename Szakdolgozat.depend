@@ -35,16 +35,11 @@
 1519663005 d:\suli\proginfó\szkdg\createinsertquerry.h
 	<list>
 
-1522267634 source:d:\suli\proginfó\szkdg\main.cpp
+1523661656 source:d:\suli\proginfó\szkdg\main.cpp
 	<iostream>
-	"UniFind.h"
-	<time.h>
-	<stdlib.h>
-	"CreateInsertQuery.h"
-	"GraphGen.h"
-	<ctime>
-	"DFS.h"
-	"TraditionalAlgorithm.h"
+	"DecrementalGraph.h"
+	<set>
+	"Test.h"
 
 1521218994 d:\suli\proginfó\szkdg\createinsertquery.h
 	<list>
@@ -57,11 +52,20 @@
 1522266585 d:\suli\proginfó\szkdg\graphgen.h
 	<list>
 
-1522266355 source:d:\suli\proginfó\szkdg\test.cpp
+1523661407 source:d:\suli\proginfó\szkdg\test.cpp
 	"Test.h"
+	<iostream>
+	"UniFind.h"
+	<time.h>
+	<stdlib.h>
+	"CreateInsertQuery.h"
+	"GraphGen.h"
+	<ctime>
+	"DFS.h"
+	"TraditionalAlgorithm.h"
+	"IncrementalAlgorithm.h"
 
-1522266356 d:\suli\proginfó\szkdg\test.h
-	<list>
+1523661289 d:\suli\proginfó\szkdg\test.h
 
 1522269479 d:\suli\proginfó\szkdg\dfs.h
 	"GraphGen.h"
@@ -85,4 +89,17 @@
 	"TraditionalAlgorithm.h"
 	"DFS.h"
 	<iostream>
+
+1522269427 d:\suli\proginfó\szkdg\incrementalalgorithm.h
+	"GraphGen.h"
+	"CreateInsertQuery.h"
+	"UniFind.h"
+
+1523660815 source:d:\suli\proginfó\szkdg\decrementalgraph.cpp
+	"DecrementalGraph.h"
+	<iostream>
+	<set>
+
+1523658640 d:\suli\proginfó\szkdg\decrementalgraph.h
+	<set>
 

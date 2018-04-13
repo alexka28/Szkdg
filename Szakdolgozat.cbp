@@ -40,8 +40,6 @@
 		<Unit filename="IncrementalAlgorithm.cpp" />
 		<Unit filename="IncrementalAlgorithm.h" />
 		<Unit filename="Main.cpp" />
-		<Unit filename="Test.cpp" />
-		<Unit filename="Test.h" />
 		<Unit filename="TraditionalAlgorithm.cpp" />
 		<Unit filename="TraditionalAlgorithm.h" />
 		<Unit filename="UniFind.cpp" />
