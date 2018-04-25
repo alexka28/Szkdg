@@ -35,11 +35,15 @@
 		<Unit filename="CreateInsertQuery.h" />
 		<Unit filename="DFS.cpp" />
 		<Unit filename="DFS.h" />
+		<Unit filename="DecrementalGraph.cpp" />
+		<Unit filename="DecrementalGraph.h" />
 		<Unit filename="GraphGen.cpp" />
 		<Unit filename="GraphGen.h" />
 		<Unit filename="IncrementalAlgorithm.cpp" />
 		<Unit filename="IncrementalAlgorithm.h" />
 		<Unit filename="Main.cpp" />
+		<Unit filename="Test.cpp" />
+		<Unit filename="Test.h" />
 		<Unit filename="TraditionalAlgorithm.cpp" />
 		<Unit filename="TraditionalAlgorithm.h" />
 		<Unit filename="UniFind.cpp" />

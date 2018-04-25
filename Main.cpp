@@ -5,7 +5,10 @@
 
 int main()
 {
+   /* DecGraph graph(10);
     GraphNode a(5);
+    graph.node[0] = a;
+    std::cout <<graph.node[0].N << std::endl;
     std::set<GraphNode*> setem;
     GraphNode b(5);
     GraphNode c(5);
@@ -18,7 +21,16 @@ int main()
     for(int i = 0; i < 5; ++i)
     {
         std::cout<<"Az " << i+1<< " neighbour merete: " << a.neighbours[i].size() << std::endl;
-    }
+    }*/
+
+
+    DecGraph graph(10);
+    GraphNode a(7);
+    GraphNode b(8);
+    graph.node[0] = a;
+    graph.node[0].neighbours[0].insert(&a);
+    std::cout<<graph.node[0].neighbours[0].size() << std::endl;
+
     testInsert();
     return 0;
 }
