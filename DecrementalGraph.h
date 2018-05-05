@@ -4,7 +4,7 @@
 #include<map>
 #include<utility>
 #include <vector>
-
+#include "ETT.h"
 typedef struct GraphNode
 { int N;
   std::set< GraphNode* > *neighbours;
@@ -15,8 +15,8 @@ typedef struct DecGraph
 std::vector<GraphNode> node;
 std::map< std::pair<int, int> , int > level;
 DecGraph(int n);
-bool connected(int, int);
-void insert(int, int);
+bool connected(int, int, ETForest);
+void insert(int, int, ETForest);
 void remove(int,int);
 }DecGraph;
 

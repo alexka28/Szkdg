@@ -41,9 +41,7 @@ int main() {
 //    graph.node[0].neighbours[0].insert(&a);
 //    std::cout<<graph.node[0].neighbours[0].size() << std::endl;
     cout << "insert elott" << endl;
-    graph.insert(3, 5);
-    graph.insert(3, 6);
-    graph.insert(3, 6);
+
 //    auto asd = graph.node[3].neighbours[5].begin();
 //    cout << graph.node[3].neighbours[6].size() << endl;
 //    cout << (*asd)->N << endl;
@@ -55,13 +53,15 @@ int main() {
     //testInsert();
     cout<<"Forest elott"<<endl;
     ETForest myForest(10);
-    if(myForest.first[9]->color == 0){
-        cout<<"Black"<<endl;
-        cout<<myForest.first[8]->nodeId<<endl;
-    }
-    else{
-        cout<<"Red"<<endl;
-    }
+    graph.insert(3, 5, myForest);
+    graph.insert(3, 6, myForest);
+    graph.insert(3, 6, myForest);
+    //ETTreeNode *node=myForest.findRoot(3);
+    //cout<<graph.connected(3,5,myForest)<<endl;
+
+
+    cout<<myForest.findRoot(3)->nodeId << " == " <<myForest.findRoot(5)->nodeId<<endl;
+
     cout<<"Forest utan"<<endl;
     return 0;
 }

@@ -37,6 +37,8 @@
 		<Unit filename="DFS.h" />
 		<Unit filename="DecrementalGraph.cpp" />
 		<Unit filename="DecrementalGraph.h" />
+		<Unit filename="ETT.cpp" />
+		<Unit filename="ETT.h" />
 		<Unit filename="GraphGen.cpp" />
 		<Unit filename="GraphGen.h" />
 		<Unit filename="IncrementalAlgorithm.cpp" />

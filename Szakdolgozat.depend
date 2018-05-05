@@ -94,17 +94,25 @@
 	"CreateInsertQuery.h"
 	"UniFind.h"
 
-1525031164 source:d:\suli\proginfó\szkdg\decrementalgraph.cpp
+1525545995 source:d:\suli\proginfó\szkdg\decrementalgraph.cpp
 	"DecrementalGraph.h"
 	<iostream>
 	<set>
 	<stdlib.h>
 	<algorithm>
 	<utility>
+	"ETT.h"
 
-1525031113 d:\suli\proginfó\szkdg\decrementalgraph.h
+1525545995 d:\suli\proginfó\szkdg\decrementalgraph.h
 	<set>
 	<map>
 	<utility>
 	<vector>
+	"ETT.h"
+
+1525472805 d:\suli\proginfó\szkdg\ett.h
+
+1525545995 source:d:\suli\proginfó\szkdg\ett.cpp
+	<iostream>
+	"ETT.h"
 

@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<algorithm>
 #include <utility>
+#include "ETT.h"
 
 /**
  * constructor for GraphNode
@@ -32,12 +33,11 @@ DecGraph::DecGraph(int n) {
 
 }
 
-bool DecGraph::connected(int, int) {
-    //TODO: Et Forest
-    //F.findRoot( F.first[u] ) == F.findRoot( F.first[v] )
+bool DecGraph::connected(int u, int v, ETForest F) {
+    return F.findRoot(u) == F.findRoot(v);
 }
 
-void DecGraph::insert(int u, int v) {
+void DecGraph::insert(int u, int v, ETForest F) {
     if (u == v) return;
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) > 0) { return; }
@@ -49,11 +49,11 @@ void DecGraph::insert(int u, int v) {
     std::pair<std::pair<int, int>, int> key_value(key, this->logN);
     level.insert(key_value);
     //TODO: ET Forestet megirni, az alapjan a connected(u,v) fgv-t megirni
-    /*
-    if( !G.connected( u, v ) )
+
+    if( !connected( u, v, F ) )
     {
       F.join(u,v);                           // F-be besz?rjuk, ?sszek?tve u-t ?s v-t
-    } */
+    }
 
 }
 
