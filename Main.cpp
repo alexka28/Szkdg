@@ -4,6 +4,7 @@
 #include "Test.h"
 #include <utility>
 #include "ETT.h"
+
 using namespace std;
 
 int main() {
@@ -53,14 +54,19 @@ int main() {
     //testInsert();
     cout<<"Forest elott"<<endl;
     ETForest myForest(10);
-    graph.insert(3, 5, myForest);
+   /* graph.insert(3, 5, myForest);
     graph.insert(3, 6, myForest);
-    graph.insert(3, 6, myForest);
+    graph.insert(3, 7, myForest);
+    graph.insert(3, 8, myForest);
+    graph.insert(2,3, myForest);*/
+    //graph.insert(3, 6, myForest);
     //ETTreeNode *node=myForest.findRoot(3);
     //cout<<graph.connected(3,5,myForest)<<endl;
 
+cout<<"3 rangja: "<<myForest.first[3]->rank << " 5 rangja: " <<myForest.first[5]->rank<< " 6 rangja: " << myForest.first[6]->rank <<endl;
 
-    cout<<myForest.findRoot(3)->nodeId << " == " <<myForest.findRoot(5)->nodeId<<endl;
+    //cout<<"7 color: "<<myForest.first[7]->color<< " 8 color: " <<myForest.first[8]->color<< " 8 color: " << myForest.first[6]->color <<endl;
+
 
     cout<<"Forest utan"<<endl;
     return 0;

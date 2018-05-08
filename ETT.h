@@ -22,7 +22,17 @@ typedef struct ETForest {
 
     bool contains(int, int);
 
+    ETTreeNode *predecessor(ETTreeNode *);
+
+    ETTreeNode *successor(ETTreeNode *);
+
+    ETTreeNode *maximum(ETTreeNode *);
+
+    ETTreeNode *minimum(ETTreeNode *);
+
     void join(int, int);
+
+    void join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
 
     void rotateLeft(ETTreeNode *);
 
@@ -36,6 +46,7 @@ typedef struct ETForest {
 
     ETTreeNode *sibling(ETTreeNode *);
 
+
     bool isLeft(ETTreeNode *);
 
     bool zigzig(ETTreeNode *);
@@ -45,6 +56,11 @@ typedef struct ETForest {
     bool zagzig(ETTreeNode *);
 
     bool zagzag(ETTreeNode *);
+
+    //deletehez
+    void deleteNode(ETTreeNode *);
+
+    void setColor(ETTreeNode *, int);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H
