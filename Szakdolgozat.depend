@@ -35,11 +35,13 @@
 1519663005 d:\suli\proginfó\szkdg\createinsertquerry.h
 	<list>
 
-1523826731 source:d:\suli\proginfó\szkdg\main.cpp
+1526076790 source:d:\suli\proginfó\szkdg\main.cpp
 	<iostream>
 	"DecrementalGraph.h"
 	<set>
 	"Test.h"
+	<utility>
+	"ETT.h"
 
 1521218994 d:\suli\proginfó\szkdg\createinsertquery.h
 	<list>
@@ -110,9 +112,9 @@
 	<vector>
 	"ETT.h"
 
-1525726157 d:\suli\proginfó\szkdg\ett.h
+1525907323 d:\suli\proginfó\szkdg\ett.h
 
-1525545995 source:d:\suli\proginfó\szkdg\ett.cpp
+1526076676 source:d:\suli\proginfó\szkdg\ett.cpp
 	<iostream>
 	"ETT.h"
 

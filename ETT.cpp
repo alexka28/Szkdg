@@ -122,7 +122,7 @@ void ETForest::join(int u, int v) {
 
 }
 
-void ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
+ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
     if (x->rank == y->rank) {
         u->left = x;
         u->right = y;
@@ -165,6 +165,68 @@ void ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
         u->color = RED;
         repair(u);
     }
+    return findRoot(u->nodeId);
+}
+
+void ETForest::split(ETTreeNode *pNode) {
+    //saveljük el a parentjét és, hogy jobb vagy bal gyerek-e
+    ETTreeNode *parent = pNode->parent;
+
+    bool isLeftNode = isLeft(pNode);
+    //T1 létrehozása, ő a pNode bal gyereke
+    ETTreeNode *T1 = new ETTreeNode(nullptr, pNode->left->left, pNode->left->right, pNode->left->color,
+                                    pNode->left->nodeId);
+    T1->rank = pNode->left->rank;
+//mentsük el a jobb részfát
+    ETTreeNode *pNodeRight = pNode->right;
+    //valszleg a szülőjét nem árt nullptr-re rakni
+    pNodeRight->parent = nullptr;
+    //pNode visszaállítása 1 elemű fára
+    pNode->right = &theNullNode;
+    pNode->left = &theNullNode;
+    // T2 létrehozása, pNode már gyerekek nélkül és a jobb részfa
+    //itt a pNodeRight miatt lehet, hogy a rootja a teljes fa rootja, ha nincs nullptr-re rakva
+    ETTreeNode *T2 = join(&theNullNode, pNode, pNodeRight);
+    while (parent != nullptr) {
+        if (isLeftNode) {
+            ETTreeNode *subTree = parent->right;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+//vagy bal esetén minimum törlése
+            // ETTreeNode *min = minimum(parent);
+            // deleteNode(min);
+            // join(T2, min, root);
+            T2->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+            T2 = join(T2, root, subTree);
+
+
+        } else {
+            ETTreeNode *subTree = parent->left;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+            ETTreeNode *grandparent = parent->parent;
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+            //jobb esetén max törlése
+            //ETTreeNode *max = maximum(parent);
+            //deleteNode(max);
+            //join(root,max,T1);
+            T1->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+
+            T1 = join(subTree, root, T1);
+
+        }
+    }
+
+
 }
 
 void ETForest::rotateLeft(ETTreeNode *pNode) {
@@ -289,16 +351,16 @@ void ETForest::deleteNode(ETTreeNode *node) {
             if (child != nullptr)
                 child->parent = node->parent;
             setColor(child, BLACK);
-            delete (node);
+            //delete (node);
         } else {
             node->parent->right = child;
             if (child != nullptr)
                 child->parent = node->parent;
             setColor(child, BLACK);
-            delete (node);
+            //delete (node);
         }
     } else {
-        ETTreeNode*sibling = nullptr;
+        ETTreeNode *sibling = nullptr;
         ETTreeNode *parent = nullptr;
         ETTreeNode *ptr = node;
         ETTreeNode *root = findRoot(node->nodeId);
@@ -367,7 +429,7 @@ void ETForest::deleteNode(ETTreeNode *node) {
             node->parent->left = nullptr;
         else
             node->parent->right = nullptr;
-        delete (node);
+        //delete (node);
         setColor(root, BLACK);
     }
 }

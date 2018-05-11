@@ -52,22 +52,39 @@ int main() {
 //graph.remove(3,6);
 //    cout<<"torles utan "<<graph.level.count(valamipar)<<endl;
     //testInsert();
-    cout<<"Forest elott"<<endl;
+    cout << "Forest elott" << endl;
     ETForest myForest(10);
-   /* graph.insert(3, 5, myForest);
-    graph.insert(3, 6, myForest);
-    graph.insert(3, 7, myForest);
-    graph.insert(3, 8, myForest);
-    graph.insert(2,3, myForest);*/
+    /* graph.insert(3, 5, myForest);
+     graph.insert(3, 6, myForest);
+     graph.insert(3, 7, myForest);
+     graph.insert(3, 8, myForest);
+     graph.insert(2,3, myForest);*/
     //graph.insert(3, 6, myForest);
     //ETTreeNode *node=myForest.findRoot(3);
     //cout<<graph.connected(3,5,myForest)<<endl;
+    ETTreeNode *level = new ETTreeNode(nullptr, nullptr, nullptr, 1, 0);
+    ETTreeNode *elso = new ETTreeNode(nullptr, level, level, 0, 1);
+    ETTreeNode *masodik = new ETTreeNode(elso, level, level, 1, 2);
+    elso->right = masodik;
+    ETTreeNode *parent = masodik->parent;
+    ETTreeNode *root = parent;
+    cout << "parent nodeid: " << parent->nodeId <<endl;
+    cout << "root nodeid: " << root->nodeId<<endl;
+    parent = parent->parent;
+    if(root == nullptr){
+        cout<<"parent mostmar nullptr" <<endl;
+    }
+    else{
+        cout<<"root nem nullptr"<<endl;
+    }
 
-cout<<"3 rangja: "<<myForest.first[3]->rank << " 5 rangja: " <<myForest.first[5]->rank<< " 6 rangja: " << myForest.first[6]->rank <<endl;
+
+
+//cout<<"3 rangja: "<<myForest.first[3]->rank << " 5 rangja: " <<myForest.first[5]->rank<< " 6 rangja: " << myForest.first[6]->rank <<endl;
 
     //cout<<"7 color: "<<myForest.first[7]->color<< " 8 color: " <<myForest.first[8]->color<< " 8 color: " << myForest.first[6]->color <<endl;
 
 
-    cout<<"Forest utan"<<endl;
+    cout << "Forest utan" << endl;
     return 0;
 }

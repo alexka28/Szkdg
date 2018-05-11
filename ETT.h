@@ -32,7 +32,9 @@ typedef struct ETForest {
 
     void join(int, int);
 
-    void join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
+    ETTreeNode *join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
+
+    void split(ETTreeNode *);
 
     void rotateLeft(ETTreeNode *);
 
