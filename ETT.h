@@ -20,6 +20,10 @@ typedef struct ETForest {
 
     ETTreeNode *findRoot(int);
 
+    ETTreeNode *findRoot(ETTreeNode *);
+
+    void inOrder(ETTreeNode *);
+
     bool contains(int, int);
 
     ETTreeNode *predecessor(ETTreeNode *);
@@ -34,7 +38,7 @@ typedef struct ETForest {
 
     ETTreeNode *join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
 
-    void split(ETTreeNode *);
+    std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *);
 
     void rotateLeft(ETTreeNode *);
 
