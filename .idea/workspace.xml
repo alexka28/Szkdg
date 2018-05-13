@@ -225,7 +225,7 @@
       <workItem from="1526133891991" duration="23450000" />
       <workItem from="1526214201101" duration="188000" />
       <workItem from="1526215857937" duration="8652000" />
-      <workItem from="1526227439945" duration="3054000" />
+      <workItem from="1526227439945" duration="3177000" />
     </task>
     <task id="LOCAL-00001" summary="split&amp;join working">
       <created>1526224877131</created>
@@ -238,10 +238,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103133000" />
+    <option name="totallyTimeSpent" value="103256000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.253125" />
       <window_info anchor="bottom" id="TODO" order="6" />
