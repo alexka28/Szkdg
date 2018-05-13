@@ -83,7 +83,7 @@ ETForest::ETForest(int n) {
      last[6] = n7; */
     inOrder(n1);
     std::cout << "T1: " << std::endl;
-    std::pair<ETTreeNode *, ETTreeNode *> spl = split(n6);
+    std::pair<ETTreeNode *, ETTreeNode *> spl = split(n5);
     inOrder(findRoot(spl.first));
     std::cout << "T2: " << std::endl;
     inOrder(findRoot(spl.second));
@@ -222,7 +222,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             }
             u->rank = 1;
             y->left = u;
-            y->right = x;
+           // y->right = x; ha van itt node, akkor felülírná
             u->parent = y;
 
             u->color = RED;
@@ -265,7 +265,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
            u->rank = 1;
             x->right = u;
             u->parent = x;
-            x->left = y;
+            //x->left = y; itt is felülírodna
             u->color = RED;
             repair(u);
             //updateRank(u);
@@ -409,6 +409,7 @@ void ETForest::rotateRight(ETTreeNode *pNode) {
 }
 
 void ETForest::updateRank(ETTreeNode *pNode) {
+    //TODO: ha node piros és szomszédja nullNode
     if (pNode != nullptr ) {
         pNode->rank = pNode->color == RED ? pNode->left->rank : pNode->left->rank + 1;
         updateRank(pNode->parent);

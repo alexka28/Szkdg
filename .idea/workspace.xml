@@ -12,6 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0ccaaf2-3231-4e3f-809a-4b3ea9101ab1" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ETT.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ETT.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -58,7 +59,7 @@
       <file leaf-file-name="ETT.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ETT.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="119">
               <caret line="369" selection-start-line="369" selection-end-line="369" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -105,6 +106,8 @@
       <find>uncle</find>
       <find>updateR</find>
       <find>update</find>
+      <find>t2</find>
+      <find>updateRa</find>
     </findStrings>
     <replaceStrings>
       <replace>&amp;theNullNode</replace>
@@ -134,7 +137,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -146,6 +149,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,7 +161,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,16 +224,24 @@
       <workItem from="1526071363020" duration="2447000" />
       <workItem from="1526133891991" duration="23450000" />
       <workItem from="1526214201101" duration="188000" />
-      <workItem from="1526215857937" duration="8517000" />
+      <workItem from="1526215857937" duration="8652000" />
+      <workItem from="1526227439945" duration="3054000" />
     </task>
+    <task id="LOCAL-00001" summary="split&amp;join working">
+      <created>1526224877131</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1526224877131</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99944000" />
+    <option name="totallyTimeSpent" value="103133000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.253125" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -259,9 +270,20 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="split&amp;join working" />
+    <option name="LAST_COMMIT_MESSAGE" value="split&amp;join working" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="26" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/ETT.cpp</url>
+          <line>369</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="29" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -683,7 +705,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ETT.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="119">
           <caret line="369" selection-start-line="369" selection-end-line="369" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
