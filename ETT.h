@@ -36,6 +36,8 @@ typedef struct ETForest {
 
     void join(int, int);
 
+    void insert(int, int);
+
     ETTreeNode *join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
 
     std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *);
@@ -64,7 +66,7 @@ typedef struct ETForest {
     bool zagzag(ETTreeNode *);
 
     //deletehez
-    void deleteNode(ETTreeNode *);
+    ETTreeNode *deleteNode(ETTreeNode *);
 
     void setColor(ETTreeNode *, int);
 

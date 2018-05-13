@@ -52,7 +52,7 @@ void DecGraph::insert(int u, int v, ETForest F) {
 
     if( !connected( u, v, F ) )
     {
-      F.join(u,v);                           // F-be besz?rjuk, ?sszek?tve u-t ?s v-t
+      F.insert(u,v);                          // F-be besz?rjuk, ?sszek?tve u-t ?s v-t
     }
 
 }

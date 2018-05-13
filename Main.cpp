@@ -54,6 +54,8 @@ int main() {
     //testInsert();
     cout << "Forest elott" << endl;
     ETForest myForest(10);
+graph.insert(3,5,myForest);
+
     /* graph.insert(3, 5, myForest);
      graph.insert(3, 6, myForest);
      graph.insert(3, 7, myForest);
