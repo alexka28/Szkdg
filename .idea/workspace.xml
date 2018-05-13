@@ -11,7 +11,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0ccaaf2-3231-4e3f-809a-4b3ea9101ab1" name="Default" comment="" />
+    <list default="true" id="b0ccaaf2-3231-4e3f-809a-4b3ea9101ab1" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/ETT.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ETT.cpp" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,29 +58,11 @@
       <file leaf-file-name="ETT.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ETT.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="418" column="19" selection-start-line="418" selection-start-column="14" selection-end-line="418" selection-end-column="19" />
+            <state relative-caret-position="170">
+              <caret line="369" selection-start-line="369" selection-end-line="369" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="stl_pair.h" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/stl_pair.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5610">
-              <caret line="330" selection-start-line="330" selection-end-line="330" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="move.h" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/move.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
             </state>
           </provider>
         </entry>
@@ -110,7 +94,6 @@
     <findStrings>
       <find>find</find>
       <find>pred</find>
-      <find>update</find>
       <find>root</find>
       <find>delete</find>
       <find>node-&gt;parent</find>
@@ -120,6 +103,8 @@
       <find>join</find>
       <find>isLeft</find>
       <find>uncle</find>
+      <find>updateR</find>
+      <find>update</find>
     </findStrings>
     <replaceStrings>
       <replace>&amp;theNullNode</replace>
@@ -236,17 +221,20 @@
       <workItem from="1526071363020" duration="2447000" />
       <workItem from="1526133891991" duration="23450000" />
       <workItem from="1526214201101" duration="188000" />
+      <workItem from="1526215857937" duration="8517000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91427000" />
+    <option name="totallyTimeSpent" value="99944000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.253125" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.31045407" />
       <window_info anchor="bottom" id="Statistic" order="8" weight="0.32946146" />
       <window_info anchor="bottom" id="CMake" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -255,7 +243,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.53643084" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.53643084" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -263,7 +251,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.31045407" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,25 +261,8 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ETT.cpp</url>
-          <line>332</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ETT.cpp</url>
-          <line>85</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="18" />
+      <option name="time" value="26" />
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="CMakeRunConfiguration">
-        <watch expression="T2-&gt;left-&gt;left" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
@@ -687,20 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/move.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/stl_pair.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5610">
-          <caret line="330" selection-start-line="330" selection-end-line="330" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
@@ -711,10 +667,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/move.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include/c++/bits/stl_pair.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="330" selection-start-line="330" selection-end-line="330" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ETT.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="418" column="19" selection-start-line="418" selection-start-column="14" selection-end-line="418" selection-end-column="19" />
+        <state relative-caret-position="170">
+          <caret line="369" selection-start-line="369" selection-end-line="369" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
