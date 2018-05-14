@@ -15,7 +15,8 @@ typedef struct ETTreeNode {
 typedef struct ETForest {
     ETTreeNode **first;
     ETTreeNode **last;
-
+int N;
+int logN;
     ETForest(int n);
 
     ETTreeNode *findRoot(int);
@@ -41,6 +42,8 @@ typedef struct ETForest {
     ETTreeNode *join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
 
     std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *);
+
+    void reroot(int);
 
     void rotateLeft(ETTreeNode *);
 
