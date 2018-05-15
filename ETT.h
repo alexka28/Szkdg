@@ -15,8 +15,9 @@ typedef struct ETTreeNode {
 typedef struct ETForest {
     ETTreeNode **first;
     ETTreeNode **last;
-int N;
-int logN;
+    int N;
+    int logN;
+
     ETForest(int n);
 
     ETTreeNode *findRoot(int);
@@ -72,6 +73,26 @@ int logN;
     ETTreeNode *deleteNode(ETTreeNode *);
 
     void setColor(ETTreeNode *, int);
+
+    bool oneNode(ETTreeNode *);
+
+    ETTreeNode *setBackToOneNode(ETTreeNode *);
+
+    ETTreeNode *newDelete(ETTreeNode *);
+
+    void deleteCase1(ETTreeNode *);
+
+    void deleteCase2(ETTreeNode *);
+
+    void deleteCase3(ETTreeNode *);
+
+    void deleteCase4(ETTreeNode *);
+
+    void deleteCase5(ETTreeNode *);
+
+    void deleteCase6(ETTreeNode *);
+
+    void replaceNode(ETTreeNode *, ETTreeNode*);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H
