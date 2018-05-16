@@ -40,6 +40,8 @@ typedef struct ETForest {
 
     void insert(int, int);
 
+    void remove(int, int);
+
     ETTreeNode *join(ETTreeNode *, ETTreeNode *, ETTreeNode *);
 
     std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *);
@@ -92,7 +94,11 @@ typedef struct ETForest {
 
     void deleteCase6(ETTreeNode *);
 
-    void replaceNode(ETTreeNode *, ETTreeNode*);
+    void replaceNode(ETTreeNode *, ETTreeNode *);
+    void setParent(ETTreeNode*,ETTreeNode*);
+    void setLeftChild(ETTreeNode*, ETTreeNode*);
+    void setRightChild(ETTreeNode*, ETTreeNode*);
+    void setRank(ETTreeNode*,int);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H

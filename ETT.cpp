@@ -58,7 +58,8 @@ ETForest::ETForest(int n) {
     n5->parent = n2;
     n5->rank = 1;
     n6->parent = n3;
-    n6->right = n8;
+   n6->right = n8;
+
     n6->rank = 1;
     n7->parent = n3;
     n7->rank = 1;
@@ -86,17 +87,28 @@ ETForest::ETForest(int n) {
      first[6] = n7;
      last[6] = n7; */
     inOrder(n1);
-    /* std::cout << "T1: " << std::endl;
-     std::pair<ETTreeNode *, ETTreeNode *> spl = split(n5);
+     std::cout << "T1: " << std::endl;
+     std::pair<ETTreeNode *, ETTreeNode *> spl = split(n6);
      inOrder(findRoot(spl.first));
      std::cout << "T2: " << std::endl;
-     inOrder(findRoot(spl.second));*/
+     inOrder(findRoot(spl.second));
     //  deleteNode(n7);
-    newDelete(n5);
-    std::cout << "delete: " << n2->nodeId << std::endl;
-    inOrder(findRoot(n1));
-
-
+//    newDelete(n5);
+//    std::cout << "delete: " << n2->nodeId << std::endl;
+//    inOrder(findRoot(n1));
+//    std::pair<ETTreeNode *, ETTreeNode *> spl1 = split(n8);
+//std::cout<<"masodik split T1:"<<std::endl;
+//inOrder(findRoot(spl1.first));
+//    std::cout<<"masodik split T2:"<<std::endl;
+//inOrder(findRoot(spl1.second));
+//
+//
+//
+//    std::pair<ETTreeNode *, ETTreeNode *> spl2 = split(n3);
+//    std::cout<<"harmadik split T1:"<<std::endl;
+//    inOrder(findRoot(spl2.first));
+//    std::cout<<"harmadik split T2:"<<std::endl;
+//    inOrder(findRoot(spl2.second));
 }
 
 void ETForest::inOrder(ETTreeNode *pNode) {
@@ -211,31 +223,45 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
 
 
     if (x->rank == y->rank) {
-        u->left = x;
-        u->right = y;
-        if (x != &theNullNode) {
-            x->parent = u;
-        }
-        if (y != &theNullNode) {
-            y->parent = u;
-        }
-        u->color = BLACK;
+        setLeftChild(u, x);
+        setRightChild(u, y);
+        setParent(x, u);
+        setParent(y, u);
+        setColor(u, BLACK);
         updateRank(u);
+        //TODO: törölni
+        // u->left = x;
+//        u->right = y;
+//        if (x != &theNullNode) {
+//            x->parent = u;
+//        }
+//        if (y != &theNullNode) {
+//            y->parent = u;
+//        }
+
+        //u->color = BLACK;
+
     } else if (x->rank < y->rank) {
 
         ETTreeNode *N = y;
         if (x == &theNullNode) {
+            //y->left != &theNullNode
+            //y->rank != 1 && y->color != BLACK
             while (y->left != &theNullNode) {
                 y = y->left;
             }
-
-            y->left = u;
-            // y->right = x; ha van itt node, akkor felülírná
-            u->parent = y;
-
-            u->color = RED;
-            u->rank = 0;
+            setLeftChild(y, u);
+            setParent(u, y);
+            setColor(u, RED);
+            setRank(u, 0);
             repair(u);
+//            y->left = u;
+            // y->right = x; ha van itt node, akkor felülírná
+//            u->parent = y;
+//
+//            u->color = RED;
+//            u->rank = 0;
+//            repair(u);
             //updateRank(u);
 
         } else {
@@ -247,19 +273,27 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
                 N = y->left;
 
             }
-            u->parent = N->parent;
-            if (N != &theNullNode) {
-                N->parent->left = u;
-                N->parent = u;
-            }
-
-
-            u->right = N;
-            u->left = x;
-
-            x->parent = u;
-            u->color = RED;
+            setParent(u, N->parent);
+            setLeftChild(N->parent, u);
+            setParent(N, u);
+            setRightChild(u, N);
+            setLeftChild(u, x);
+            setParent(x, u);
+            setColor(u, RED);
             repair(u);
+//            u->parent = N->parent;
+//            if (N != &theNullNode) {
+//                N->parent->left = u;
+//                N->parent = u;
+//            }
+
+//
+//            u->right = N;
+//            u->left = x;
+//
+//            x->parent = u;
+//            u->color = RED;
+//            repair(u);
 
 
         }
@@ -267,17 +301,23 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
     else {
         ETTreeNode *N;
         if (y == &theNullNode) {
+            //x->right != &theNullNode
+            //x->rank != 1 && x->color != BLACK
             while (x->right != &theNullNode) {
 
                 x = x->right;
             }
-
-            x->right = u;
-            u->parent = x;
-            //x->left = y; itt is felülírodna
-            u->color = RED;
-            u->rank = 0;
+            setRightChild(x, u);
+            setParent(u, x);
+            setColor(u, RED);
+            setRank(u, 0);
             repair(u);
+//            x->right = u;
+//            u->parent = x;
+            //x->left = y; itt is felülírodna
+//            u->color = RED;
+//            u->rank = 0;
+//            repair(u);
             //updateRank(u);
 
 
@@ -290,18 +330,26 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             if (x->color != BLACK) {
                 N = x->right;
             }
-            u->parent = N->parent;
-            if (N != &theNullNode) {
-                N->parent->right = u;
-                N->parent = u;
-            }
-
-            u->right = y;
-            u->left = N;
-
-            y->parent = u;
-            u->color = RED;
+            setParent(u,N->parent);
+            setRightChild(N->parent,u);
+            setParent(N,u);
+            setRightChild(u,y);
+            setLeftChild(u,N);
+            setParent(y,u);
+            setColor(u,RED);
             repair(u);
+//            u->parent = N->parent;
+//            if (N != &theNullNode) {
+//                N->parent->right = u;
+//                N->parent = u;
+//            }
+//
+//            u->right = y;
+//            u->left = N;
+//
+//            y->parent = u;
+//            u->color = RED;
+//            repair(u);
 
         }
 
@@ -386,16 +434,23 @@ void ETForest::rotateLeft(ETTreeNode *pNode) {
             *y = pNode->right,
             *z = y->left,
             *w = y->right;
-    z->parent = pNode;
-    y->parent = pNode->parent;
-    y->left = pNode;
+    setParent(z,pNode);
+    setParent(y,pNode->parent);
+    setLeftChild(y,pNode);
+//    z->parent = pNode;
+//    y->parent = pNode->parent;
+//    y->left = pNode;
     if (pNode->parent != nullptr)
         if (pNode == pNode->parent->left)
-            pNode->parent->left = y;
+           setLeftChild(pNode->parent,y);
+//            pNode->parent->left = y;
         else
-            pNode->parent->right = y;
-    pNode->parent = y;
-    pNode->right = z;
+            setRightChild(pNode->parent,y);
+//            pNode->parent->right = y;
+   setParent(pNode,y);
+   setRightChild(pNode,z);
+//    pNode->parent = y;
+//    pNode->right = z;
     updateRank(pNode);
 }
 
@@ -405,21 +460,28 @@ void ETForest::rotateRight(ETTreeNode *pNode) {
             *y = pNode->left,
             *z = y->right,
             *w = y->left;
-    z->parent = pNode;
-    y->parent = pNode->parent;
-    y->right = pNode;
+    setParent(z,pNode);
+    setParent(y,pNode->parent);
+    setRightChild(y,pNode);
+//    z->parent = pNode;
+//    y->parent = pNode->parent;
+//    y->right = pNode;
     if (pNode->parent != nullptr)
         if (pNode == pNode->parent->left)
-            pNode->parent->left = y;
+            setLeftChild(pNode->parent,y);
+//            pNode->parent->left = y;
         else
-            pNode->parent->right = y;
-    pNode->parent = y;
-    pNode->left = z;
+            setRightChild(pNode->parent,y);
+//            pNode->parent->right = y;
+   setParent(pNode,y);
+   setLeftChild(pNode,z);
+//    pNode->parent = y;
+//    pNode->left = z;
     updateRank(pNode);
 }
 
 void ETForest::updateRank(ETTreeNode *pNode) {
-    if (pNode != nullptr) {
+    if (pNode != nullptr && pNode != &theNullNode) {
         pNode->rank = pNode->color == RED ? pNode->left->rank : pNode->left->rank + 1;
         updateRank(pNode->parent);
     }
@@ -429,7 +491,8 @@ void ETForest::updateRank(ETTreeNode *pNode) {
 void ETForest::repair(ETTreeNode *pNode) {
     if (pNode->color == BLACK) return;         // done
     if (pNode->parent == nullptr) {
-        pNode->color = BLACK;
+        setColor(pNode,BLACK);
+//        pNode->color = BLACK;
         return;
     }         // done
 
@@ -455,7 +518,8 @@ void ETForest::repair(ETTreeNode *pNode) {
 // most vagy cikkcakk, vagy cakkcikk, forgatunk és színezünk és done
     pNode->parent->color = BLACK;
     if (pNode->parent->parent != nullptr) {
-        pNode->parent->parent->color = RED;
+       setColor(pNode->parent->parent,RED);
+//        pNode->parent->parent->color = RED;
     }
 
     if (zigzig(pNode)) {
@@ -516,10 +580,11 @@ bool ETForest::zagzig(ETTreeNode *pNode) {
 bool ETForest::zagzag(ETTreeNode *pNode) { return pNode->parent->parent->right->right == pNode; }
 
 void ETForest::setColor(ETTreeNode *pNode, int color) {
-    if (pNode == &theNullNode) {
+    if (pNode != &theNullNode && pNode != nullptr) {
+        pNode->color = color;
         return;
     }
-    pNode->color = color;
+
 }
 
 void ETForest::insert(int u, int v) {
@@ -535,7 +600,7 @@ void ETForest::insert(int u, int v) {
         reroot(u);
     }
     //állítsuk vissza gyökérre
-T1 = findRoot(T1);
+    T1 = findRoot(T1);
     std::pair<ETTreeNode *, ETTreeNode *> spl = split(last[u]);
     ETTreeNode *T2 = spl.first;
     ETTreeNode *T3 = spl.second;
@@ -546,7 +611,9 @@ T1 = findRoot(T1);
     //töröljük ki és mentsük el a törölt nodeot
     minNode = newDelete(minNode);
     if (minNode->left == &theNullNode && minNode->right == &theNullNode && minNode->parent == nullptr) {
+
         T3 = &theNullNode;
+        setBackToOneNode(minNode);
     } else {
         minNode->parent = nullptr;
         minNode->left = &theNullNode;
@@ -557,6 +624,54 @@ T1 = findRoot(T1);
         first[minNode->nodeId] = uNode;
     }
     std::cout << "T4 inorder: " << std::endl;
+    inOrder(T4);
+}
+
+void ETForest::remove(int u, int v) {
+    ETTreeNode *T0, *T1, *T2, *T3, *T4, *vNode;
+    if (predecessor(first[v]) != nullptr && predecessor(first[v])->nodeId == u) {
+        std::swap(u, v);
+    }
+    vNode = new ETTreeNode(nullptr, &theNullNode, &theNullNode, last[v]->color, last[v]->nodeId);
+    vNode->rank = last[v]->rank;
+ETTreeNode *akarmi = findRoot(first[u]);
+
+    std::pair<ETTreeNode *, ETTreeNode *> firstSplitResult = split(first[u]);
+    T0 = firstSplitResult.first;
+    T1 = firstSplitResult.second;
+
+    std::cout << "inorder: T0: " << std::endl;
+    inOrder(T0);
+    std::cout << "inorder: T1: " << std::endl;
+    inOrder(findRoot(T1));
+    std::pair<ETTreeNode *, ETTreeNode *> secondSplitResult = split(last[u]);
+    //kisebb egyenlőek ->T3-ba
+    T3 = secondSplitResult.first;
+    T2 = secondSplitResult.second;
+    std::cout << "inorder: T2: " << std::endl;
+    inOrder(T2);
+    std::cout << "inorder: T3: " << std::endl;
+    inOrder(T3);
+    ETTreeNode *minT2, *maxT0;
+
+    if (oneNode(T2)) {
+        minT2 = T2;
+        T2 = &theNullNode;
+
+    } else {
+        minT2 = newDelete(minimum(T2));
+        minT2 = setBackToOneNode(minT2);
+    }
+
+    if (oneNode(T0)) {
+        maxT0 = T0;
+        T0 = &theNullNode;
+    } else {
+        maxT0 = newDelete(maximum(T0));
+        maxT0 = setBackToOneNode(maxT0);
+    }
+    T4 = join(T0, vNode, T2);
+    std::cout << "uj inorder" << std::endl;
     inOrder(T4);
 }
 
@@ -575,7 +690,7 @@ void ETForest::reroot(int u) {
         ++it;
     }
     //TODO:: it > this->N
-    if (it>this->N) {
+    if (it > this->N) {
         ETTreeNode *T1, *T2, *T3, *T4;
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;
@@ -663,7 +778,9 @@ void ETForest::reroot(int u) {
 
 
             if (uSucc != last[uSucc->nodeId]) {
+                ETTreeNode *tmporal = last[uSucc->nodeId];
                 std::cout << "nem jo :(" << std::endl;
+
             } else {
                 std::cout << "hurrá" << std::endl;
             }
@@ -962,5 +1079,29 @@ void ETForest::replaceNode(ETTreeNode *oldn, ETTreeNode *newn) {
 
         newn->parent = oldn->parent;
 
+    }
+}
+
+void ETForest::setParent(ETTreeNode *set, ETTreeNode *toSet) {
+    if (set != &theNullNode && set != nullptr && toSet != &theNullNode) {
+        set->parent = toSet;
+    }
+}
+
+void ETForest::setRightChild(ETTreeNode *set, ETTreeNode *toSet) {
+    if (set != &theNullNode && set != nullptr && toSet != nullptr) {
+        set->right = toSet;
+    }
+}
+
+void ETForest::setLeftChild(ETTreeNode *set, ETTreeNode *toSet) {
+    if (set != &theNullNode && set != nullptr && toSet != nullptr) {
+        set->left = toSet;
+    }
+}
+
+void ETForest::setRank(ETTreeNode *set, int r) {
+    if (set != &theNullNode && set != nullptr) {
+        set->rank = r;
     }
 }

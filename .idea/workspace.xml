@@ -15,9 +15,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ETT.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ETT.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ETT.h" beforeDir="false" afterPath="$PROJECT_DIR$/ETT.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/DecrementalGraph.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/DecrementalGraph.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/ETT.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/ETT.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/ETT.cpp.obj" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/Main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/Main.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/objects.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/untitled1.dir/objects.a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/untitled1.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/untitled1.exe" afterDir="false" />
@@ -45,8 +45,8 @@
       <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="58" selection-start-line="58" selection-end-line="58" />
+            <state relative-caret-position="130">
+              <caret line="57" selection-start-line="57" selection-end-line="57" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -57,8 +57,8 @@
       <file leaf-file-name="ETT.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ETT.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
+            <state relative-caret-position="726">
+              <caret line="100" column="34" selection-start-line="100" selection-start-column="34" selection-end-line="100" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -66,8 +66,8 @@
       <file leaf-file-name="ETT.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ETT.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="536" column="30" selection-start-line="536" selection-start-column="30" selection-end-line="536" selection-end-column="30" />
+            <state relative-caret-position="184">
+              <caret line="305" column="43" selection-start-line="305" selection-start-column="43" selection-end-line="305" selection-end-column="43" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -78,7 +78,7 @@
       <file leaf-file-name="DecrementalGraph.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DecrementalGraph.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
+            <state relative-caret-position="149">
               <caret line="54" selection-start-line="54" selection-end-line="54" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
@@ -106,7 +106,6 @@
       <find>leaf</find>
       <find>split</find>
       <find>findRoot</find>
-      <find>join</find>
       <find>isLeft</find>
       <find>uncle</find>
       <find>updateR</find>
@@ -126,6 +125,7 @@
       <find>predec</find>
       <find>deleteNode</find>
       <find>reroot</find>
+      <find>join</find>
     </findStrings>
     <replaceStrings>
       <replace>&amp;theNullNode</replace>
@@ -249,7 +249,10 @@
       <workItem from="1526320147341" duration="5907000" />
       <workItem from="1526326135733" duration="2188000" />
       <workItem from="1526332669210" duration="258000" />
-      <workItem from="1526385360484" duration="21508000" />
+      <workItem from="1526385360484" duration="22760000" />
+      <workItem from="1526460620467" duration="4801000" />
+      <workItem from="1526476400745" duration="6995000" />
+      <workItem from="1526488067602" duration="7644000" />
     </task>
     <task id="LOCAL-00001" summary="split&amp;join working">
       <created>1526224877131</created>
@@ -262,24 +265,24 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146599000" />
+    <option name="totallyTimeSpent" value="167291000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.253125" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.35572916" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.31045407" />
-      <window_info anchor="bottom" id="Statistic" order="8" weight="0.32946146" />
+      <window_info anchor="bottom" id="Statistic" order="8" weight="0.4910243" />
       <window_info anchor="bottom" id="CMake" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.39493138" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5406547" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.53643084" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5871172" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -291,22 +294,22 @@
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.39493138" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.253125" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="CMake" order="11" />
       <window_info anchor="bottom" id="Statistic" order="12" weight="0.32946146" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.53643084" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.31045407" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="CMake" order="11" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.31045407" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -324,14 +327,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Main.cpp</url>
-          <line>58</line>
-          <option name="timeStamp" value="57" />
+          <url>file://$PROJECT_DIR$/ETT.cpp</url>
+          <line>626</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/ETT.cpp</url>
-          <line>526</line>
-          <option name="timeStamp" value="58" />
+          <line>593</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -342,7 +345,7 @@
           <properties />
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="59" />
+      <option name="time" value="71" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -737,14 +740,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ETT.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
+        <state relative-caret-position="726">
+          <caret line="100" column="34" selection-start-line="100" selection-start-column="34" selection-end-line="100" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DecrementalGraph.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
+        <state relative-caret-position="149">
           <caret line="54" selection-start-line="54" selection-end-line="54" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
@@ -754,8 +757,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        <state relative-caret-position="130">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -764,8 +767,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ETT.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="536" column="30" selection-start-line="536" selection-start-column="30" selection-end-line="536" selection-end-column="30" />
+        <state relative-caret-position="184">
+          <caret line="305" column="43" selection-start-line="305" selection-start-column="43" selection-end-line="305" selection-end-column="43" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
