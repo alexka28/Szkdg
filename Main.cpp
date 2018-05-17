@@ -57,18 +57,6 @@ int main() {
     graph.insert(3, 5, myForest);
     graph.insert(4, 6, myForest);
     graph.insert(3, 6, myForest);
-    cout<<"remove"<<endl;
     myForest.remove(3,6);
-if(graph.connected(3,4,myForest)){
-    cout<<"ajajj"<<endl;
-}
-else{
-    cout<<"nope"<<endl;
-}
-
-
-
-
-    cout << "Forest utan" << endl;
     return 0;
 }
