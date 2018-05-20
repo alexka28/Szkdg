@@ -4,11 +4,14 @@
 #include "Test.h"
 #include <utility>
 #include "ETT.h"
-
+#include "CreateDeleteQuery.h"
+#include "GraphGen.h"
+#include "DFS.h"
+#include <list>
 using namespace std;
 
 int main() {
-    /* DecGraph graph(10);
+     DecGraph graph(10);
      GraphNode a(5);
      graph.node[0] = a;
      std::cout <<graph.node[0].N << std::endl;
@@ -24,10 +27,10 @@ int main() {
      for(int i = 0; i < 5; ++i)
      {
          std::cout<<"Az " << i+1<< " neighbour merete: " << a.neighbours[i].size() << std::endl;
-     }*/
+     }
 
 
-    DecGraph graph(10);
+ /*   DecGraph graph(10);
     GraphNode a(7);
     GraphNode b(8);
     std::set<GraphNode *> mySet;
@@ -38,35 +41,43 @@ int main() {
     cout << &a << endl;
     cout << (*it)->N << endl;
     cout << (**it).N << endl;
-//    graph.node[0] = a;
-//    graph.node[0].neighbours[0].insert(&a);
+   graph.node[0] = a;
+    graph.node[0].neighbours[0].insert(&a); */
 //    std::cout<<graph.node[0].neighbours[0].size() << std::endl;
     cout << "insert elott" << endl;
 
 //    auto asd = graph.node[3].neighbours[5].begin();
 //    cout << graph.node[3].neighbours[6].size() << endl;
 //    cout << (*asd)->N << endl;
-//   std::pair<int, int> valamipar (3,6);
-//cout<<graph.level.find(valamipar)->second;
+
+
 //    cout<<"kulcsok szama torles elott "<<graph.level.count(valamipar)<<endl;
 //graph.remove(3,6);
 //    cout<<"torles utan "<<graph.level.count(valamipar)<<endl;
     //testInsert();
-    cout << "Forest elott" << endl;
-    ETForest myForest(10);
-    graph.insert(3, 5, myForest);
-    graph.insert(4, 6, myForest);
-    graph.insert(3, 6, myForest);
-    graph.insert(3,7,myForest);
 
-    myForest.remove(3,6);
+    DecGraph grafom(10);
+    ETForest forestem(10);
+    Graph simagraf(10);
+std::list<std::pair<int,int>> insertList = fillGraph(10);
+    std::list<std::pair<int,int>>::iterator insertIt;
+    for(insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt){
+        cout<<"elso node: " << insertIt->first<<" masodik node: " << insertIt->second<<endl;
+        grafom.insert(insertIt->first,insertIt->second,forestem);
+        simagraf.addEdge(insertIt->first,insertIt->second);
+    }
+    std::list<std::pair<std::pair<int, int>, int>> delquer = createDQ(insertList,10);
+    std::list<std::pair<std::pair<int, int>, int>>:: iterator queryIt;
+    for(queryIt = delquer.begin(); queryIt != delquer.end(); ++queryIt){
+        if(queryIt->second == 0){
+            cout<<"torles :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
+        }
+        else{
+            cout<<"query :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
+        }
+    }
 
-    if(graph.connected(3,4,myForest)){
-        cout<<"wiii"<<endl;
-    }
-    else{
-        cout<<"jajj :("<<endl;
-    }
+
 
     return 0;
 }

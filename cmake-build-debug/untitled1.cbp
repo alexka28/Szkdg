@@ -80,6 +80,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.cpp">
+			<Option target="untitled1"/>
+		</Unit>
+		<Unit filename="C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.h">
+			<Option target="untitled1"/>
+		</Unit>
 		<Unit filename="C:/Users/Alex/CLionProjects/untitled1/CreateInsertQuery.cpp">
 			<Option target="untitled1"/>
 		</Unit>

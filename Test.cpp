@@ -23,7 +23,7 @@ bool *ret;
     int max = maxinserts * 0.9;
     int min = maxinserts * 0.7;
     int finalNum = rand()%(max-min+1)+min;
-    for(int i = 0; i < 2; ++i)
+    for(int i = 0; i < 50; ++i)
     {
         smNodes.push_back(createIQ(n, finalNum));
     }
@@ -58,8 +58,9 @@ bool *ret;
 
     free(ret);
 
-
-
-
+}
+void testDelete(){
+int n;
+std::cout<<"Setting up graph."<<std::endl;
 
 }

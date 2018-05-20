@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.cpp
+CreateDeleteQuery.h
+C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.h
+time.h
+-
+list
+-
+stdlib.h
+-
+
+C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.h
+list
+-
+
 C:/Users/Alex/CLionProjects/untitled1/CreateInsertQuery.cpp
 CreateInsertquery.h
 C:/Users/Alex/CLionProjects/untitled1/CreateInsertquery.h
@@ -115,6 +129,14 @@ utility
 -
 ETT.h
 C:/Users/Alex/CLionProjects/untitled1/ETT.h
+CreateDeleteQuery.h
+C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.h
+GraphGen.h
+C:/Users/Alex/CLionProjects/untitled1/GraphGen.h
+DFS.h
+C:/Users/Alex/CLionProjects/untitled1/DFS.h
+list
+-
 
 C:/Users/Alex/CLionProjects/untitled1/Test.cpp
 Test.h

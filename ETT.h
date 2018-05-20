@@ -1,5 +1,9 @@
-#ifndef UNTITLED1_ETT_H
-#define UNTITLED1_ETT_H
+#ifndef UNTITLED1_ETT_H_INCLUDED
+
+#define UNTITLED1_ETT_H_INCLUDED
+
+
+
 typedef struct ETTreeNode {
     ETTreeNode *parent;              // ős a fában, ha nullptr, akkor ez egy gyökér
     ETTreeNode *left, *right;        // gyerekek a fában
@@ -99,6 +103,9 @@ typedef struct ETForest {
     void setLeftChild(ETTreeNode*, ETTreeNode*);
     void setRightChild(ETTreeNode*, ETTreeNode*);
     void setRank(ETTreeNode*,int);
+
+    //további cuccok
+    ETTreeNode* firstSeen(int,int);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H

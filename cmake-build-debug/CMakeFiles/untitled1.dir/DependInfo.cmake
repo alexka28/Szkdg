@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "C:/Users/Alex/CLionProjects/untitled1/CreateDeleteQuery.cpp" "C:/Users/Alex/CLionProjects/untitled1/cmake-build-debug/CMakeFiles/untitled1.dir/CreateDeleteQuery.cpp.obj"
   "C:/Users/Alex/CLionProjects/untitled1/CreateInsertQuery.cpp" "C:/Users/Alex/CLionProjects/untitled1/cmake-build-debug/CMakeFiles/untitled1.dir/CreateInsertQuery.cpp.obj"
   "C:/Users/Alex/CLionProjects/untitled1/DFS.cpp" "C:/Users/Alex/CLionProjects/untitled1/cmake-build-debug/CMakeFiles/untitled1.dir/DFS.cpp.obj"
   "C:/Users/Alex/CLionProjects/untitled1/DecrementalGraph.cpp" "C:/Users/Alex/CLionProjects/untitled1/cmake-build-debug/CMakeFiles/untitled1.dir/DecrementalGraph.cpp.obj"

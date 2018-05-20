@@ -11,6 +11,11 @@ void Graph::addEdge(int v, int w)
     adj[v].push_back(w);
     adj[w].push_back(v);
 }
+
+void Graph::deleteEdge(int v, int w) {
+    adj[v].remove(w);
+    adj[w].remove(v);
+}
 int Graph::getV()
 {
     return this->V;

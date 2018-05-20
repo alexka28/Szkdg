@@ -122,6 +122,33 @@ untitled1/fast:
 	$(MAKE) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/build
 .PHONY : untitled1/fast
 
+CreateDeleteQuery.obj: CreateDeleteQuery.cpp.obj
+
+.PHONY : CreateDeleteQuery.obj
+
+# target to build an object file
+CreateDeleteQuery.cpp.obj:
+	$(MAKE) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/CreateDeleteQuery.cpp.obj
+.PHONY : CreateDeleteQuery.cpp.obj
+
+CreateDeleteQuery.i: CreateDeleteQuery.cpp.i
+
+.PHONY : CreateDeleteQuery.i
+
+# target to preprocess a source file
+CreateDeleteQuery.cpp.i:
+	$(MAKE) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/CreateDeleteQuery.cpp.i
+.PHONY : CreateDeleteQuery.cpp.i
+
+CreateDeleteQuery.s: CreateDeleteQuery.cpp.s
+
+.PHONY : CreateDeleteQuery.s
+
+# target to generate assembly for a file
+CreateDeleteQuery.cpp.s:
+	$(MAKE) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/CreateDeleteQuery.cpp.s
+.PHONY : CreateDeleteQuery.cpp.s
+
 CreateInsertQuery.obj: CreateInsertQuery.cpp.obj
 
 .PHONY : CreateInsertQuery.obj
@@ -401,6 +428,9 @@ help:
 	@echo ... untitled1
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... CreateDeleteQuery.obj
+	@echo ... CreateDeleteQuery.i
+	@echo ... CreateDeleteQuery.s
 	@echo ... CreateInsertQuery.obj
 	@echo ... CreateInsertQuery.i
 	@echo ... CreateInsertQuery.s

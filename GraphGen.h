@@ -11,6 +11,7 @@ public:
     void addEdge(int v, int w);
     int getV();
     std::list<int>* getList();
+    void deleteEdge(int v, int w);
 };
 
 #endif // GRAPHGEN_H_INCLUDED
