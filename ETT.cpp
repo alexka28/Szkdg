@@ -1,8 +1,6 @@
 #include <iostream>
-
 #include "ETT.h"
 
-#include <utility>
 #include <stack>
 #include <cassert>
 
@@ -22,12 +20,13 @@ ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, 
     this->right = right;
     this->color = color;
     this->nodeId = nodeId;
+    //TODO: piros node rankja 0 elvileg
     this->rank = 1;
 
 }
 
 //egy üres node
-ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
+ ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
 
 ETForest::ETForest(int n) {
     first = new ETTreeNode *[n];
@@ -74,20 +73,7 @@ ETForest::ETForest(int n) {
         first[i] = node;
         last[i] = node;
     }
-    /* first[0] = n1;
-     last[0] = n1;
-     first[1] = n2;
-     last[1] = n2;
-     first[2] = n3;
-     last[2] = n3;
-     first[3] = n4;
-     last[3] = n4;
-     first[4] = n5;
-     last[4] = n5;
-     first[5] = n6;
-     last[5] = n6;
-     first[6] = n7;
-     last[6] = n7; */
+
     inOrder(n1);
     std::cout << "T1: " << std::endl;
     std::pair<ETTreeNode *, ETTreeNode *> spl = split(n6);
@@ -147,16 +133,17 @@ ETTreeNode *ETForest::findRoot(ETTreeNode *u) {
 }
 
 bool ETForest::contains(int u, int v) {
-    ETTreeNode *predU,*predV;
+    ETTreeNode *predU, *predV;
     predU = predecessor(first[u]);
     predV = predecessor(first[v]);
-if(predU != nullptr && predU->nodeId == v){
-    return true;
-}
-if(predV != nullptr && predV ->nodeId == u){
-    return true;
-}
-return false;
+    if (predU != nullptr && predU->nodeId == v) {
+        return true;
+    }
+    //TODO: leegyszerűsíthető, ha a felső feltételbe beírjuk vagyolással, mivel mind a kettő trueval tér vissza
+    if (predV != nullptr && predV->nodeId == u) {
+        return true;
+    }
+    return false;
 
 }
 
@@ -412,16 +399,16 @@ void ETForest::rotateLeft(ETTreeNode *pNode) {
     setParent(y, pNode->parent);
     setLeftChild(y, pNode);
 
-    if (pNode->parent != nullptr)
-        if (pNode == pNode->parent->left)
+    if (pNode->parent != nullptr) {
+        if (pNode == pNode->parent->left) {
             setLeftChild(pNode->parent, y);
-
-        else
+        } else {
             setRightChild(pNode->parent, y);
+        }
+    }
 
     setParent(pNode, y);
     setRightChild(pNode, z);
-
     updateRank(pNode);
 }
 
@@ -435,12 +422,13 @@ void ETForest::rotateRight(ETTreeNode *pNode) {
     setParent(y, pNode->parent);
     setRightChild(y, pNode);
 
-    if (pNode->parent != nullptr)
-        if (pNode == pNode->parent->left)
+    if (pNode->parent != nullptr) {
+        if (pNode == pNode->parent->left) {
             setLeftChild(pNode->parent, y);
-
-        else
+        } else {
             setRightChild(pNode->parent, y);
+        }
+    }
 
     setParent(pNode, y);
     setLeftChild(pNode, z);
@@ -579,6 +567,7 @@ void ETForest::insert(int u, int v) {
     //keressük meg T3 minimális nodeját
     ETTreeNode *minNode = minimum(T3);
     //töröljük ki és mentsük el a törölt nodeot
+    //TODO: check, hogy a minimum nem a root-e
     minNode = newDelete(minNode);
     if (minNode->left == &theNullNode && minNode->right == &theNullNode && minNode->parent == nullptr) {
 
@@ -662,7 +651,7 @@ void ETForest::remove(int u, int v) {
         first[v] = vNode;
     }
     if (minT2 == last[v]) {
-        last[v] == vNode;
+        last[v] = vNode;
     }
 
 }
@@ -682,7 +671,7 @@ void ETForest::reroot(int u) {
         ++it;
     }
     //TODO:: it > this->N
-    if (it > this->N) {
+    if (true) {
         ETTreeNode *T1, *T2, *T3, *T4;
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;
@@ -777,18 +766,17 @@ void ETForest::reroot(int u) {
                 w = T1;
                 T1 = &theNullNode;
 
-            }
-            else if(minimum(T1) == findRoot(T1)){
+            } else if (minimum(T1) == findRoot(T1)) {
                 w = findRoot(T1);
                 T1 = T1->right;
                 setParent(T1, nullptr);
                 setColor(T1, BLACK);
                 setRank(T1, 1);
                 setBackToOneNode(w);
-            }
-            else {
+            } else {
                 w = newDelete(minimum(T1));
                 w = setBackToOneNode(w);
+                T1 = findRoot(T1);
             }
 
 
@@ -797,7 +785,7 @@ void ETForest::reroot(int u) {
             ETTreeNode *uLastSeen = last[u];
             ETTreeNode *uSucc = successor(uLastSeen);
 
-
+//TODO: ha uSucc nullptr akkor nem tudja kikérni a nodeId-t ami lentebb uParentnél is problémás lesz!
             if (uSucc != last[uSucc->nodeId]) {
                 ETTreeNode *tmporal = last[uSucc->nodeId];
                 std::cout << "nem jo :(" << std::endl;
@@ -809,7 +797,7 @@ void ETForest::reroot(int u) {
             T4 = join(T3, uLast, &theNullNode);
 
             ETTreeNode *uLastPred = predecessor(uLast);
-
+//TODO: lásd feljebb
             int uParent = uSucc->nodeId;
 
             first[uParent] = uSucc;
@@ -830,6 +818,7 @@ ETTreeNode *ETForest::setBackToOneNode(ETTreeNode *pNode) {
     pNode->parent = nullptr;
     pNode->right = &theNullNode;
     pNode->left = &theNullNode;
+    return pNode;
 }
 
 ETTreeNode *ETForest::deleteNode(ETTreeNode *node) {

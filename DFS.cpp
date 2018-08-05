@@ -14,7 +14,7 @@ bool queryGraph(Graph g, int v, int f, bool *ret)
     return *ret;
 }
 
-bool DFSUtil(Graph g, int v, bool visited[], int f, bool *ret)
+void DFSUtil(Graph g, int v, bool visited[], int f, bool *ret)
 {
     // Mark the current node as visited and print it
     visited[v] = true;

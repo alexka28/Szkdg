@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/untitled1.dir/UniFind.cpp.obj"
   "CMakeFiles/untitled1.dir/ETT.cpp.obj"
   "CMakeFiles/untitled1.dir/CreateDeleteQuery.cpp.obj"
+  "CMakeFiles/untitled1.dir/TestETT.cpp.obj"
   "untitled1.pdb"
   "untitled1.exe"
   "untitled1.exe.manifest"

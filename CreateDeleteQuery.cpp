@@ -8,7 +8,7 @@ std::list<std::pair<int, int>> fillGraph(int n) {
     int nodeOne, nodeTwo, numInserts;
     numInserts = ((n * (n - 1)) / 2) * 0.8;
     std::list<std::pair<int, int>> insertList;
-
+    srand(time(NULL));
 //80%-osra töltjük fel
     for (int i = 1; i <= numInserts; ++i) {
         nodeOne = rand() % (n - 1);
