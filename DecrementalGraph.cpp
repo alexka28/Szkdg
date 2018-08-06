@@ -5,7 +5,7 @@
 #include<algorithm>
 #include <utility>
 #include "ETT.h"
-
+#include <cmath>
 /**
  * constructor for GraphNode
  * @param N: number of the neighbour levels
@@ -20,7 +20,8 @@ GraphNode::GraphNode(int N) {
 }
 
 DecGraph::DecGraph(int n) {
-    this->logN = n;
+    double tmpLog = log2(n);
+    this->logN = ceil(tmpLog);
     node = std::vector<GraphNode>();
 
 //TODO: instead of 10 count logN

@@ -10,6 +10,7 @@
 #include <list>
 #include "TestETT.h"
 #include <cassert>
+#include <cmath>
 
 using namespace std;
 
@@ -38,41 +39,65 @@ int main() {
 //            cout<<"query :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
 //        }
 //    }
-    ETTreeNode *theNull = new ETTreeNode(nullptr, nullptr, nullptr, 0, 0);
-    ETTreeNode *a1 = new ETTreeNode(nullptr, nullptr, nullptr, 0, 1);
-    ETTreeNode *a2 = new ETTreeNode(nullptr, nullptr, nullptr, 1, 2);
-    ETTreeNode *a3 = new ETTreeNode(nullptr, nullptr, nullptr, 1, 3);
+
+    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
+    ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
+    ETTreeNode *a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
 
     a1->left = a2;
     a1->right = a3;
-    a1->rank = 1;
 
-    a2->parent = a1;
     a2->rank = 0;
-    a2->left = theNull;
-    a2->right = theNull;
-    a3->parent = a1;
     a3->rank = 0;
-    a3->left = theNull;
-    a3->right = theNull;
 
-    ETTreeNode *b1 = new ETTreeNode(nullptr, nullptr, nullptr, 0, 1);
-    ETTreeNode *b2 = new ETTreeNode(nullptr, nullptr, nullptr, 1, 2);
-    ETTreeNode *b3 = new ETTreeNode(nullptr, nullptr, nullptr, 1, 3);
+
+    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
+    ETTreeNode *b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 2);
+    ETTreeNode *b3 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
 
     b1->left = b2;
     b1->right = b3;
-    b1->rank = 1;
 
-
-    b2->parent = b1;
     b2->rank = 0;
-    b2->left = theNull;
-    b2->right = theNull;
-    b3->parent = b1;
     b3->rank = 0;
-    b3->left = theNull;
-    b3->right = theNull;
+
+
+    /**************************************************************************************************
+     **                                             TESTDATA                                         **
+     **************************************************************************************************
+
+        ETTreeNode *n1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 5); //node 5
+        ETTreeNode *n2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 2); //node 2
+        ETTreeNode *n3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 8); //node 8
+        ETTreeNode *n4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1); //node 1
+        ETTreeNode *n5 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3); //node 3
+        ETTreeNode *n6 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 6); //node 6
+        ETTreeNode *n7 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 16); //node 16
+        ETTreeNode *n8 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 7); //node 7
+        n1->left = n2;
+        n1->right = n3;
+        n1->rank = 2;
+        n2->parent = n1;
+        n2->left = n4;
+        n2->right = n5;
+        n2->rank = 2;
+        n3->parent = n1;
+        n3->left = n6;
+        n3->right = n7;
+        n3->rank = 2;
+        n4->parent = n2;
+        n4->rank = 1;
+        n5->parent = n2;
+        n5->rank = 1;
+        n6->parent = n3;
+        n6->right = n8;
+
+        n6->rank = 1;
+        n7->parent = n3;
+        n7->rank = 1;
+        n8->parent = n6;
+        n8->rank = 1;
+     ************************************************************************************************************/
 
 
     if (TestETT::compare(TestETT::findRootForTest(a2), b1) == 0) {
@@ -80,7 +105,5 @@ int main() {
     } else {
         cout << "ket fa kulonbozo" << endl;
     }
-
-
     return 0;
 }

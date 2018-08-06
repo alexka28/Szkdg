@@ -1,71 +1,34 @@
 #include <iostream>
 #include "ETT.h"
-
 #include <stack>
 #include <cassert>
+#include <cmath>
 
-const int BLACK = 0, RED = 1, DOUBLE_BLACK = 2;
-
-ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color) {
-    this->parent = parent;
-    this->left = left;
-    this->right = right;
-    this->color = color;
-    this->rank = 0;
+ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color) :
+        parent(parent),
+        left(left),
+        right(right),
+        color(color),
+        rank(0) {
 }
 
-ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId) {
-    this->parent = parent;
-    this->left = left;
-    this->right = right;
-    this->color = color;
-    this->nodeId = nodeId;
-    //TODO: piros node rankja 0 elvileg
-    this->rank = 1;
-
+ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId) :
+        parent(parent),
+        left(left),
+        right(right),
+        color(color),
+        nodeId(nodeId),
+        rank(1) {
 }
 
-//egy üres node
- ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
+ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
 
 ETForest::ETForest(int n) {
     first = new ETTreeNode *[n];
     last = new ETTreeNode *[n];
     this->N = n;
-//TODO: logN-t számolni!
-    this->logN = n;
-
-    ETTreeNode *n1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 5); //node 5
-    ETTreeNode *n2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 2); //node 2
-    ETTreeNode *n3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 8); //node 8
-    ETTreeNode *n4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1); //node 1
-    ETTreeNode *n5 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3); //node 3
-    ETTreeNode *n6 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 6); //node 6
-    ETTreeNode *n7 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 16); //node 16
-    ETTreeNode *n8 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 7); //node 7
-    n1->left = n2;
-    n1->right = n3;
-    n1->rank = 2;
-    n2->parent = n1;
-    n2->left = n4;
-    n2->right = n5;
-    n2->rank = 2;
-    n3->parent = n1;
-    n3->left = n6;
-    n3->right = n7;
-    n3->rank = 2;
-    n4->parent = n2;
-    n4->rank = 1;
-    n5->parent = n2;
-    n5->rank = 1;
-    n6->parent = n3;
-    n6->right = n8;
-
-    n6->rank = 1;
-    n7->parent = n3;
-    n7->rank = 1;
-    n8->parent = n6;
-    n8->rank = 1;
+    double tmpLog = log2(n);
+    this->logN = ceil(tmpLog);
 
     for (int i = 0; i < n; ++i) {
         ETTreeNode *node = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, i);
@@ -74,29 +37,7 @@ ETForest::ETForest(int n) {
         last[i] = node;
     }
 
-    inOrder(n1);
-    std::cout << "T1: " << std::endl;
-    std::pair<ETTreeNode *, ETTreeNode *> spl = split(n6);
-    inOrder(findRoot(spl.first));
-    std::cout << "T2: " << std::endl;
-    inOrder(findRoot(spl.second));
-    //  deleteNode(n7);
-//    newDelete(n5);
-//    std::cout << "delete: " << n2->nodeId << std::endl;
-//    inOrder(findRoot(n1));
-//    std::pair<ETTreeNode *, ETTreeNode *> spl1 = split(n8);
-//std::cout<<"masodik split T1:"<<std::endl;
-//inOrder(findRoot(spl1.first));
-//    std::cout<<"masodik split T2:"<<std::endl;
-//inOrder(findRoot(spl1.second));
-//
-//
-//
-//    std::pair<ETTreeNode *, ETTreeNode *> spl2 = split(n3);
-//    std::cout<<"harmadik split T1:"<<std::endl;
-//    inOrder(findRoot(spl2.first));
-//    std::cout<<"harmadik split T2:"<<std::endl;
-//    inOrder(findRoot(spl2.second));
+
 }
 
 void ETForest::inOrder(ETTreeNode *pNode) {
@@ -670,8 +611,8 @@ void ETForest::reroot(int u) {
         pNode = predecessor(pNode);
         ++it;
     }
-    //TODO:: it > this->N
-    if (true) {
+    //TODO:: it > this->N vagy logN
+    if (it > this->logN) {
         ETTreeNode *T1, *T2, *T3, *T4;
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;

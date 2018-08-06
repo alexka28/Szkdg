@@ -17,7 +17,6 @@ namespace TestETT{
     int compare(const ETTreeNode*, const ETTreeNode*);
     void inOrderSampleTree(const ETTreeNode*, std::list<Node>&);
     void inOrderNormalTree(const ETTreeNode*, std::list<Node>&, std::map<const ETTreeNode*, int>&, int&);
-    bool isNullNode(const ETTreeNode*);
     const ETTreeNode* findRootForTest(const ETTreeNode*);
 
 

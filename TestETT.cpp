@@ -36,7 +36,7 @@ int TestETT::compare(const ETTreeNode *sample, const ETTreeNode *normal) {
 }
 
 void TestETT::inOrderSampleTree(const ETTreeNode *sample, std::list<Node> &nodes) {
-    if (sample != nullptr && !isNullNode(sample) && !isNullNode(sample->left)) {
+    if (sample != nullptr && sample != &theNullNode && sample->left != &theNullNode) {
         inOrderSampleTree(sample->left, nodes);
     }
     if (sample != nullptr) {
@@ -47,14 +47,14 @@ void TestETT::inOrderSampleTree(const ETTreeNode *sample, std::list<Node> &nodes
         nodes.push_back(tmp);
     }
 
-    if (sample != nullptr && !isNullNode(sample) && !isNullNode(sample->right)) {
+    if (sample != nullptr && sample != &theNullNode && sample->right != &theNullNode) {
         inOrderSampleTree(sample->right, nodes);
     }
 }
 
 void TestETT::inOrderNormalTree(const ETTreeNode *pNode, std::list<TestETT::Node> &nodes,
                                 std::map<const ETTreeNode *, int> &adresses, int &result) {
-    if (pNode != nullptr && !isNullNode(pNode) && !isNullNode(pNode->left) && result != -2) {
+    if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode && result != -2) {
         if (adresses.count(pNode) > 0) {
             int tmp = adresses.find(pNode)->second;
             if (tmp > 3) {
@@ -89,7 +89,7 @@ void TestETT::inOrderNormalTree(const ETTreeNode *pNode, std::list<TestETT::Node
         }
     }
 
-    if (pNode != nullptr && !isNullNode(pNode) && !isNullNode(pNode->right) && result != -2) {
+    if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode && result != -2) {
         if (adresses.count(pNode) > 0) {
             int tmp = adresses.find(pNode)->second;
             if (tmp > 3) {
@@ -107,13 +107,6 @@ void TestETT::inOrderNormalTree(const ETTreeNode *pNode, std::list<TestETT::Node
 
 }
 
-bool TestETT::isNullNode(const ETTreeNode *node) {
-    if (node->left == nullptr && node->right == nullptr && node->parent == nullptr) {
-        return true;
-    }
-    return false;
-
-}
 
 const ETTreeNode *TestETT::findRootForTest(const ETTreeNode *u) {
 

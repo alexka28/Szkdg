@@ -3,15 +3,22 @@
 #define UNTITLED1_ETT_H_INCLUDED
 #include <utility>
 
+static constexpr int BLACK = 0, RED = 1, DOUBLE_BLACK = 2;
+
+
 typedef struct ETTreeNode {
-    ETTreeNode *parent;              // ős a fában, ha nullptr, akkor ez egy gyökér
-    ETTreeNode *left, *right;        // gyerekek a fában
-    int color;                // BLACK vagy RED 0 =Black, 1=red
-    int nodeId;               // a csúcs
-    int rank;                 // a fekete csúcsok száma gyökér-levél úton
+    ETTreeNode *parent;                 // ős a fában, ha nullptr, akkor ez egy gyökér
+    ETTreeNode *left, *right;           // gyerekek a fában
+    int color;                          // BLACK vagy RED 0 =Black, 1=red
+    int nodeId;                         // a csúcs
+    int rank;                           // a fekete csúcsok száma gyökér-levél úton
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color);
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId);
 } ETTreeNode;
+
+
+//global változó, értékadás az ETT.cpp-ben
+extern ETTreeNode theNullNode;
 
 
 typedef struct ETForest {
