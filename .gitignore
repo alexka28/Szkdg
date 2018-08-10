@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Auto generated files and dir's by Clion
+.idea/
+cmake-build-debug/
