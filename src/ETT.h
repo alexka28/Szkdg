@@ -1,6 +1,7 @@
 #ifndef UNTITLED1_ETT_H_INCLUDED
 
 #define UNTITLED1_ETT_H_INCLUDED
+
 #include <utility>
 
 static constexpr int BLACK = 0, RED = 1, DOUBLE_BLACK = 2;
@@ -13,6 +14,7 @@ typedef struct ETTreeNode {
     int nodeId;                         // a csúcs
     int rank;                           // a fekete csúcsok száma gyökér-levél úton
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color);
+
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId);
 } ETTreeNode;
 
@@ -31,19 +33,19 @@ typedef struct ETForest {
 
     ETTreeNode *findRoot(int);
 
-    ETTreeNode *findRoot(ETTreeNode *);
+   static ETTreeNode *findRoot(ETTreeNode *);
 
-    void inOrder(ETTreeNode *);
+  static  void inOrder(ETTreeNode *);
 
     bool contains(int, int);
 
-    ETTreeNode *predecessor(ETTreeNode *);
+    static ETTreeNode *predecessor(ETTreeNode *);
 
-    ETTreeNode *successor(ETTreeNode *);
+    static ETTreeNode *successor(ETTreeNode *);
 
-    ETTreeNode *maximum(ETTreeNode *);
+    static ETTreeNode *maximum(ETTreeNode *);
 
-    ETTreeNode *minimum(ETTreeNode *);
+    static ETTreeNode *minimum(ETTreeNode *);
 
     void join(int, int);
 
@@ -57,61 +59,61 @@ typedef struct ETForest {
 
     void reroot(int);
 
-    void rotateLeft(ETTreeNode *);
+    static void rotateLeft(ETTreeNode *);
 
-    void rotateRight(ETTreeNode *);
+    static void rotateRight(ETTreeNode *);
 
-    void updateRank(ETTreeNode *);
+    static void updateRank(ETTreeNode *);
 
-    void repair(ETTreeNode *);
+    static void repair(ETTreeNode *);
 
-    ETTreeNode *uncle(ETTreeNode *);
+    static ETTreeNode *uncle(ETTreeNode *);
 
-    ETTreeNode *sibling(ETTreeNode *);
+    static ETTreeNode *sibling(ETTreeNode *);
 
 
-    bool isLeft(ETTreeNode *);
+    static bool isLeft(ETTreeNode *);
 
-    bool zigzig(ETTreeNode *);
+    static bool zigzig(ETTreeNode *);
 
-    bool zigzag(ETTreeNode *);
+    static bool zigzag(ETTreeNode *);
 
-    bool zagzig(ETTreeNode *);
+    static bool zagzig(ETTreeNode *);
 
-    bool zagzag(ETTreeNode *);
+    static bool zagzag(ETTreeNode *);
 
     //deletehez
     ETTreeNode *deleteNode(ETTreeNode *);
 
-    void setColor(ETTreeNode *, int);
+    static void setColor(ETTreeNode *, int);
 
-    bool oneNode(ETTreeNode *);
+    static bool oneNode(ETTreeNode *);
 
-    ETTreeNode *setBackToOneNode(ETTreeNode *);
+    static ETTreeNode *setBackToOneNode(ETTreeNode *);
 
-    ETTreeNode *newDelete(ETTreeNode *);
+    static ETTreeNode *newDelete(ETTreeNode *);
 
-    void deleteCase1(ETTreeNode *);
+    static void deleteCase1(ETTreeNode *);
 
-    void deleteCase2(ETTreeNode *);
+    static void deleteCase2(ETTreeNode *);
 
-    void deleteCase3(ETTreeNode *);
+    static void deleteCase3(ETTreeNode *);
 
-    void deleteCase4(ETTreeNode *);
+    static void deleteCase4(ETTreeNode *);
 
-    void deleteCase5(ETTreeNode *);
+    static void deleteCase5(ETTreeNode *);
 
-    void deleteCase6(ETTreeNode *);
+    static void deleteCase6(ETTreeNode *);
 
-    void replaceNode(ETTreeNode *, ETTreeNode *);
+    static void replaceNode(ETTreeNode *, ETTreeNode *);
 
-    void setParent(ETTreeNode *, ETTreeNode *);
+    static void setParent(ETTreeNode *, ETTreeNode *);
 
-    void setLeftChild(ETTreeNode *, ETTreeNode *);
+    static void setLeftChild(ETTreeNode *, ETTreeNode *);
 
-    void setRightChild(ETTreeNode *, ETTreeNode *);
+    static void setRightChild(ETTreeNode *, ETTreeNode *);
 
-    void setRank(ETTreeNode *, int);
+    static void setRank(ETTreeNode *, int);
 
     //további cuccok
     ETTreeNode *firstSeen(int, int);

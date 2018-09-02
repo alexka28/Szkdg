@@ -15,11 +15,11 @@ int TestETT::compare(const ETTreeNode *sample, const ETTreeNode *normal) {
     inOrderNormalTree(normal, normalTreeNodes, normalTreeNodeAdresses, result);
 
     if (result == -2) {
-        std::cout << "vegtelen ciklus vagy azonos memoriacimu node van a faban!" << std::endl;
+       // std::cout << "vegtelen ciklus vagy azonos memoriacimu node van a faban!" << std::endl;
     } else if (sampleNodes.size() != normalTreeNodes.size()) {
         result = -1;
-        std::cout << "a ket fa merete nem egyenlo! elso fa: " << sampleNodes.size() << " masodik fa: "
-                  << normalTreeNodes.size() << std::endl;
+        //std::cout << "a ket fa merete nem egyenlo! elso fa: " << sampleNodes.size() << " masodik fa: "
+               //   << normalTreeNodes.size() << std::endl;
     } else {
         auto sampleIt = sampleNodes.begin();
         auto normalIt = normalTreeNodes.begin();
@@ -27,7 +27,7 @@ int TestETT::compare(const ETTreeNode *sample, const ETTreeNode *normal) {
             if (sampleIt->color != normalIt->color || sampleIt->nodeId != normalIt->nodeId ||
                 sampleIt->rank != normalIt->rank) {
                 result = -1;
-                std::cout << "egy node tulajdonsagai nem egyeznek!" << std::endl;
+               // std::cout << "egy node tulajdonsagai nem egyeznek!" << std::endl;
                 break;
             }
         }
