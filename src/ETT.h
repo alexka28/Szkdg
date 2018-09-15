@@ -33,19 +33,9 @@ typedef struct ETForest {
 
     ETTreeNode *findRoot(int);
 
-   static ETTreeNode *findRoot(ETTreeNode *);
-
-  static  void inOrder(ETTreeNode *);
+    static ETTreeNode *findRoot(ETTreeNode *);
 
     bool contains(int, int);
-
-    static ETTreeNode *predecessor(ETTreeNode *);
-
-    static ETTreeNode *successor(ETTreeNode *);
-
-    static ETTreeNode *maximum(ETTreeNode *);
-
-    static ETTreeNode *minimum(ETTreeNode *);
 
     void join(int, int);
 
@@ -59,38 +49,10 @@ typedef struct ETForest {
 
     void reroot(int);
 
-    static void rotateLeft(ETTreeNode *);
-
-    static void rotateRight(ETTreeNode *);
-
-    static void updateRank(ETTreeNode *);
-
-    static void repair(ETTreeNode *);
-
-    static ETTreeNode *uncle(ETTreeNode *);
-
-    static ETTreeNode *sibling(ETTreeNode *);
-
-
-    static bool isLeft(ETTreeNode *);
-
-    static bool zigzig(ETTreeNode *);
-
-    static bool zigzag(ETTreeNode *);
-
-    static bool zagzig(ETTreeNode *);
-
-    static bool zagzag(ETTreeNode *);
-
-    //deletehez
+    //TODO: dob
     ETTreeNode *deleteNode(ETTreeNode *);
 
-    static void setColor(ETTreeNode *, int);
-
-    static bool oneNode(ETTreeNode *);
-
-    static ETTreeNode *setBackToOneNode(ETTreeNode *);
-
+    //deletehez
     static ETTreeNode *newDelete(ETTreeNode *);
 
     static void deleteCase1(ETTreeNode *);
@@ -106,14 +68,6 @@ typedef struct ETForest {
     static void deleteCase6(ETTreeNode *);
 
     static void replaceNode(ETTreeNode *, ETTreeNode *);
-
-    static void setParent(ETTreeNode *, ETTreeNode *);
-
-    static void setLeftChild(ETTreeNode *, ETTreeNode *);
-
-    static void setRightChild(ETTreeNode *, ETTreeNode *);
-
-    static void setRank(ETTreeNode *, int);
 
     //további cuccok
     ETTreeNode *firstSeen(int, int);

@@ -11,6 +11,7 @@
 #include "TestETT.h"
 #include <cassert>
 #include <cmath>
+#include "ETTQueries.h"
 
 using namespace std;
 
@@ -118,20 +119,20 @@ int main() {
 //    ETForest::inOrder(ETForest::findRoot(a1));
 //    cout<<"masodik fa inorderje:"<<endl;
 //    ETForest::inOrder(ETForest::findRoot(b1));
-DecGraph graph (10);
-ETForest forest(10);
+    DecGraph graph(10);
+    ETForest forest(10);
 
 
-graph.insert(3,4, forest);
+    graph.insert(3, 4, forest);
 
-graph.insert(3,7,forest);
-
-
-graph.insert(6,4,forest);
+    graph.insert(3, 7, forest);
 
 
-    graph.insert(1,0,forest);
-    forest.inOrder(forest.findRoot(3));
+    graph.insert(6, 4, forest);
+
+
+    graph.insert(1, 0, forest);
+    inOrder(forest.findRoot(3));
 //    cout << graph.connected(3,4, forest) <<endl;
 //
 //    cout << graph.connected(7,3, forest) <<endl;
@@ -143,21 +144,21 @@ graph.insert(6,4,forest);
 //    cout << graph.connected(6,7, forest) <<endl;
 //
 //    cout << graph.connected(4,7, forest) <<endl;
-    graph.insert(8,6,forest);
+    graph.insert(8, 6, forest);
 
-        cout <<endl<< graph.connected(3,4, forest) <<endl;
+    cout << endl << graph.connected(3, 4, forest) << endl;
 
-    cout << graph.connected(7,3, forest) <<endl;
+    cout << graph.connected(7, 3, forest) << endl;
 
-    cout << graph.connected(6,4, forest) <<endl;
+    cout << graph.connected(6, 4, forest) << endl;
 
-    cout << graph.connected(3,6, forest) <<endl;
+    cout << graph.connected(3, 6, forest) << endl;
 
-    cout << graph.connected(6,7, forest) <<endl;
+    cout << graph.connected(6, 7, forest) << endl;
 
-    cout << graph.connected(4,7, forest) <<endl;
-    cout << graph.connected(7,8, forest) <<endl;
-    forest.inOrder(forest.findRoot(3));
+    cout << graph.connected(4, 7, forest) << endl;
+    cout << graph.connected(7, 8, forest) << endl;
+    inOrder(forest.findRoot(3));
     /**************************************************************************************************
      **                                             TESTDATA                                         **
      **************************************************************************************************

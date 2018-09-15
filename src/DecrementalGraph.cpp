@@ -6,6 +6,7 @@
 #include <utility>
 #include "ETT.h"
 #include <cmath>
+#include "ETTQueries.h"
 /**
  * constructor for GraphNode
  * @param N: number of the neighbour levels
@@ -43,7 +44,7 @@ void DecGraph::insert(int u, int v, ETForest F) {
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) > 0) { return; }
 //beszurjuk logN szinttel, valamint a map-be is felvesszuk logN szinttel
-    //TODO: indexelés logN méret?-e a tömb, vagy logN-ig indexelhet??
+    //TODO: indexelï¿½s logN mï¿½ret?-e a tï¿½mb, vagy logN-ig indexelhet??
     GraphNode *uNode = new GraphNode(logN);
     GraphNode *vNode = new GraphNode(logN);
     uNode->id = u;
@@ -56,7 +57,7 @@ void DecGraph::insert(int u, int v, ETForest F) {
 
 
     if (!connected(u, v, F)) {
-        F.insert(u, v);                          // F-be beszúrjuk, összekötve u-t és v-t
+        F.insert(u, v);                          // F-be beszï¿½rjuk, ï¿½sszekï¿½tve u-t ï¿½s v-t
     }
 
 }
@@ -65,7 +66,7 @@ void DecGraph::remove(int u, int v, ETForest F) {
     if (u == v) return;
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) == 0) return;
-    //kiszedjük a szintet
+    //kiszedjï¿½k a szintet
     int k = level.find(std::make_pair(u, v))->second;
     level.erase(std::make_pair(u, v));
     if (F.contains(u, v)) { return; }
@@ -88,11 +89,11 @@ void DecGraph::remove(int u, int v, ETForest F) {
 
 ETTreeNode *DecGraph::firstSeen(int u, int m, ETForest F) {
     ETTreeNode *pNode = F.first[u];
-    ETTreeNode *pv = F.predecessor(pNode);
+    ETTreeNode *pv = predecessor(pNode);
     if (pv == nullptr) return pNode;
-    //van-e a kulcshoz érték
+    //van-e a kulcshoz ï¿½rtï¿½k
     if (level.count(std::make_pair(u, pv->nodeId)) > 0) {
-        //ha van szedjük ki a szintet
+        //ha van szedjï¿½k ki a szintet
 
         if (level.find(std::make_pair(u, pv->nodeId))->second > m) {
             return pNode;
@@ -107,24 +108,24 @@ ETTreeNode *DecGraph::firstSeen(ETTreeNode *pNode, int m, ETForest F) {
 }
 
 void DecGraph::dfsETLimit(int u, int m, ETForest F) {
-/* itt elvégezzük, amit u-val tenni akarunk, pl a rá illeszked? m szint? éleket csökkentjük stb */
+/* itt elvï¿½gezzï¿½k, amit u-val tenni akarunk, pl a rï¿½ illeszked? m szint? ï¿½leket csï¿½kkentjï¿½k stb */
     ETTreeNode *pNode = F.first[u];
     ETTreeNode *qNode;
     int v;
-    while (pNode != F.last[u]) /* bejárjuk az u aktuális pNode visitje után következ? csúcsot*/
+    while (pNode != F.last[u]) /* bejï¿½rjuk az u aktuï¿½lis pNode visitje utï¿½n kï¿½vetkez? csï¿½csot*/
     {
-        qNode = F.successor(
-                pNode);  /*tkp jobbról balra is bejárhatnánk, ha erre az egy célra kéne a successor -- mindegy */
+        qNode = successor(
+                pNode);  /*tkp jobbrï¿½l balra is bejï¿½rhatnï¿½nk, ha erre az egy cï¿½lra kï¿½ne a successor -- mindegy */
         v = qNode->nodeId;
         if (level.count(std::make_pair(u, v)) > 0) {
             if (level.find(std::make_pair(u, v))->second <= m) {
                 dfsETLimit(v, m, F);
             }
         }
-//        if (level(u, v) <= m)  {    /*ha oda tudunk lépni, akkor bejárjuk */
+//        if (level(u, v) <= m)  {    /*ha oda tudunk lï¿½pni, akkor bejï¿½rjuk */
 //            dfsETLimit(v);}
-        pNode = F.successor(
-                F.last[v]); /*akár bejártuk, akár nem, visszalépünk u-ra v bejárása után és nézzük a következ? szomszédot */
+        pNode = successor(
+                F.last[v]); /*akï¿½r bejï¿½rtuk, akï¿½r nem, visszalï¿½pï¿½nk u-ra v bejï¿½rï¿½sa utï¿½n ï¿½s nï¿½zzï¿½k a kï¿½vetkez? szomszï¿½dot */
     }
 }
 
@@ -134,7 +135,7 @@ bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
     int z, w;
     while (pNode != nullptr) {
         w = pNode->nodeId;
-/* itt elvégezzük pNode->nodeId-vel, amit a csúcsokkal tenni akarunk */
+/* itt elvï¿½gezzï¿½k pNode->nodeId-vel, amit a csï¿½csokkal tenni akarunk */
         if (m > 0) {
             for (it = node[w].neighbours[m].begin(); it != node[w].neighbours[m].end(); ++it) {
                 z = (*it)->id;
@@ -177,53 +178,53 @@ bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
 }
 
 ETTreeNode *DecGraph::getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest F) {
-    ETTreeNode *pNode = firstSeen(lhs, m, F);  //a fák bejárását a legkorábban látott csúcsukból indítjuk
+    ETTreeNode *pNode = firstSeen(lhs, m, F);  //a fï¿½k bejï¿½rï¿½sï¿½t a legkorï¿½bban lï¿½tott csï¿½csukbï¿½l indï¿½tjuk
     ETTreeNode *qNode = firstSeen(rhs, m, F);
     while ((pNode != nullptr) && (qNode != nullptr)) {
         pNode = step(pNode, m, F);
         qNode = step(qNode, m, F);
     }
-    if (pNode == nullptr) return lhs;  // lhs fája fogyott el el?bb
-    return rhs;                         // rhs fája fogyott el el?bb
+    if (pNode == nullptr) return lhs;  // lhs fï¿½ja fogyott el el?bb
+    return rhs;                         // rhs fï¿½ja fogyott el el?bb
 }
 
 ETTreeNode *DecGraph::step(ETTreeNode *pNode, int m, ETForest F) {
     int u = pNode->nodeId;
     int v;
     ETTreeNode *qNode;
-    //ha van <=m éles, pNode->nodeId után meglátogatott szomszédja, oda lépünk
-    // itt pNode a csúcsának a first-je
+    //ha van <=m ï¿½les, pNode->nodeId utï¿½n meglï¿½togatott szomszï¿½dja, oda lï¿½pï¿½nk
+    // itt pNode a csï¿½csï¿½nak a first-je
     while (pNode != F.last[u]) {
-        qNode = F.successor(pNode);
+        qNode = successor(pNode);
         v = qNode->nodeId;
 //        if( level(u,v) <= m ) return qNode;
         if (level.count(std::make_pair(u, v)) > 0 && level.find(std::make_pair(u, v))->second <= m) {
             return qNode;
         }
-        pNode = F.successor(F.last[v]);
+        pNode = successor(F.last[v]);
     }
-    //nincs -> visszalépegetünk felfele a fában, amíg utolsó gyerekek vagyunk
-    //  itt pNode a csúcsának már a last-ja
+    //nincs -> visszalï¿½pegetï¿½nk felfele a fï¿½ban, amï¿½g utolsï¿½ gyerekek vagyunk
+    //  itt pNode a csï¿½csï¿½nak mï¿½r a last-ja
     while (true) {
-        qNode = F.successor(pNode); // innen jöttünk p-be, ez a p utáni visit, ha ez az él max m szint?
-        if (qNode == nullptr) return nullptr; //esetleg nem is létezik
+        qNode = successor(pNode); // innen jï¿½ttï¿½nk p-be, ez a p utï¿½ni visit, ha ez az ï¿½l max m szint?
+        if (qNode == nullptr) return nullptr; //esetleg nem is lï¿½tezik
         if (level.count(std::make_pair(u, qNode->nodeId)) > 0 &&
             level.find(std::make_pair(u, qNode->nodeId))->second > m) {
             return nullptr;
         }
-//        if( level(u,qNode->nodeId) > m ) return nullptr; //ez már nehéz él apa irányba, végeztünk
-        //keresünk qNode-nak pNode utáni gyerekét, amire le tudunk lépni
+//        if( level(u,qNode->nodeId) > m ) return nullptr; //ez mï¿½r nehï¿½z ï¿½l apa irï¿½nyba, vï¿½geztï¿½nk
+        //keresï¿½nk qNode-nak pNode utï¿½ni gyerekï¿½t, amire le tudunk lï¿½pni
         pNode = qNode;
         u = pNode->nodeId;
         while (pNode != F.last[pNode->nodeId]) {
-            qNode = F.successor(pNode);
+            qNode = successor(pNode);
             v = qNode->nodeId;
             if (level.count(std::make_pair(u, v)) > 0 && level.find(std::make_pair(u, v))->second <= m) {
                 return qNode;
             }
-//            if( level(u,v) <= m ) return qNode; //sikerült találni u apjának egy következ? gyerekét
-            pNode = F.successor(F.last[v]);   //v-re nem léphetünk át, ugorjuk át a bejárását és next
+//            if( level(u,v) <= m ) return qNode; //sikerï¿½lt talï¿½lni u apjï¿½nak egy kï¿½vetkez? gyerekï¿½t
+            pNode = successor(F.last[v]);   //v-re nem lï¿½phetï¿½nk ï¿½t, ugorjuk ï¿½t a bejï¿½rï¿½sï¿½t ï¿½s next
         }
-        //ha itt járunk, akkor már bejártuk pNode apjának az összes gyerekét, mehet a whiletrue ciklus még egyszer
+        //ha itt jï¿½runk, akkor mï¿½r bejï¿½rtuk pNode apjï¿½nak az ï¿½sszes gyerekï¿½t, mehet a whiletrue ciklus mï¿½g egyszer
     }
 }
