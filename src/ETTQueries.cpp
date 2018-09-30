@@ -107,3 +107,9 @@ void inOrder(ETTreeNode *pNode) {
         inOrder(pNode->right);
     }
 }
+
+ETTreeNode* ETTMinimum(ETTreeNode* pNode){
+    pNode = ETForest::findRoot(pNode);
+    pNode = minimum(pNode);
+    return pNode;
+}

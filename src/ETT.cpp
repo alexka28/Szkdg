@@ -701,7 +701,20 @@ ETTreeNode *ETForest::deleteNode(ETTreeNode *node) {
 
 ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     ETTreeNode *child;
-
+    ETTreeNode *originalNode = nullptr;
+    ETTreeNode *originalNodeParent = nullptr;
+    ETTreeNode *originalNodeLChild = nullptr;
+    ETTreeNode *originalNodeRChild = nullptr;
+    int originalNodeColor;
+    int originalNodeRank;
+    bool originalIsLeft;
+    ETTreeNode * nodeToDelete = nullptr;
+    ETTreeNode *nodeToDeleteParent = nullptr;
+    ETTreeNode *nodeToDeleteLChild = nullptr;
+    ETTreeNode * nodeToDeleteRChild = nullptr;
+    int nodeToDeleteColor;
+    int nodeToDeleteRank;
+    bool nodeToDeleteIsLeft;
     if (n == &theNullNode) {
         return &theNullNode;
     }
@@ -709,8 +722,76 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     if (n->left != &theNullNode && n->right != &theNullNode) {
 
         ETTreeNode *pred = maximum(n->left);
-        n->nodeId = pred->nodeId;
-        n = pred;
+        //n->nodeId = pred->nodeId;
+        originalNode = n;
+        originalNodeParent = n->parent;
+        originalNodeLChild = n->left;
+        originalNodeRChild = n->right;
+        originalNodeColor = n->color;
+        originalNodeRank = n->rank;
+        originalIsLeft = isLeft(n);
+
+        nodeToDelete = pred;
+        nodeToDeleteParent = pred->parent;
+        nodeToDeleteLChild = pred->left;
+        nodeToDeleteRChild = pred->right;
+        nodeToDeleteColor = pred->color;
+        nodeToDeleteRank = pred->rank;
+        nodeToDeleteIsLeft = isLeft(pred);
+        //kössük be az eredeti node helyére a törlendőt
+        if (originalIsLeft){
+            setLeftChild(originalNodeParent,nodeToDelete);
+
+        }
+        else {
+            setRightChild(originalNodeParent, nodeToDelete);
+        }
+
+        if(pred->parent != originalNode){
+            setLeftChild(nodeToDelete, originalNodeLChild);
+            setRightChild(nodeToDelete, originalNodeRChild);
+            setParent(originalNodeLChild,nodeToDelete);
+            setParent(originalNodeRChild, nodeToDelete);
+        }
+        else if (nodeToDeleteIsLeft){
+            setLeftChild(nodeToDelete,originalNode);
+            setRightChild(nodeToDelete,originalNodeRChild);
+            setParent(originalNode, nodeToDelete);
+            setParent(originalNodeRChild, nodeToDelete);
+        }
+        else{
+            setLeftChild(nodeToDelete,originalNodeLChild);
+            setRightChild(nodeToDelete,originalNode);
+            setParent(originalNodeLChild, nodeToDelete);
+            setParent(originalNode, nodeToDelete);
+        }
+        setParent(nodeToDelete, originalNodeParent);
+
+
+        setColor(nodeToDelete,originalNodeColor);
+        setRank(nodeToDelete, originalNodeRank);
+
+        //itt pedig az eredetileg törlésre kijelölt node-ot fogjuk a predecessor helyére bekötni, így valóban őt töröljük ki végül
+        if (nodeToDeleteIsLeft){
+            setLeftChild(nodeToDeleteParent, originalNode);
+        }
+        else{
+            setRightChild(nodeToDeleteParent, originalNode);
+        }
+        if(originalNode->parent != nodeToDelete){
+            setParent(originalNode, nodeToDeleteParent);
+        }
+
+        setLeftChild(originalNode,nodeToDeleteLChild);
+        setRightChild(originalNode,nodeToDeleteRChild);
+        setParent(nodeToDeleteLChild,originalNode);
+        setParent(nodeToDeleteRChild,originalNode);
+        setColor(originalNode,nodeToDeleteColor);
+        setRank(originalNode, nodeToDeleteRank);
+
+
+
+      n = originalNode;
     }
 
     assert(n->left == &theNullNode || n->right == &theNullNode);
@@ -725,11 +806,9 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     }
 
     replaceNode(n, child);
-
-    n->parent = nullptr;
-    n->left = &theNullNode;
-    n->right = &theNullNode;
-
+    setBackToOneNode(n);
+    n = nullptr;
+    return n;
 //
 //    verify_properties(t);
 
@@ -869,4 +948,74 @@ void ETForest::replaceNode(ETTreeNode *oldn, ETTreeNode *newn) {
     }
 }
 
+void ETForest::verifyProperties(ETTreeNode* pNode) {
+    verifyColor (findRoot(pNode));
 
+    verifyRootColor (findRoot(pNode));
+
+    verifyRedNodeParentAndChildrenColors (findRoot(pNode));
+
+    verifyBlackRank (findRoot(pNode));
+}
+
+void ETForest::verifyColor(ETTreeNode *pNode) {
+    if (pNode == nullptr){
+        return;
+    }
+    assert (pNode->color == RED || pNode->color == BLACK);
+
+    verifyColor(pNode->left);
+    verifyColor(pNode->right);
+}
+
+void ETForest::verifyRootColor(ETTreeNode *pNode) {
+    assert (pNode->color == BLACK);
+}
+
+void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode) {
+
+    if(pNode == nullptr){
+        return;
+    }
+
+    if (pNode->color == RED) {
+        assert (pNode->left->color == BLACK);
+        assert (pNode->right->color == BLACK);
+        assert (pNode->parent == nullptr || pNode->parent->color == BLACK);
+    }
+
+    verifyRedNodeParentAndChildrenColors(pNode->left);
+    verifyRedNodeParentAndChildrenColors(pNode->right);
+}
+
+void ETForest::verifyBlackRank(ETTreeNode* pNode){
+    int black_count_path = -1;
+
+    verifyBlackRankHelper(pNode, 0, &black_count_path);
+}
+
+void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *path_black_count) {
+
+    if (pNode == nullptr)
+    {
+        if (*path_black_count == -1)
+        {
+            *path_black_count = black_count;
+        }
+
+        else
+        {
+            assert (black_count == *path_black_count);
+        }
+        return;
+    }
+    if (pNode->color == BLACK)
+    {
+        black_count++;
+    }
+
+
+
+    verifyBlackRankHelper(pNode->left,  black_count, path_black_count);
+    verifyBlackRankHelper(pNode->right, black_count, path_black_count);
+}

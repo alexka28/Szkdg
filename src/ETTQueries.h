@@ -19,7 +19,7 @@ ETTreeNode *uncle(ETTreeNode *);
 
 ETTreeNode *sibling(ETTreeNode *);
 
-
+ETTreeNode *ETTMinimum(ETTreeNode *);
 bool isLeft(ETTreeNode *);
 
 bool zigzig(ETTreeNode *);
