@@ -800,7 +800,8 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
 
     if (n->color == BLACK) {
 
-        n->color = child->color;
+//        n->color = child->color;
+        setColorWithRankUpdate(n, child->color);
         deleteCase1(n);
 
     }
@@ -827,10 +828,12 @@ void ETForest::deleteCase1(ETTreeNode *n) {
 
 void ETForest::deleteCase2(ETTreeNode *n) {
     if (sibling(n)->color == RED) {
-//TODO: updateRank(n->parent);
-        n->parent->color = RED;
+    //TODO: updateRank(n->parent);
+//        n->parent->color = RED;
+//        sibling(n)->color = BLACK;
 
-        sibling(n)->color = BLACK;
+        setColorWithRankUpdate(n->parent, RED);
+        setColorWithRankUpdate(sibling(n), BLACK);
 
         if (n == n->parent->left)
 
@@ -850,7 +853,8 @@ void ETForest::deleteCase3(ETTreeNode *n) {
 
         sibling(n)->left->color == BLACK && sibling(n)->right->color == BLACK) {
 
-        sibling(n)->color = RED;
+        //sibling(n)->color = RED;
+        setColorWithRankUpdate(sibling(n), RED);
 
         deleteCase1(n->parent);
 
@@ -864,9 +868,10 @@ void ETForest::deleteCase4(ETTreeNode *n) {
 
         sibling(n)->left->color == BLACK && sibling(n)->right->color == BLACK) {
 
-        sibling(n)->color = RED;
-
-        n->parent->color = BLACK;
+//        sibling(n)->color = RED;
+//        n->parent->color = BLACK;
+        setColorWithRankUpdate(sibling(n), RED);
+        setColorWithRankUpdate(n->parent, BLACK);
 
     } else
 
@@ -878,9 +883,11 @@ void ETForest::deleteCase5(ETTreeNode *n) {
 
         sibling(n)->left->color == RED && sibling(n)->right->color == BLACK) {
 
-        sibling(n)->color = RED;
 
-        sibling(n)->left->color = BLACK;
+//        sibling(n)->color = RED;
+//        sibling(n)->left->color = BLACK;
+            setColorWithRankUpdate(sibling(n), RED);
+            setColorWithRankUpdate(sibling(n)->left, BLACK);
 
         rotateRight(sibling(n));
 
@@ -888,9 +895,10 @@ void ETForest::deleteCase5(ETTreeNode *n) {
 
                sibling(n)->right->color == RED && sibling(n)->left->color == BLACK) {
 
-        sibling(n)->color = RED;
-
-        sibling(n)->right->color = BLACK;
+//        sibling(n)->color = RED;
+//        sibling(n)->right->color = BLACK;
+                setColorWithRankUpdate(sibling(n), RED);
+                setColorWithRankUpdate(sibling(n)->right, BLACK);
 
         rotateLeft(sibling(n));
 
@@ -900,9 +908,11 @@ void ETForest::deleteCase5(ETTreeNode *n) {
 }
 
 void ETForest::deleteCase6(ETTreeNode *n) {
-    sibling(n)->color = n->parent->color;
+//    sibling(n)->color = n->parent->color;
+//    n->parent->color = BLACK;
 
-    n->parent->color = BLACK;
+    setColorWithRankUpdate(sibling(n), n->parent->color);
+    setColorWithRankUpdate(n->parent, BLACK);
 
     if (n == n->parent->left) {
 
