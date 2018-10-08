@@ -158,7 +158,8 @@ int main() {
 
     cout << graph.connected(4, 7, forest) << endl;
     cout << graph.connected(7, 8, forest) << endl;
-    inOrder(forest.findRoot(3));
+
+
     /**************************************************************************************************
      **                                             TESTDATA                                         **
      **************************************************************************************************
@@ -177,11 +178,11 @@ int main() {
         n2->parent = n1;
         n2->left = n4;
         n2->right = n5;
-        n2->rank = 2;
+        n2->rank = 1;
         n3->parent = n1;
         n3->left = n6;
         n3->right = n7;
-        n3->rank = 2;
+        n3->rank = 1;
         n4->parent = n2;
         n4->rank = 1;
         n5->parent = n2;
@@ -193,7 +194,8 @@ int main() {
         n7->parent = n3;
         n7->rank = 1;
         n8->parent = n6;
-        n8->rank = 1;
+        n8->rank = 0;
+        ETForest::verifyProperties(n1);
      ************************************************************************************************************/
 
 

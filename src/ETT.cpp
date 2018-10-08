@@ -966,6 +966,8 @@ void ETForest::verifyProperties(ETTreeNode* pNode) {
     verifyRedNodeParentAndChildrenColors (findRoot(pNode));
 
     verifyBlackRank (findRoot(pNode));
+
+    verifyRankNumber(findRoot(pNode));
 }
 
 void ETForest::verifyColor(ETTreeNode *pNode) {
@@ -1028,4 +1030,34 @@ void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *pa
 
     verifyBlackRankHelper(pNode->left,  black_count, path_black_count);
     verifyBlackRankHelper(pNode->right, black_count, path_black_count);
+}
+
+
+void ETForest::verifyRankNumber(ETTreeNode *pNode) {
+    if(pNode->left != &theNullNode){
+        verifyRankNumber(pNode->left);
+    }
+    if(pNode->right != &theNullNode){
+        verifyRankNumber(pNode->right);
+    }
+    verifyRankNumberHelper(pNode);
+}
+
+
+void ETForest::verifyRankNumberHelper(ETTreeNode *pNode) {
+    if(pNode == nullptr){
+        return;
+    }
+    if(pNode->color == BLACK){
+        assert(pNode->rank == pNode->left->rank+1);
+    }
+    else{
+        if(pNode->rank != pNode->left->rank){
+            std::cout<<"hibas node id: " << pNode->nodeId<<std::endl;
+        }
+        assert(pNode->rank == pNode->left->rank);
+
+    }
+    verifyRankNumberHelper(pNode->parent);
+
 }
