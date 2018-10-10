@@ -316,7 +316,9 @@ void ETForest::insert(int u, int v) {
     if(first[u] == minNode){
         needToUpdate = true;
     }
-
+    if(last[u] == minNode){
+        std::cout<<"last update"<<std::endl;
+    }
     if(isOneNode(T3)) {
         nodeToJoin = T3;
         T3 = &theNullNode;
@@ -1059,4 +1061,36 @@ void ETForest::verifyRankNumberHelper(ETTreeNode *pNode) {
     }
     verifyRankNumberHelper(pNode->parent);
 
+}
+
+void ETForest::verifyFirstLast() {
+    ETTreeNode* pNode;
+    ETTreeNode* firstSeen = nullptr;
+    ETTreeNode* lastSeen = nullptr;
+    for(int i = 0; i < this->N; ++i){
+        pNode = this->first[i];
+        assert(i == pNode->nodeId);
+        pNode = findRoot(pNode);
+        firstLastHelper(pNode, i, firstSeen,lastSeen);
+        assert(firstSeen == first[i]);
+        assert(lastSeen == last[i]);
+        firstSeen = nullptr;
+        lastSeen = nullptr;
+    }
+}
+
+void ETForest::firstLastHelper(ETTreeNode *pNode, const int& id, ETTreeNode*& firstSeen, ETTreeNode*& lastSeen) {
+    if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode) {
+        firstLastHelper(pNode->left, id, firstSeen, lastSeen);
+    }
+    if (pNode != nullptr && pNode->nodeId == id) {
+        if(firstSeen == nullptr) {
+            firstSeen = pNode;
+        }
+        lastSeen = pNode;
+    }
+
+    if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode) {
+        firstLastHelper(pNode->right, id, firstSeen, lastSeen);
+    }
 }

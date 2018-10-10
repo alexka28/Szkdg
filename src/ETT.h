@@ -1,7 +1,5 @@
 #ifndef UNTITLED1_ETT_H_INCLUDED
-
 #define UNTITLED1_ETT_H_INCLUDED
-
 #include <utility>
 
 static constexpr int BLACK = 0, RED = 1, DOUBLE_BLACK = 2;
@@ -79,6 +77,8 @@ typedef struct ETForest {
     static void verifyBlackRankHelper(ETTreeNode* pNode,int black_count, int* path_black_count);
     static void verifyRankNumber (ETTreeNode* pNode);
     static void verifyRankNumberHelper(ETTreeNode* pNode);
+    void        verifyFirstLast();
+    void        firstLastHelper(ETTreeNode* pNode, const int& id,ETTreeNode*& firstSeen, ETTreeNode*& lastSeen);
     //további cuccok
     ETTreeNode *firstSeen(int, int);
 
