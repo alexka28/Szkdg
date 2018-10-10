@@ -7,6 +7,8 @@
 
 #include "ETT.h"
 
+
+
 ETTreeNode *predecessor(ETTreeNode *);
 
 ETTreeNode *successor(ETTreeNode *);
@@ -34,5 +36,6 @@ bool isOneNode(ETTreeNode *);
 
 
 void inOrder(ETTreeNode *);
+
 
 #endif //SZAKDOLGOZAT_ETTQUERIES_H

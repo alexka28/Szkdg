@@ -113,3 +113,12 @@ ETTreeNode* ETTMinimum(ETTreeNode* pNode){
     pNode = minimum(pNode);
     return pNode;
 }
+
+
+ETTreeNode* ETForest::findRoot(ETTreeNode *u) {
+    ETTreeNode *pNode = u;
+    while (pNode->parent != nullptr) {
+        pNode = pNode->parent;
+    }
+    return pNode;
+}

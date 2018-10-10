@@ -53,13 +53,13 @@ ETTreeNode *ETForest::findRoot(int u) {
     return pNode;
 }
 
-ETTreeNode *ETForest::findRoot(ETTreeNode *u) {
-    ETTreeNode *pNode = u;
-    while (pNode->parent != nullptr) {
-        pNode = pNode->parent;
-    }
-    return pNode;
-}
+//ETTreeNode *ETForest::findRoot(ETTreeNode *u) {
+//    ETTreeNode *pNode = u;
+//    while (pNode->parent != nullptr) {
+//        pNode = pNode->parent;
+//    }
+//    return pNode;
+//}
 
 
 bool ETForest::contains(int u, int v) {
@@ -308,67 +308,66 @@ void ETForest::insert(int u, int v) {
 
     ETTreeNode *T4 = join(T2, uNode, T1);
     //keressük meg T3 minimális nodeját
-    ETTreeNode *minNode; //= minimum(T3);
-    //töröljük ki és mentsük el a törölt nodeot
-    //TODO: check, hogy a minimum nem a root-e!!!!!
-//TODO: keressünk ide valami kokkot
-    if (isOneNode(T3)) {
-        minNode = T3;
+    ETTreeNode *minNode = minimum(T3);
+    ETTreeNode* nodeToJoin = new ETTreeNode(nullptr, &theNullNode,&theNullNode, minNode->color, minNode->nodeId);
+    nodeToJoin->rank = minNode->rank;
+
+    bool needToUpdate = false;
+    if(first[u] == minNode){
+        needToUpdate = true;
+    }
+
+    if(isOneNode(T3)) {
+        nodeToJoin = T3;
         T3 = &theNullNode;
-
-    }
-        //ha ugyanaz a minimum mint a gyökér és T2 nem oneNode, akkor van egy jobb gyereke, ő lesz az új gyökér
-    else if (minimum(T3) == findRoot(T3)) {
-        minNode = findRoot(T3);
-        T3 = T3->right;
-        setParent(T3, nullptr);
-        setColor(T3, BLACK);
-        setRank(T3, 1);
-        setBackToOneNode(minNode);
     } else {
-        minNode = newDelete(minimum(T3));
-        minNode = setBackToOneNode(minNode);
-        T3 = findRoot(T3);
+        newDelete(minNode);
+    }
+
+    T4 = join(T4, nodeToJoin, T3);
+    if(needToUpdate){
+        first[u] = uNode;
     }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //minNode = newDelete(minNode);
-
-
-    if (minNode->left == &theNullNode && minNode->right == &theNullNode && minNode->parent == nullptr) {
-
-        T3 = &theNullNode;
-        setBackToOneNode(minNode);
-    } else {
-        minNode->parent = nullptr;
-        minNode->left = &theNullNode;
-        minNode->right = &theNullNode;
-    }
-    T4 = join(T4, minNode, T3);
-    if (first[minNode->nodeId] == minNode) {
-        first[minNode->nodeId] = uNode;
-    }
+//    //töröljük ki és mentsük el a törölt nodeot
+//    if (isOneNode(T3)) {
+//        minNode = T3;
+//        T3 = &theNullNode;
+//
+//    }
+//        //ha ugyanaz a minimum mint a gyökér és T2 nem oneNode, akkor van egy jobb gyereke, ő lesz az új gyökér
+//    else if (minimum(T3) == findRoot(T3)) {
+//        minNode = findRoot(T3);
+//        T3 = T3->right;
+//        setParent(T3, nullptr);
+//        setColor(T3, BLACK);
+//        setRank(T3, 1);
+//        setBackToOneNode(minNode);
+//    } else {
+//        minNode = newDelete(minimum(T3));
+//        minNode = setBackToOneNode(minNode);
+//        T3 = findRoot(T3);
+//    }
+//
+//    //minNode = newDelete(minNode);
+//
+//
+//    if (minNode->left == &theNullNode && minNode->right == &theNullNode && minNode->parent == nullptr) {
+//
+//        T3 = &theNullNode;
+//        setBackToOneNode(minNode);
+//    } else {
+//        minNode->parent = nullptr;
+//        minNode->left = &theNullNode;
+//        minNode->right = &theNullNode;
+//    }
+//    T4 = join(T4, minNode, T3);
+//    if (first[minNode->nodeId] == minNode) {
+//        first[minNode->nodeId] = uNode;
+//    }
 
 
 }
