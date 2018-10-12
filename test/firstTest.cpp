@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include "../src/TestETT.h"
 
-
 TEST(CompareTest, CompareTrees) {
     ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
     ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
@@ -194,5 +193,7 @@ TEST(BSTDeleteTest, DeleteRoot){
     b2->left = &theNullNode;
     b2->right = &theNullNode;
     b2->rank = 1;
+    ETForest::verifyProperties(ETForest::findRoot(a2));
     EXPECT_TRUE(TestETT::compare(b2, a2) == 0);
 }
+

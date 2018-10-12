@@ -317,12 +317,25 @@ void ETForest::insert(int u, int v) {
         needToUpdate = true;
     }
     if(last[u] == minNode){
+        ETTreeNode * currLast = last[u];
         std::cout<<"last update"<<std::endl;
     }
     if(isOneNode(T3)) {
         nodeToJoin = T3;
         T3 = &theNullNode;
-    } else {
+    }
+    //ha T3 és a minNode ugyan oda mutat, akkor a törlés nem tudja ténylegesen a minNode-ot törölni, hiszen akkor a saját címét kéne módosítania
+    //erre jó megoldás lehet, ha a törlésnek átadjuk ptr refként a T3-at és ott hasonlítjuk össze a minNoddal és ott végezzük el ezt a műveletet
+    //ebben az esetben T3-nak csak jobb gyerek van (hiszen ő a minimum)
+    else if(T3 == minNode) {
+        if(last[u] == T3){
+            last[u] = nodeToJoin;
+        }
+        T3 = T3->right;
+        setColorWithRankUpdate(T3, BLACK);
+    }
+    //egyébként pedig törölhetünk
+    else {
         newDelete(minNode);
     }
 
@@ -1072,6 +1085,8 @@ void ETForest::verifyFirstLast() {
         assert(i == pNode->nodeId);
         pNode = findRoot(pNode);
         firstLastHelper(pNode, i, firstSeen,lastSeen);
+        ETTreeNode* currFirst = first[i];
+        ETTreeNode* currLast = last[i];
         assert(firstSeen == first[i]);
         assert(lastSeen == last[i]);
         firstSeen = nullptr;
