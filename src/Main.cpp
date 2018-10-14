@@ -124,12 +124,17 @@ int main() {
 
 
     graph.insert(3, 4, forest);
-
+    cout<< "3-4 inorder: "<<endl;
+    inOrder(forest.findRoot(3));
+    cout<<endl;
     graph.insert(3, 7, forest);
-
-
+    cout<< "3-7 inorder: "<<endl;
+    inOrder(forest.findRoot(3));
+    cout<<endl;
     graph.insert(6, 4, forest);
-
+    cout<< "4-6 inorder: "<<endl;
+    inOrder(forest.findRoot(4));
+    cout<<endl;
 
     graph.insert(1, 0, forest);
 
@@ -146,9 +151,11 @@ int main() {
 //
 //    cout << graph.connected(4,7, forest) <<endl;
     graph.insert(8, 6, forest);
-    inOrder(forest.findRoot(3));
     forest.verifyFirstLast();
     ETForest::verifyProperties(forest.findRoot(3));
+    cout<< "6-8 inorder: "<<endl;
+    inOrder(forest.findRoot(6));
+    cout<<endl;
     cout << endl << graph.connected(3, 4, forest) << endl;
 
     cout << graph.connected(7, 3, forest) << endl;
@@ -161,8 +168,7 @@ int main() {
 
     cout << graph.connected(4, 7, forest) << endl;
     cout << graph.connected(7, 8, forest) << endl;
-    forest.remove(7,8);
-    cout <<"remove"<<endl;
+
     cout << graph.connected(7, 8, forest) << endl;
 
 

@@ -293,11 +293,14 @@ void ETForest::insert(int u, int v) {
     ETTreeNode *uNode = new ETTreeNode(nullptr, &theNullNode, &theNullNode, last[u]->color, last[u]->nodeId);
     uNode->rank = last[u]->rank;
 //TODO: a gyökér minimumából nézzük!!!!!
-    if (minimum(T1)->nodeId != v) {
+    if (ETTMinimum(T1)->nodeId != v) {
         reroot(v);
         T1 = findRoot(T1);
     }
-    if (minimum(last[u])->nodeId != u) {
+//    if (minimum(last[u])->nodeId != u) {
+//        reroot(u);
+//    }
+    if(minimum(findRoot(last[u]))->nodeId != u){
         reroot(u);
     }
     //állítsuk vissza gyökérre
@@ -489,6 +492,7 @@ void ETForest::reroot(int u) {
             T2 = findRoot(T2);
         }
         ETTreeNode *w;
+
         if (isOneNode(T1)) {
             w = T1;
             T1 = &theNullNode;
@@ -500,9 +504,15 @@ void ETForest::reroot(int u) {
             setRank(T1, 1);
             setBackToOneNode(w);
         } else {
-            w = newDelete(minimum(T1));
+            //TODO: bármilyen node akire = newDelete van hivva az nullptr-re lesz állítva
+            w = minimum(T1);
+            newDelete(w);
+            //w = newDelete(minimum(T1));
+
             w = setBackToOneNode(w);
             T1 = findRoot(T1);
+           //TODO: törölni
+            verifyProperties(T1);
         }
 
 
@@ -821,6 +831,10 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     }
 
     replaceNode(n, child);
+
+    updateAllRank(findRoot(n));
+
+
     setBackToOneNode(n);
     n = nullptr;
     return n;
@@ -933,7 +947,7 @@ void ETForest::deleteCase6(ETTreeNode *n) {
         assert (sibling(n)->right->color == RED);
 
         sibling(n)->right->color = BLACK;
-        updateRank(sibling(n)->right);
+        //updateRank(sibling(n)->right);
 
         rotateLeft(n->parent);
 
@@ -942,7 +956,7 @@ void ETForest::deleteCase6(ETTreeNode *n) {
         assert (sibling(n)->left->color == RED);
 
         sibling(n)->left->color = BLACK;
-        updateRank(sibling(n)->left);
+        //updateRank(sibling(n)->left);
         rotateRight(n->parent);
 
     }
@@ -1108,4 +1122,29 @@ void ETForest::firstLastHelper(ETTreeNode *pNode, const int& id, ETTreeNode*& fi
     if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode) {
         firstLastHelper(pNode->right, id, firstSeen, lastSeen);
     }
+}
+
+void ETForest::updateAllRank(ETTreeNode *pNode) {
+    if(pNode->left != &theNullNode){
+        updateAllRank(pNode->left);
+    }
+    if(pNode->right != &theNullNode){
+        updateAllRank(pNode->right);
+    }
+    updateHelper(pNode);
+}
+
+void ETForest::updateHelper(ETTreeNode *pNode) {
+    if(pNode == nullptr){
+        return;
+    }
+
+    if(pNode->color == BLACK){
+        pNode->rank = pNode->left->rank+1;
+    }
+    else{
+        pNode->rank = pNode->left->rank;
+
+    }
+    updateHelper(pNode->parent);
 }

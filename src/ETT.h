@@ -79,6 +79,8 @@ typedef struct ETForest {
     static void verifyRankNumberHelper(ETTreeNode* pNode);
     void        verifyFirstLast();
     void        firstLastHelper(ETTreeNode* pNode, const int& id,ETTreeNode*& firstSeen, ETTreeNode*& lastSeen);
+    static void updateAllRank(ETTreeNode* pNode);
+    static void updateHelper(ETTreeNode* pNode);
     //további cuccok
     ETTreeNode *firstSeen(int, int);
 
