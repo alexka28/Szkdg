@@ -572,6 +572,7 @@ void ETForest::reroot(int u) {
                 setRank(T1, 1);
                 setBackToOneNode(w);
             } else {
+                //TODO: delete assignmenttől megszabadulni
                 w = newDelete(minimum(T1));
                 w = setBackToOneNode(w);
                 T1 = findRoot(T1);

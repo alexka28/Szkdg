@@ -29,6 +29,12 @@ std::list<std::pair<int,int>> insertList = fillGraph(10);
         cout<<"elso node: " << insertIt->first<<" masodik node: " << insertIt->second<<endl;
         grafom.insert(insertIt->first,insertIt->second,forestem);
         simagraf.addEdge(insertIt->first,insertIt->second);
+        bool ret = false;
+        assert(queryGraph(simagraf,insertIt->first, insertIt->second, &ret));
+        ret = false;
+        queryGraph(simagraf,insertIt->first, insertIt->second, &ret);
+        assert(ret);
+        assert(grafom.connected(insertIt->first, insertIt->second, forestem));
     }
 //    std::list<std::pair<std::pair<int, int>, int>> delquer = createDQ(insertList,10);
 //    std::list<std::pair<std::pair<int, int>, int>>:: iterator queryIt;
