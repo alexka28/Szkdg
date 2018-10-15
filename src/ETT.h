@@ -48,8 +48,8 @@ typedef struct ETForest {
 
     void reroot(int);
 
-    //TODO: dob
-    ETTreeNode *deleteNode(ETTreeNode *);
+    //TODO: törölni
+    //ETTreeNode *deleteNode(ETTreeNode *);
 
     //deletehez
     static ETTreeNode *newDelete(ETTreeNode *);
@@ -81,8 +81,6 @@ typedef struct ETForest {
     void        firstLastHelper(ETTreeNode* pNode, const int& id,ETTreeNode*& firstSeen, ETTreeNode*& lastSeen);
     static void updateAllRank(ETTreeNode* pNode);
     static void updateHelper(ETTreeNode* pNode);
-    //további cuccok
-    ETTreeNode *firstSeen(int, int);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H

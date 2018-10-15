@@ -41,7 +41,7 @@ TEST(CompareTest, CompareUnequalTrees) {
     b1->left = b2;
     b1->right = b3;
 
-    EXPECT_TRUE(TestETT::compare(a1,b1) != 0);
+    EXPECT_TRUE(TestETT::compare(a1, b1) != 0);
     EXPECT_FALSE(TestETT::compare(a1, b1) == 0);
 }
 
@@ -63,7 +63,6 @@ TEST(BSTDeleteTest, deleteLeaf) {
     //TODO: ha a törlés kitörölné a node-ot, majd nullptrre állítaná, akkor tesztelhető lenne
     //ETForest::newDelete(a1);
     //EXPECT_TRUE(a1 == nullptr);
-
 }
 
 TEST(BSTDeleteTest, DeleteOnlyMinThenMax) {
@@ -131,7 +130,6 @@ TEST(BSTDeleteTest, CheckDeleteCase6_Right) {
 
     ETForest::newDelete(a2);
     EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
-
 }
 
 TEST(BSTDeleteTest, CheckDeleteCase6_Left) {
@@ -152,5 +150,15 @@ TEST(BSTDeleteTest, CheckDeleteCase6_Left) {
 
     ETForest::newDelete(a3);
     EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
+}
 
+TEST(ForestMember, logN_Test){
+    ETForest forest(10);
+    forest.insert(3,4);
+    EXPECT_TRUE(forest.logN == 4);
+    EXPECT_TRUE(forest.contains(3,4));
+    forest.insert(3,5);
+    EXPECT_TRUE(forest.contains(3,5));
+    forest.insert(3,8);
+    EXPECT_TRUE(forest.contains(3,8));
 }
