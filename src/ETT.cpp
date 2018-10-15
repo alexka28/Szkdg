@@ -1,3 +1,4 @@
+//#define NDEBUG
 #include <iostream>
 #include "ETTQueries.h"
 #include "ETT.h"
@@ -26,6 +27,17 @@ ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, 
 }
 
 ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
+
+ETTreeNode::ETTreeNode(int color, int nodeId, int rank) :
+parent(nullptr),
+left(&theNullNode),
+right(&theNullNode),
+color(color),
+nodeId(nodeId),
+rank(rank)
+{
+
+}
 
 ETForest::ETForest(int n) {
     first = new ETTreeNode *[n];
@@ -841,10 +853,6 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     setBackToOneNode(n);
     n = nullptr;
     return n;
-//
-//    verify_properties(t);
-
-
 }
 
 void ETForest::deleteCase1(ETTreeNode *n) {
@@ -985,33 +993,43 @@ void ETForest::replaceNode(ETTreeNode *oldn, ETTreeNode *newn) {
     }
 }
 
-void ETForest::verifyProperties(ETTreeNode* pNode) {
-    verifyColor (findRoot(pNode));
+bool ETForest::verifyProperties(ETTreeNode* pNode) {
+    bool isValid = true;
 
-    verifyRootColor (findRoot(pNode));
+    verifyColor (findRoot(pNode), isValid);
 
-    verifyRedNodeParentAndChildrenColors (findRoot(pNode));
+    verifyRootColor (findRoot(pNode), isValid);
 
-    verifyBlackRank (findRoot(pNode));
+    verifyRedNodeParentAndChildrenColors (findRoot(pNode), isValid);
 
-    verifyRankNumber(findRoot(pNode));
+    verifyBlackRank (findRoot(pNode), isValid);
+
+    verifyRankNumber(findRoot(pNode), isValid);
+
+    return isValid;
 }
 
-void ETForest::verifyColor(ETTreeNode *pNode) {
+void ETForest::verifyColor(ETTreeNode *pNode, bool& isValid) {
     if (pNode == nullptr){
         return;
     }
     assert (pNode->color == RED || pNode->color == BLACK);
+    if(pNode->color != RED && pNode->color != BLACK){
+        isValid = false;
+    }
 
-    verifyColor(pNode->left);
-    verifyColor(pNode->right);
+    verifyColor(pNode->left, isValid);
+    verifyColor(pNode->right, isValid);
 }
 
-void ETForest::verifyRootColor(ETTreeNode *pNode) {
+void ETForest::verifyRootColor(ETTreeNode *pNode, bool& isValid) {
     assert (pNode->color == BLACK);
+    if(pNode->color != BLACK){
+        isValid = false;
+    }
 }
 
-void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode) {
+void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode, bool& isValid) {
 
     if(pNode == nullptr){
         return;
@@ -1021,19 +1039,22 @@ void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode) {
         assert (pNode->left->color == BLACK);
         assert (pNode->right->color == BLACK);
         assert (pNode->parent == nullptr || pNode->parent->color == BLACK);
+        if(pNode->left->color != BLACK || pNode->right->color != BLACK || (pNode->parent != nullptr && pNode->parent->color != BLACK)){
+            isValid = false;
+        }
     }
 
-    verifyRedNodeParentAndChildrenColors(pNode->left);
-    verifyRedNodeParentAndChildrenColors(pNode->right);
+    verifyRedNodeParentAndChildrenColors(pNode->left, isValid);
+    verifyRedNodeParentAndChildrenColors(pNode->right, isValid);
 }
 
-void ETForest::verifyBlackRank(ETTreeNode* pNode){
+void ETForest::verifyBlackRank(ETTreeNode* pNode, bool& isValid){
     int black_count_path = -1;
 
-    verifyBlackRankHelper(pNode, 0, &black_count_path);
+    verifyBlackRankHelper(pNode, 0, &black_count_path, isValid);
 }
 
-void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *path_black_count) {
+void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *path_black_count, bool& isValid) {
 
     if (pNode == nullptr)
     {
@@ -1045,6 +1066,9 @@ void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *pa
         else
         {
             assert (black_count == *path_black_count);
+            if(black_count != *path_black_count){
+                isValid = false;
+            }
         }
         return;
     }
@@ -1055,37 +1079,40 @@ void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *pa
 
 
 
-    verifyBlackRankHelper(pNode->left,  black_count, path_black_count);
-    verifyBlackRankHelper(pNode->right, black_count, path_black_count);
+    verifyBlackRankHelper(pNode->left,  black_count, path_black_count, isValid);
+    verifyBlackRankHelper(pNode->right, black_count, path_black_count, isValid);
 }
 
 
-void ETForest::verifyRankNumber(ETTreeNode *pNode) {
+void ETForest::verifyRankNumber(ETTreeNode *pNode, bool& isValid) {
     if(pNode->left != &theNullNode){
-        verifyRankNumber(pNode->left);
+        verifyRankNumber(pNode->left, isValid);
     }
     if(pNode->right != &theNullNode){
-        verifyRankNumber(pNode->right);
+        verifyRankNumber(pNode->right, isValid);
     }
-    verifyRankNumberHelper(pNode);
+    verifyRankNumberHelper(pNode, isValid);
 }
 
 
-void ETForest::verifyRankNumberHelper(ETTreeNode *pNode) {
+void ETForest::verifyRankNumberHelper(ETTreeNode *pNode, bool& isValid) {
     if(pNode == nullptr){
         return;
     }
     if(pNode->color == BLACK){
+        if(pNode->rank != pNode->left->rank+1){
+            isValid = false;
+        }
         assert(pNode->rank == pNode->left->rank+1);
     }
     else{
         if(pNode->rank != pNode->left->rank){
-            std::cout<<"hibas node id: " << pNode->nodeId<<std::endl;
+            isValid = false;
         }
         assert(pNode->rank == pNode->left->rank);
 
     }
-    verifyRankNumberHelper(pNode->parent);
+    verifyRankNumberHelper(pNode->parent, isValid);
 
 }
 

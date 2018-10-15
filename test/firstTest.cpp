@@ -6,9 +6,9 @@
 #include "../src/TestETT.h"
 
 TEST(CompareTest, CompareTrees) {
-    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
-    ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
-    ETTreeNode *a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
+    auto a1 = new ETTreeNode(BLACK, 1,1);
+    auto a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
+    auto a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
 
     a1->left = a2;
     a1->right = a3;
@@ -17,9 +17,9 @@ TEST(CompareTest, CompareTrees) {
     a3->rank = 0;
 
 
-    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
-    ETTreeNode *b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 2);
-    ETTreeNode *b3 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
+    auto b1 = new ETTreeNode(BLACK, 1,1);
+    auto b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 2);
+    auto b3 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
 
     b1->left = b2;
     b1->right = b3;
@@ -31,9 +31,9 @@ TEST(CompareTest, CompareTrees) {
 
 }
 TEST(CompareTest, CompareUnequalTrees){
-    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
-    ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
-    ETTreeNode *a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
+    auto a1 = new ETTreeNode(BLACK, 1, 1);
+    auto a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 2);
+    auto a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
 
     a1->left = a2;
     a1->right = a3;
@@ -42,9 +42,9 @@ TEST(CompareTest, CompareUnequalTrees){
     a3->rank = 0;
 
 
-    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
-    ETTreeNode *b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 2);
-    ETTreeNode *b3 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
+    auto b1 = new ETTreeNode(BLACK, 1, 1);
+    auto b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 2);
+    auto b3 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
 
     b1->left = b2;
     b1->right = b3;
@@ -56,195 +56,138 @@ TEST(CompareTest, CompareUnequalTrees){
 
 TEST(BSTDeleteTest, deleteLeaf){
     //Input
-    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 5);
-    ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
-    ETTreeNode *a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 8);
+    auto a1 = new ETTreeNode(BLACK, 5, 1);
+    auto a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 3);
+    auto a3 = new ETTreeNode(a1, &theNullNode, &theNullNode, RED, 8);
 
     a1->left = a2;
     a1->right = a3;
 
     a2->rank = 0;
     a3->rank = 0;
-    //Expected output
-    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 5);
-    ETTreeNode *b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, RED, 3);
-
-    b1->left = b2;
-    b2->rank = 0;
-
 
     ETForest::newDelete(a3);
+    EXPECT_TRUE(ETForest::verifyProperties(a1));
 
-    EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
     ETForest::newDelete(a2);
-    b1->left = &theNullNode;
-    EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
-    ETForest::newDelete(a1);
+    EXPECT_TRUE(ETForest::verifyProperties(a1));
 
-    EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
+    //TODO: ha a törlés kitörölné a node-ot, majd nullptrre állítaná, akkor tesztelhető lenne
+    //ETForest::newDelete(a1);
+    //EXPECT_TRUE(a1 == nullptr);
 
 }
 
 TEST(BSTDeleteTest, DeleteOnlyMinThenMax){
     //Input
-    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 10); //10
-    ETTreeNode *a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, BLACK, 8); //8
-    ETTreeNode *a3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 6); //6
-    ETTreeNode *a4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 9); //9
-    ETTreeNode *a5 = new ETTreeNode(a1, &theNullNode, &theNullNode, BLACK, 15); // 15
-    ETTreeNode *a6 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 12); // 12
-    ETTreeNode *a7 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 18); // 18
+    auto a1 = new ETTreeNode(BLACK, 10, 2); //10
+    auto a2 = new ETTreeNode(a1, &theNullNode, &theNullNode, BLACK, 8); //8
+    auto a3 = new ETTreeNode(RED, 6, 0); //6
+    auto a4 = new ETTreeNode(RED, 9, 0); //9
+    auto a5 = new ETTreeNode(a1, &theNullNode, &theNullNode, BLACK, 15); // 15
+    auto a6 = new ETTreeNode(RED, 12, 0); // 12
+    auto a7 = new ETTreeNode(RED, 18, 0); // 18
 
     a1->left = a2;
     a1->right = a5;
-    a1->rank = 2;
 
     a2->left =a3;
     a2->right = a4;
     a2->rank = 1;
 
     a3->parent = a2;
-    a3->rank = 0;
 
     a4->parent = a2;
-    a4->rank = 0;
 
     a5->left = a6;
     a5->right = a7;
     a5->rank = 1;
 
     a6->parent = a5;
-    a6->rank = 0;
 
     a7->parent = a5;
-    a7->rank = 0;
+
+    //Verify Input
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
     //Expected output
-    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 10); //10
-    ETTreeNode *b2 = new ETTreeNode(b1, &theNullNode, &theNullNode, BLACK, 8); //8
-    ETTreeNode *b3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 6); //6
-    ETTreeNode *b4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 9); //9
-    ETTreeNode *b5 = new ETTreeNode(b1, &theNullNode, &theNullNode, BLACK, 15); // 15
-    ETTreeNode *b6 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 12); // 12
-    ETTreeNode *b7 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 18); // 18
-
-    b1->left = b2;
-    b1->right = b5;
-    b1->rank = 2;
-
-    b2->left =b3;
-    b2->right = b4;
-    b2->rank = 1;
-
-    b3->parent = b2;
-    b3->rank = 0;
-
-    b4->parent = b2;
-    b4->rank = 0;
-
-    b5->left = b6;
-    b5->right = b7;
-    b5->rank = 1;
-
-    b6->parent = b5;
-    b6->rank = 0;
-
-    b7->parent = b5;
-    b7->rank = 0;
-
-    EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
     ETForest::newDelete(a3);
-    b2->left = &theNullNode;
-    EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
 
     ETForest::newDelete(a2);
-    b1->left = b4;
-    b4->parent = b1;
-    b4->color = BLACK;
-    b4->rank = 1;
-    ETForest::verifyProperties(ETForest::findRoot(a1));
-    //EXPECT_TRUE(TestETT::compare(a1,b1) == 0);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
 }
 
 TEST(BSTDeleteTest, DeleteRoot){
-    ETTreeNode *a1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 5);
-    ETTreeNode *a2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 2);
-    ETTreeNode *a3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 1);
+    auto a1 = new ETTreeNode(BLACK, 5, 1);
+    auto a2 = new ETTreeNode(RED, 2, 0);
+    auto a3 = new ETTreeNode(RED, 1, 0);
 
 
-    a1->rank = 1;
     a1->right = a2;
     a1->left = a3;
-    a2->parent = a1;
-    a2->rank = 0;
-    a3->parent = a1;
-    a3->rank = 0;
-    ETTreeNode *b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 1);
-    ETTreeNode *b2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 2);
-    b1->rank = 1;
-    b1->right = b2;
-    b2->parent = b1;
-    b2->rank = 0;
-    ETForest::newDelete(a1);
 
-    EXPECT_TRUE(TestETT::compare(b1,TestETT::findRootForTest(a2)) == 0);
+    a2->parent = a1;
+
+    a3->parent = a1;
+
+
+    ETForest::newDelete(a1);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a2)));
+
     ETForest::newDelete(a3);
-    b2->parent = nullptr;
-    b2->color = BLACK;
-    b2->left = &theNullNode;
-    b2->right = &theNullNode;
-    b2->rank = 1;
-    ETForest::verifyProperties(ETForest::findRoot(a2));
-    EXPECT_TRUE(TestETT::compare(b2, a2) == 0);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a2)));
 }
-TEST(BSTDeleteTest, RankUpdateCheckInDelete){
-    ETTreeNode *a1 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 3);
-    ETTreeNode *a2 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 4);
-    ETTreeNode *a3 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 3);
-    ETTreeNode *a4 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, RED, 7);
-    ETTreeNode *a5 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, RED, 4);
-    a1->rank = 2;
+TEST(BSTDeleteTest, CheckDeleteCase6_Right){
+    auto a1 = new ETTreeNode(BLACK, 3, 2);
+    auto a2 = new ETTreeNode(BLACK, 4, 1);
+    auto a3 = new ETTreeNode(BLACK, 3, 1);
+    auto a4 = new ETTreeNode(RED, 7, 0);
+    auto a5 = new ETTreeNode(RED, 4, 0);
+
     a1->left = a2;
     a1->right = a3;
 
-    a2->rank = 1;
     a2->parent = a1;
 
-    a3->rank = 1;
     a3->parent = a1;
     a3->left = a4;
     a3->right = a5;
 
-    a4->rank = 0;
     a4->parent = a3;
 
-    a5->rank = 0;
     a5->parent = a3;
 
+    //Verify Input
     ETForest::verifyProperties(a1);
+
     ETForest::newDelete(a2);
-    ETForest::verifyProperties(ETForest::findRoot(a1));
-
-    ETTreeNode* b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3);
-    ETTreeNode* b2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3);
-    ETTreeNode* b3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 4);
-    ETTreeNode* b4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 7);
-
-    b1->rank = 2;
-    b1->left = b2;
-    b1->right = b3;
-
-    b2->rank = 1;
-    b2->parent = b1;
-    b2->right = b4;
-
-    b3->rank = 1;
-    b3->parent = b1;
-
-    b4->rank = 0;
-    b4->parent = b2;
-    ETForest::verifyProperties(b1);
-
-    EXPECT_TRUE(TestETT::compare(b1, ETForest::findRoot(a1)) == 0);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
 
 }
+TEST(BSTDeleteTest, CheckDeleteCase6_Left){
+    auto a1 = new ETTreeNode(BLACK,3,2);
+    auto a2 = new ETTreeNode(BLACK,4,1);
+    auto a3 = new ETTreeNode(BLACK, 3,1);
+    auto a4 = new ETTreeNode(RED, 7,0);
+    auto a5 = new ETTreeNode(RED, 4,0);
 
+    a1->left = a2;
+    a1->right = a3;
+
+    a2->parent = a1;
+    a2->left = a4;
+    a2->right = a5;
+
+    a3->parent = a1;
+
+    a4->parent = a2;
+
+    a5->parent = a2;
+
+    //Verify Input
+    ETForest::verifyProperties(a1);
+
+    ETForest::newDelete(a3);
+    EXPECT_TRUE(ETForest::verifyProperties(ETForest::findRoot(a1)));
+
+}

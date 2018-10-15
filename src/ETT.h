@@ -12,8 +12,9 @@ typedef struct ETTreeNode {
     int nodeId;                         // a csúcs
     int rank;                           // a fekete csúcsok száma gyökér-levél úton
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color);
-
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId);
+    ETTreeNode(int color, int nodeId, int rank); //unit tesztekhez
+
 } ETTreeNode;
 
 
@@ -67,16 +68,15 @@ typedef struct ETForest {
 
     static void replaceNode(ETTreeNode *, ETTreeNode *);
 
-    static void verifyProperties(ETTreeNode*);
+    static bool verifyProperties(ETTreeNode*);
 
-    static void verifyColor(ETTreeNode* pNode);
-    static void verifyRootColor(ETTreeNode* pNode);
-    static void verifyRedNodeParentAndChildrenColors(ETTreeNode* pNode);
-    static void verifyProperty_4(ETTreeNode* pNode);
-    static void verifyBlackRank(ETTreeNode* pNode);
-    static void verifyBlackRankHelper(ETTreeNode* pNode,int black_count, int* path_black_count);
-    static void verifyRankNumber (ETTreeNode* pNode);
-    static void verifyRankNumberHelper(ETTreeNode* pNode);
+    static void verifyColor(ETTreeNode* pNode, bool& isValid);
+    static void verifyRootColor(ETTreeNode* pNode, bool& isValid);
+    static void verifyRedNodeParentAndChildrenColors(ETTreeNode* pNode, bool& isValid);
+    static void verifyBlackRank(ETTreeNode* pNode, bool& isValid);
+    static void verifyBlackRankHelper(ETTreeNode* pNode,int black_count, int* path_black_count, bool& isValid);
+    static void verifyRankNumber (ETTreeNode* pNode, bool& isValid);
+    static void verifyRankNumberHelper(ETTreeNode* pNode, bool& isValid);
     void        verifyFirstLast();
     void        firstLastHelper(ETTreeNode* pNode, const int& id,ETTreeNode*& firstSeen, ETTreeNode*& lastSeen);
     static void updateAllRank(ETTreeNode* pNode);
