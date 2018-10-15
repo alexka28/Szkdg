@@ -584,22 +584,24 @@ void ETForest::reroot(int u) {
             ETTreeNode *uSucc = successor(uLastSeen);
 
 //TODO: ha uSucc nullptr akkor nem tudja kikérni a nodeId-t ami lentebb uParentnél is problémás lesz!
-            if (uSucc != last[uSucc->nodeId]) {
-                ETTreeNode *tmporal = last[uSucc->nodeId];
-                std::cout << "nem jo :(" << std::endl;
-
-            } else {
-                std::cout << "hurrá" << std::endl;
-            }
+//            if (uSucc != last[uSucc->nodeId]) {
+//                ETTreeNode *tmporal = last[uSucc->nodeId];
+//                std::cout << "nem jo :(" << std::endl;
+//
+//            } else {
+//                std::cout << "hurrá" << std::endl;
+//            }
 
             T4 = join(T3, uLast, &theNullNode);
 
             ETTreeNode *uLastPred = predecessor(uLast);
 //TODO: lásd feljebb
-            int uParent = uSucc->nodeId;
+            if (uSucc != nullptr) {
+                int uParent = uSucc->nodeId;
+                first[uParent] = uSucc;
+                last[uParent] = uLastPred;
+            }
 
-            first[uParent] = uSucc;
-            last[uParent] = uLastPred;
             last[u] = uLast;
         }
     }

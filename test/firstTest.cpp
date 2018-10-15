@@ -4,6 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "../src/TestETT.h"
+#include "../src/DecrementalGraph.h"
 
 TEST(CompareTest, CompareTrees) {
     auto a1 = new ETTreeNode(BLACK, 1, 1);
@@ -161,4 +162,34 @@ TEST(ForestMember, logN_Test){
     EXPECT_TRUE(forest.contains(3,5));
     forest.insert(3,8);
     EXPECT_TRUE(forest.contains(3,8));
+}
+
+TEST(InsertTest, FirstInserts){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+
+    graph.insert(3, 4, forest);
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(3)));
+    EXPECT_TRUE(graph.connected(3,4, forest));
+
+
+    graph.insert(3, 7, forest);
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(3)));
+    EXPECT_TRUE(graph.connected(3,7, forest));
+
+
+    graph.insert(6, 4, forest);
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(4)));
+    EXPECT_TRUE(graph.connected(4,6, forest));
+
+    graph.insert(1, 0, forest);
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(1)));
+    EXPECT_TRUE(graph.connected(0,1, forest));
+
+
+    graph.insert(8, 6, forest);
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(6)));
+    EXPECT_TRUE(graph.connected(6,8, forest));
+    forest.verifyFirstLast();
 }
