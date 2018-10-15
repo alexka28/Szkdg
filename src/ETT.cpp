@@ -28,14 +28,13 @@ ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, 
 
 ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
 
-ETTreeNode::ETTreeNode(int color, int nodeId, int rank) :
-parent(nullptr),
-left(&theNullNode),
-right(&theNullNode),
-color(color),
-nodeId(nodeId),
-rank(rank)
-{
+ETTreeNode::ETTreeNode(int color, int nodeId, int rank, ETTreeNode *parent) :
+        parent(parent),
+        left(&theNullNode),
+        right(&theNullNode),
+        color(color),
+        nodeId(nodeId),
+        rank(rank) {
 
 }
 
@@ -312,7 +311,7 @@ void ETForest::insert(int u, int v) {
 //    if (minimum(last[u])->nodeId != u) {
 //        reroot(u);
 //    }
-    if(minimum(findRoot(last[u]))->nodeId != u){
+    if (minimum(findRoot(last[u]))->nodeId != u) {
         reroot(u);
     }
     //állítsuk vissza gyökérre
@@ -324,38 +323,38 @@ void ETForest::insert(int u, int v) {
     ETTreeNode *T4 = join(T2, uNode, T1);
     //keressük meg T3 minimális nodeját
     ETTreeNode *minNode = minimum(T3);
-    ETTreeNode* nodeToJoin = new ETTreeNode(nullptr, &theNullNode,&theNullNode, minNode->color, minNode->nodeId);
+    ETTreeNode *nodeToJoin = new ETTreeNode(nullptr, &theNullNode, &theNullNode, minNode->color, minNode->nodeId);
     nodeToJoin->rank = minNode->rank;
 
     bool needToUpdate = false;
-    if(first[u] == minNode){
+    if (first[u] == minNode) {
         needToUpdate = true;
     }
-    if(last[u] == minNode){
-        ETTreeNode * currLast = last[u];
-        std::cout<<"last update"<<std::endl;
+    if (last[u] == minNode) {
+        ETTreeNode *currLast = last[u];
+        std::cout << "last update" << std::endl;
     }
-    if(isOneNode(T3)) {
+    if (isOneNode(T3)) {
         nodeToJoin = T3;
         T3 = &theNullNode;
     }
-    //ha T3 és a minNode ugyan oda mutat, akkor a törlés nem tudja ténylegesen a minNode-ot törölni, hiszen akkor a saját címét kéne módosítania
-    //erre jó megoldás lehet, ha a törlésnek átadjuk ptr refként a T3-at és ott hasonlítjuk össze a minNoddal és ott végezzük el ezt a műveletet
-    //ebben az esetben T3-nak csak jobb gyerek van (hiszen ő a minimum)
-    else if(T3 == minNode) {
-        if(last[u] == T3){
+        //ha T3 és a minNode ugyan oda mutat, akkor a törlés nem tudja ténylegesen a minNode-ot törölni, hiszen akkor a saját címét kéne módosítania
+        //erre jó megoldás lehet, ha a törlésnek átadjuk ptr refként a T3-at és ott hasonlítjuk össze a minNoddal és ott végezzük el ezt a műveletet
+        //ebben az esetben T3-nak csak jobb gyerek van (hiszen ő a minimum)
+    else if (T3 == minNode) {
+        if (last[u] == T3) {
             last[u] = nodeToJoin;
         }
         T3 = T3->right;
         setColorWithRankUpdate(T3, BLACK);
     }
-    //egyébként pedig törölhetünk
+        //egyébként pedig törölhetünk
     else {
         newDelete(minNode);
     }
 
     T4 = join(T4, nodeToJoin, T3);
-    if(needToUpdate){
+    if (needToUpdate) {
         first[u] = uNode;
     }
 
@@ -523,7 +522,7 @@ void ETForest::reroot(int u) {
 
             w = setBackToOneNode(w);
             T1 = findRoot(T1);
-           //TODO: törölni
+            //TODO: törölni
             verifyProperties(T1);
         }
 
@@ -744,10 +743,10 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     int originalNodeColor;
     int originalNodeRank;
     bool originalIsLeft;
-    ETTreeNode * nodeToDelete = nullptr;
+    ETTreeNode *nodeToDelete = nullptr;
     ETTreeNode *nodeToDeleteParent = nullptr;
     ETTreeNode *nodeToDeleteLChild = nullptr;
-    ETTreeNode * nodeToDeleteRChild = nullptr;
+    ETTreeNode *nodeToDeleteRChild = nullptr;
     int nodeToDeleteColor;
     int nodeToDeleteRank;
     bool nodeToDeleteIsLeft;
@@ -775,59 +774,54 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
         nodeToDeleteRank = pred->rank;
         nodeToDeleteIsLeft = isLeft(pred);
         //kössük be az eredeti node helyére a törlendőt
-        if (originalIsLeft){
-            setLeftChild(originalNodeParent,nodeToDelete);
+        if (originalIsLeft) {
+            setLeftChild(originalNodeParent, nodeToDelete);
 
-        }
-        else {
+        } else {
             setRightChild(originalNodeParent, nodeToDelete);
         }
 
-        if(pred->parent != originalNode){
+        if (pred->parent != originalNode) {
             setLeftChild(nodeToDelete, originalNodeLChild);
             setRightChild(nodeToDelete, originalNodeRChild);
-            setParent(originalNodeLChild,nodeToDelete);
+            setParent(originalNodeLChild, nodeToDelete);
             setParent(originalNodeRChild, nodeToDelete);
-        }
-        else if (nodeToDeleteIsLeft){
-            setLeftChild(nodeToDelete,originalNode);
-            setRightChild(nodeToDelete,originalNodeRChild);
+        } else if (nodeToDeleteIsLeft) {
+            setLeftChild(nodeToDelete, originalNode);
+            setRightChild(nodeToDelete, originalNodeRChild);
             setParent(originalNode, nodeToDelete);
             setParent(originalNodeRChild, nodeToDelete);
-        }
-        else{
-            setLeftChild(nodeToDelete,originalNodeLChild);
-            setRightChild(nodeToDelete,originalNode);
+        } else {
+            setLeftChild(nodeToDelete, originalNodeLChild);
+            setRightChild(nodeToDelete, originalNode);
             setParent(originalNodeLChild, nodeToDelete);
             setParent(originalNode, nodeToDelete);
         }
         setParent(nodeToDelete, originalNodeParent);
 
 
-        setColor(nodeToDelete,originalNodeColor);
+        setColor(nodeToDelete, originalNodeColor);
         setRank(nodeToDelete, originalNodeRank);
 
         //itt pedig az eredetileg törlésre kijelölt node-ot fogjuk a predecessor helyére bekötni, így valóban őt töröljük ki végül
-        if (nodeToDeleteIsLeft){
+        if (nodeToDeleteIsLeft) {
             setLeftChild(nodeToDeleteParent, originalNode);
-        }
-        else{
+        } else {
             setRightChild(nodeToDeleteParent, originalNode);
         }
-        if(originalNode->parent != nodeToDelete){
+        if (originalNode->parent != nodeToDelete) {
             setParent(originalNode, nodeToDeleteParent);
         }
 
-        setLeftChild(originalNode,nodeToDeleteLChild);
-        setRightChild(originalNode,nodeToDeleteRChild);
-        setParent(nodeToDeleteLChild,originalNode);
-        setParent(nodeToDeleteRChild,originalNode);
-        setColor(originalNode,nodeToDeleteColor);
+        setLeftChild(originalNode, nodeToDeleteLChild);
+        setRightChild(originalNode, nodeToDeleteRChild);
+        setParent(nodeToDeleteLChild, originalNode);
+        setParent(nodeToDeleteRChild, originalNode);
+        setColor(originalNode, nodeToDeleteColor);
         setRank(originalNode, nodeToDeleteRank);
 
 
-
-      n = originalNode;
+        n = originalNode;
     }
 
     assert(n->left == &theNullNode || n->right == &theNullNode);
@@ -844,10 +838,9 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
 
     replaceNode(n, child);
     //rankupdate mivel lehet, hogy valamelyik forgatás rosszul állítja be a rankokat
-    if(child != &theNullNode){
+    if (child != &theNullNode) {
         updateRank(child);
-    }
-    else{
+    } else {
         updateRank(n->parent);
     }
     setBackToOneNode(n);
@@ -867,7 +860,7 @@ void ETForest::deleteCase1(ETTreeNode *n) {
 
 void ETForest::deleteCase2(ETTreeNode *n) {
     if (sibling(n)->color == RED) {
-    //TODO: updateRank(n->parent);
+        //TODO: updateRank(n->parent);
 //        n->parent->color = RED;
 //        sibling(n)->color = BLACK;
 
@@ -925,8 +918,8 @@ void ETForest::deleteCase5(ETTreeNode *n) {
 
 //        sibling(n)->color = RED;
 //        sibling(n)->left->color = BLACK;
-            setColorWithRankUpdate(sibling(n), RED);
-            setColorWithRankUpdate(sibling(n)->left, BLACK);
+        setColorWithRankUpdate(sibling(n), RED);
+        setColorWithRankUpdate(sibling(n)->left, BLACK);
 
         rotateRight(sibling(n));
 
@@ -936,8 +929,8 @@ void ETForest::deleteCase5(ETTreeNode *n) {
 
 //        sibling(n)->color = RED;
 //        sibling(n)->right->color = BLACK;
-                setColorWithRankUpdate(sibling(n), RED);
-                setColorWithRankUpdate(sibling(n)->right, BLACK);
+        setColorWithRankUpdate(sibling(n), RED);
+        setColorWithRankUpdate(sibling(n)->right, BLACK);
 
         rotateLeft(sibling(n));
 
@@ -954,14 +947,14 @@ void ETForest::deleteCase6(ETTreeNode *n) {
     setColorWithRankUpdate(n->parent, BLACK);
 
     if (n == n->parent->left) {
-        ETTreeNode* siblingRChild = sibling(n)->right;
+        ETTreeNode *siblingRChild = sibling(n)->right;
         assert (siblingRChild->color == RED);
         siblingRChild->color = BLACK;
         rotateLeft(n->parent);
         updateRank(siblingRChild);
 
     } else {
-        ETTreeNode* siblingLChild = sibling(n)->left;
+        ETTreeNode *siblingLChild = sibling(n)->left;
         assert (siblingLChild->color == RED);
         siblingLChild->color = BLACK;
         rotateRight(n->parent);
@@ -993,28 +986,28 @@ void ETForest::replaceNode(ETTreeNode *oldn, ETTreeNode *newn) {
     }
 }
 
-bool ETForest::verifyProperties(ETTreeNode* pNode) {
+bool ETForest::verifyProperties(ETTreeNode *pNode) {
     bool isValid = true;
 
-    verifyColor (findRoot(pNode), isValid);
+    verifyColor(findRoot(pNode), isValid);
 
-    verifyRootColor (findRoot(pNode), isValid);
+    verifyRootColor(findRoot(pNode), isValid);
 
-    verifyRedNodeParentAndChildrenColors (findRoot(pNode), isValid);
+    verifyRedNodeParentAndChildrenColors(findRoot(pNode), isValid);
 
-    verifyBlackRank (findRoot(pNode), isValid);
+    verifyBlackRank(findRoot(pNode), isValid);
 
     verifyRankNumber(findRoot(pNode), isValid);
 
     return isValid;
 }
 
-void ETForest::verifyColor(ETTreeNode *pNode, bool& isValid) {
-    if (pNode == nullptr){
+void ETForest::verifyColor(ETTreeNode *pNode, bool &isValid) {
+    if (pNode == nullptr) {
         return;
     }
     assert (pNode->color == RED || pNode->color == BLACK);
-    if(pNode->color != RED && pNode->color != BLACK){
+    if (pNode->color != RED && pNode->color != BLACK) {
         isValid = false;
     }
 
@@ -1022,16 +1015,16 @@ void ETForest::verifyColor(ETTreeNode *pNode, bool& isValid) {
     verifyColor(pNode->right, isValid);
 }
 
-void ETForest::verifyRootColor(ETTreeNode *pNode, bool& isValid) {
+void ETForest::verifyRootColor(ETTreeNode *pNode, bool &isValid) {
     assert (pNode->color == BLACK);
-    if(pNode->color != BLACK){
+    if (pNode->color != BLACK) {
         isValid = false;
     }
 }
 
-void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode, bool& isValid) {
+void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode, bool &isValid) {
 
-    if(pNode == nullptr){
+    if (pNode == nullptr) {
         return;
     }
 
@@ -1039,7 +1032,8 @@ void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode, bool& isV
         assert (pNode->left->color == BLACK);
         assert (pNode->right->color == BLACK);
         assert (pNode->parent == nullptr || pNode->parent->color == BLACK);
-        if(pNode->left->color != BLACK || pNode->right->color != BLACK || (pNode->parent != nullptr && pNode->parent->color != BLACK)){
+        if (pNode->left->color != BLACK || pNode->right->color != BLACK ||
+            (pNode->parent != nullptr && pNode->parent->color != BLACK)) {
             isValid = false;
         }
     }
@@ -1048,65 +1042,57 @@ void ETForest::verifyRedNodeParentAndChildrenColors(ETTreeNode *pNode, bool& isV
     verifyRedNodeParentAndChildrenColors(pNode->right, isValid);
 }
 
-void ETForest::verifyBlackRank(ETTreeNode* pNode, bool& isValid){
+void ETForest::verifyBlackRank(ETTreeNode *pNode, bool &isValid) {
     int black_count_path = -1;
 
     verifyBlackRankHelper(pNode, 0, &black_count_path, isValid);
 }
 
-void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *path_black_count, bool& isValid) {
+void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *path_black_count, bool &isValid) {
 
-    if (pNode == nullptr)
-    {
-        if (*path_black_count == -1)
-        {
+    if (pNode == nullptr) {
+        if (*path_black_count == -1) {
             *path_black_count = black_count;
-        }
-
-        else
-        {
+        } else {
             assert (black_count == *path_black_count);
-            if(black_count != *path_black_count){
+            if (black_count != *path_black_count) {
                 isValid = false;
             }
         }
         return;
     }
-    if (pNode->color == BLACK)
-    {
+    if (pNode->color == BLACK) {
         black_count++;
     }
 
 
-
-    verifyBlackRankHelper(pNode->left,  black_count, path_black_count, isValid);
+    verifyBlackRankHelper(pNode->left, black_count, path_black_count, isValid);
     verifyBlackRankHelper(pNode->right, black_count, path_black_count, isValid);
 }
 
 
-void ETForest::verifyRankNumber(ETTreeNode *pNode, bool& isValid) {
-    if(pNode->left != &theNullNode){
+void ETForest::verifyRankNumber(ETTreeNode *pNode, bool &isValid) {
+    if (pNode->left != &theNullNode) {
         verifyRankNumber(pNode->left, isValid);
     }
-    if(pNode->right != &theNullNode){
+    if (pNode->right != &theNullNode) {
         verifyRankNumber(pNode->right, isValid);
     }
     verifyRankNumberHelper(pNode, isValid);
 }
 
 
-void ETForest::verifyRankNumberHelper(ETTreeNode *pNode, bool& isValid) {
-    if(pNode == nullptr){
+void ETForest::verifyRankNumberHelper(ETTreeNode *pNode, bool &isValid) {
+    if (pNode == nullptr) {
         return;
     }
-    if(pNode->color == BLACK){
-        if(pNode->rank != pNode->left->rank+1){
+    if (pNode->color == BLACK) {
+        if (pNode->rank != pNode->left->rank + 1) {
             isValid = false;
         }
-        assert(pNode->rank == pNode->left->rank+1);
-    }
-    else{
-        if(pNode->rank != pNode->left->rank){
+        assert(pNode->rank == pNode->left->rank + 1);
+    } else {
+        if (pNode->rank != pNode->left->rank) {
             isValid = false;
         }
         assert(pNode->rank == pNode->left->rank);
@@ -1117,16 +1103,16 @@ void ETForest::verifyRankNumberHelper(ETTreeNode *pNode, bool& isValid) {
 }
 
 void ETForest::verifyFirstLast() {
-    ETTreeNode* pNode;
-    ETTreeNode* firstSeen = nullptr;
-    ETTreeNode* lastSeen = nullptr;
-    for(int i = 0; i < this->N; ++i){
+    ETTreeNode *pNode;
+    ETTreeNode *firstSeen = nullptr;
+    ETTreeNode *lastSeen = nullptr;
+    for (int i = 0; i < this->N; ++i) {
         pNode = this->first[i];
         assert(i == pNode->nodeId);
         pNode = findRoot(pNode);
-        firstLastHelper(pNode, i, firstSeen,lastSeen);
-        ETTreeNode* currFirst = first[i];
-        ETTreeNode* currLast = last[i];
+        firstLastHelper(pNode, i, firstSeen, lastSeen);
+        ETTreeNode *currFirst = first[i];
+        ETTreeNode *currLast = last[i];
         assert(firstSeen == first[i]);
         assert(lastSeen == last[i]);
         firstSeen = nullptr;
@@ -1134,12 +1120,12 @@ void ETForest::verifyFirstLast() {
     }
 }
 
-void ETForest::firstLastHelper(ETTreeNode *pNode, const int& id, ETTreeNode*& firstSeen, ETTreeNode*& lastSeen) {
+void ETForest::firstLastHelper(ETTreeNode *pNode, const int &id, ETTreeNode *&firstSeen, ETTreeNode *&lastSeen) {
     if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode) {
         firstLastHelper(pNode->left, id, firstSeen, lastSeen);
     }
     if (pNode != nullptr && pNode->nodeId == id) {
-        if(firstSeen == nullptr) {
+        if (firstSeen == nullptr) {
             firstSeen = pNode;
         }
         lastSeen = pNode;
@@ -1151,24 +1137,23 @@ void ETForest::firstLastHelper(ETTreeNode *pNode, const int& id, ETTreeNode*& fi
 }
 
 void ETForest::updateAllRank(ETTreeNode *pNode) {
-    if(pNode->left != &theNullNode){
+    if (pNode->left != &theNullNode) {
         updateAllRank(pNode->left);
     }
-    if(pNode->right != &theNullNode){
+    if (pNode->right != &theNullNode) {
         updateAllRank(pNode->right);
     }
     updateHelper(pNode);
 }
 
 void ETForest::updateHelper(ETTreeNode *pNode) {
-    if(pNode == nullptr){
+    if (pNode == nullptr) {
         return;
     }
 
-    if(pNode->color == BLACK){
-        pNode->rank = pNode->left->rank+1;
-    }
-    else{
+    if (pNode->color == BLACK) {
+        pNode->rank = pNode->left->rank + 1;
+    } else {
         pNode->rank = pNode->left->rank;
 
     }

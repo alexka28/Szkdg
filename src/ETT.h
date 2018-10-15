@@ -13,7 +13,7 @@ typedef struct ETTreeNode {
     int rank;                           // a fekete csúcsok száma gyökér-levél úton
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color);
     ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, int color, int nodeId);
-    ETTreeNode(int color, int nodeId, int rank); //unit tesztekhez
+    ETTreeNode(int color, int nodeId, int rank, ETTreeNode * parent = nullptr); //unit tesztekhez
 
 } ETTreeNode;
 
