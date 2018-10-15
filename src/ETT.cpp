@@ -831,10 +831,13 @@ ETTreeNode *ETForest::newDelete(ETTreeNode *n) {
     }
 
     replaceNode(n, child);
-
-    updateAllRank(findRoot(n));
-
-
+    //rankupdate mivel lehet, hogy valamelyik forgatás rosszul állítja be a rankokat
+    if(child != &theNullNode){
+        updateRank(child);
+    }
+    else{
+        updateRank(n->parent);
+    }
     setBackToOneNode(n);
     n = nullptr;
     return n;
@@ -943,22 +946,18 @@ void ETForest::deleteCase6(ETTreeNode *n) {
     setColorWithRankUpdate(n->parent, BLACK);
 
     if (n == n->parent->left) {
-
-        assert (sibling(n)->right->color == RED);
-
-        sibling(n)->right->color = BLACK;
-        //updateRank(sibling(n)->right);
-
+        ETTreeNode* siblingRChild = sibling(n)->right;
+        assert (siblingRChild->color == RED);
+        siblingRChild->color = BLACK;
         rotateLeft(n->parent);
+        updateRank(siblingRChild);
 
     } else {
-
-        assert (sibling(n)->left->color == RED);
-
-        sibling(n)->left->color = BLACK;
-        //updateRank(sibling(n)->left);
+        ETTreeNode* siblingLChild = sibling(n)->left;
+        assert (siblingLChild->color == RED);
+        siblingLChild->color = BLACK;
         rotateRight(n->parent);
-
+        updateRank(siblingLChild);
     }
 }
 

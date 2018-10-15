@@ -196,4 +196,55 @@ TEST(BSTDeleteTest, DeleteRoot){
     ETForest::verifyProperties(ETForest::findRoot(a2));
     EXPECT_TRUE(TestETT::compare(b2, a2) == 0);
 }
+TEST(BSTDeleteTest, RankUpdateCheckInDelete){
+    ETTreeNode *a1 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 3);
+    ETTreeNode *a2 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 4);
+    ETTreeNode *a3 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, BLACK, 3);
+    ETTreeNode *a4 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, RED, 7);
+    ETTreeNode *a5 = new ETTreeNode(nullptr,&theNullNode,&theNullNode, RED, 4);
+    a1->rank = 2;
+    a1->left = a2;
+    a1->right = a3;
+
+    a2->rank = 1;
+    a2->parent = a1;
+
+    a3->rank = 1;
+    a3->parent = a1;
+    a3->left = a4;
+    a3->right = a5;
+
+    a4->rank = 0;
+    a4->parent = a3;
+
+    a5->rank = 0;
+    a5->parent = a3;
+
+    ETForest::verifyProperties(a1);
+    ETForest::newDelete(a2);
+    ETForest::verifyProperties(ETForest::findRoot(a1));
+
+    ETTreeNode* b1 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3);
+    ETTreeNode* b2 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 3);
+    ETTreeNode* b3 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, 4);
+    ETTreeNode* b4 = new ETTreeNode(nullptr, &theNullNode, &theNullNode, RED, 7);
+
+    b1->rank = 2;
+    b1->left = b2;
+    b1->right = b3;
+
+    b2->rank = 1;
+    b2->parent = b1;
+    b2->right = b4;
+
+    b3->rank = 1;
+    b3->parent = b1;
+
+    b4->rank = 0;
+    b4->parent = b2;
+    ETForest::verifyProperties(b1);
+
+    EXPECT_TRUE(TestETT::compare(b1, ETForest::findRoot(a1)) == 0);
+
+}
 
