@@ -36,8 +36,6 @@ typedef struct ETForest {
 
     bool contains(int, int);
 
-    void join(int, int);
-
     void insert(int, int);
 
     void remove(int, int);
@@ -48,11 +46,8 @@ typedef struct ETForest {
 
     void reroot(int);
 
-    //TODO: törölni
-    //ETTreeNode *deleteNode(ETTreeNode *);
-
     //deletehez
-    static ETTreeNode *newDelete(ETTreeNode *);
+    static void newDelete(ETTreeNode *);
 
     static void deleteCase1(ETTreeNode *);
 
@@ -79,8 +74,10 @@ typedef struct ETForest {
     static void verifyRankNumberHelper(ETTreeNode* pNode, bool& isValid);
     void        verifyFirstLast();
     void        firstLastHelper(ETTreeNode* pNode, const int& id,ETTreeNode*& firstSeen, ETTreeNode*& lastSeen);
-    static void updateAllRank(ETTreeNode* pNode);
-    static void updateHelper(ETTreeNode* pNode);
+//    static void updateAllRank(ETTreeNode* pNode);
+//    static void updateHelper(ETTreeNode* pNode);
+    static void print(ETTreeNode* pNode);
+    static void print(ETTreeNode* pNode, int indent);
 
 } ETForest;
 #endif //UNTITLED1_ETT_H

@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "../src/TestETT.h"
 #include "../src/DecrementalGraph.h"
+#include "../src/ETTQueries.h"
 
 TEST(CompareTest, CompareTrees) {
     auto a1 = new ETTreeNode(BLACK, 1, 1);
@@ -192,4 +193,87 @@ TEST(InsertTest, FirstInserts){
     EXPECT_TRUE(forest.verifyProperties(forest.findRoot(6)));
     EXPECT_TRUE(graph.connected(6,8, forest));
     forest.verifyFirstLast();
+}
+TEST(InsertTest, ConnectedAfterInsert){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    int x, y;
+    graph.insert(1,3,forest);
+    auto node = forest.findRoot(1);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(3)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(1)));
+    EXPECT_TRUE(graph.connected(3,1, forest));
+
+
+    graph.insert(0,6,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(0)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(6)));
+    EXPECT_TRUE(graph.connected(6,0, forest));
+
+
+    graph.insert(6,3,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(3)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(6)));
+    EXPECT_TRUE(graph.connected(6,3, forest));
+
+
+    graph.insert(1,5,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(1)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(5)));
+    EXPECT_TRUE(graph.connected(1,5, forest));
+
+
+    graph.insert(5,7,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(5)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(7)));
+    EXPECT_TRUE(graph.connected(5,7, forest));
+
+
+    graph.insert(4,8,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(4)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(8)));
+    EXPECT_TRUE(graph.connected(4,8, forest));
+
+
+    x = 4;
+    y =5;
+
+    graph.insert(x,y,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
+    EXPECT_TRUE(graph.connected(x,y, forest));
+
+    x = 1;
+    y = 7;
+    graph.insert(x,y,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
+    EXPECT_TRUE(graph.connected(x,y, forest));
+
+
+    x = 0;
+    y = 1;
+    graph.insert(x,y,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
+    EXPECT_TRUE(graph.connected(x,y, forest));
+
+
+    x = 8;
+    y = 3;
+    graph.insert(x,y,forest);
+    forest.verifyFirstLast();
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
+    EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
+    EXPECT_TRUE(graph.connected(x,y, forest));
 }
