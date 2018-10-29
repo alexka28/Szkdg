@@ -42,25 +42,25 @@ std::list<std::pair<int,int>> insertList = fillGraph(10);
 
 
 
-    std::list<std::pair<std::pair<int, int>, int>> delquer = createDQ(insertList,10);
-    std::list<std::pair<std::pair<int, int>, int>>:: iterator queryIt;
-    for(queryIt = delquer.begin(); queryIt != delquer.end(); ++queryIt){
-        if(queryIt->second == 0){
-            cout<<"torles :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
-            grafom.remove(queryIt->first.first, queryIt->first.second, forestem);
-            forestem.verifyProperties(forestem.findRoot(queryIt->first.first));
-            forestem.verifyProperties(forestem.findRoot(queryIt->first.second));
-            forestem.verifyFirstLast();
-            simagraf.deleteEdge(queryIt->first.first, queryIt->first.second);
-
-        }
-        else{
-           bool ret = false;
-            auto asd = grafom.connected(queryIt->first.first, queryIt->first.second, forestem);
-            assert(queryGraph(simagraf, queryIt->first.first, queryIt->first.second, &ret) == asd);
-            cout<<"query :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
-        }
-    }
+//    std::list<std::pair<std::pair<int, int>, int>> delquer = createDQ(insertList,10);
+//    std::list<std::pair<std::pair<int, int>, int>>:: iterator queryIt;
+//    for(queryIt = delquer.begin(); queryIt != delquer.end(); ++queryIt){
+//        if(queryIt->second == 0){
+//            cout<<"torles :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
+//            grafom.remove(queryIt->first.first, queryIt->first.second, forestem);
+//            forestem.verifyProperties(forestem.findRoot(queryIt->first.first));
+//            forestem.verifyProperties(forestem.findRoot(queryIt->first.second));
+//            forestem.verifyFirstLast();
+//            simagraf.deleteEdge(queryIt->first.first, queryIt->first.second);
+//
+//        }
+//        else{
+//           bool ret = false;
+//            auto asd = grafom.connected(queryIt->first.first, queryIt->first.second, forestem);
+//            assert(queryGraph(simagraf, queryIt->first.first, queryIt->first.second, &ret) == asd);
+//            cout<<"query :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;
+//        }
+//    }
 
 
 

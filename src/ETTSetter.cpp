@@ -13,19 +13,19 @@ void setColorWithRankUpdate(ETTreeNode *pNode, int color) {
 }
 
 void setParent(ETTreeNode *set, ETTreeNode *toSet) {
-    if (set != &theNullNode && set != nullptr && toSet != &theNullNode) {
+    if (set != &theNullNode && set != nullptr && toSet != &theNullNode && set != toSet) {
         set->parent = toSet;
     }
 }
 
 void setRightChild(ETTreeNode *set, ETTreeNode *toSet) {
-    if (set != &theNullNode && set != nullptr && toSet != nullptr) {
+    if (set != &theNullNode && set != nullptr && toSet != nullptr && set != toSet) {
         set->right = toSet;
     }
 }
 
 void setLeftChild(ETTreeNode *set, ETTreeNode *toSet) {
-    if (set != &theNullNode && set != nullptr && toSet != nullptr) {
+    if (set != &theNullNode && set != nullptr && toSet != nullptr && set != toSet) {
         set->left = toSet;
     }
 }

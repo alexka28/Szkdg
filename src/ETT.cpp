@@ -508,6 +508,7 @@ void ETForest::reroot(int u) {
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;
         T2 = tmp.second;
+
         if (isOneNode(T2)) {
             T2 = &theNullNode;
         } else if (maximum(T2) == findRoot(T2)) {
@@ -541,8 +542,11 @@ void ETForest::reroot(int u) {
         }
 
         T3 = join(T2, w, T1);
-        T4 = join(T3, new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, u), &theNullNode);
 
+        T4 = join(T3, new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, u), &theNullNode);
+        if(u == 8){
+            print(findRoot(T4));
+        }
         ETTreeNode **firstcpy;
         ETTreeNode **lastcpy;
         firstcpy = new ETTreeNode *[this->N];
@@ -1086,3 +1090,22 @@ void ETForest::print(ETTreeNode* pNode, int indent){
 //    }
 //    updateHelper(pNode->parent);
 //}
+
+
+void ETForest::verifyNodesAreTwoSideConnected(ETTreeNode *pNode) {
+    if(pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode){
+        assert(pNode == pNode->left->parent);
+        verifyNodesAreTwoSideConnected(pNode->left);
+    }
+    if(pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode){
+        assert(pNode == pNode->right->parent);
+        verifyNodesAreTwoSideConnected(pNode->right);
+    }
+
+}
+
+void ETForest::verify2SideConnection() {
+    for(int i = 0; i < this->N; ++i){
+        verifyNodesAreTwoSideConnected(findRoot(first[i]));
+    }
+}
