@@ -26,16 +26,15 @@ int main() {
 std::list<std::pair<int,int>> insertList = fillGraph(10);
     std::list<std::pair<int,int>>::iterator insertIt;
     for(insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt){
-        cout<<"elso node: " << insertIt->first<<" masodik node: " << insertIt->second<<endl;
+        cout<<" testInsertEdge(" << insertIt->first<<"," << insertIt->second<<",graph,forest);" <<endl;
         grafom.insert(insertIt->first,insertIt->second,forestem);
         simagraf.addEdge(insertIt->first,insertIt->second);
         bool ret = false;
         assert(queryGraph(simagraf,insertIt->first, insertIt->second, &ret));
-        ret = false;
-        queryGraph(simagraf,insertIt->first, insertIt->second, &ret);
         assert(ret);
         forestem.verifyFirstLast();
         assert(forestem.verifyProperties(forestem.findRoot(insertIt->first)));
+        assert(forestem.verifyProperties(forestem.findRoot(insertIt->second)));
         assert(grafom.connected(insertIt->first, insertIt->second, forestem));
     }
 

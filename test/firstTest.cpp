@@ -21,6 +21,7 @@ void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
 void hitBreakPoint(int x, int y, DecGraph graph, ETForest forest){
     bid = true;
     testInsertEdge(x,y,graph,forest);
+    bid = false;
 }
 
 TEST(CompareTest, CompareTrees) {
@@ -196,7 +197,7 @@ TEST(InsertTest, ConnectedAfterInsert){
     testInsertEdge(0,1,graph,forest);
     testInsertEdge(8,3,graph,forest);
 }
-TEST(InsertTest, InfiniteLoopTest){
+TEST(InsertTest, InfiniteLoopTest_1){
     DecGraph graph(10);
     ETForest forest(10);
 
@@ -206,4 +207,58 @@ TEST(InsertTest, InfiniteLoopTest){
     testInsertEdge(1,5,graph,forest);
     testInsertEdge(3,0,graph,forest);
     testInsertEdge(8,6,graph,forest);
+}
+TEST(InsertTest, InfiniteLoopTest_2){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(6,2,graph,forest);
+    testInsertEdge(8,7,graph,forest);
+    testInsertEdge(0,8,graph,forest);
+    testInsertEdge(2,1,graph,forest);
+    testInsertEdge(0,1,graph,forest);
+    testInsertEdge(3,5,graph,forest);
+    testInsertEdge(6,8,graph,forest);
+    testInsertEdge(1,7,graph,forest);
+    testInsertEdge(7,4,graph,forest);
+    testInsertEdge(7,0,graph,forest);
+    testInsertEdge(5,6,graph,forest);
+}
+TEST(InsertTest, InfiniteLoopTest_3) {
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(4,5,graph,forest);
+    testInsertEdge(0,6,graph,forest);
+    testInsertEdge(0,5,graph,forest);
+    testInsertEdge(2,1,graph,forest);
+    testInsertEdge(5,1,graph,forest);
+    testInsertEdge(2,0,graph,forest);
+    testInsertEdge(3,2,graph,forest);
+    testInsertEdge(4,6,graph,forest);
+    testInsertEdge(4,4,graph,forest);
+    testInsertEdge(0,1,graph,forest);
+    testInsertEdge(7,0,graph,forest);
+    testInsertEdge(4,7,graph,forest);
+    testInsertEdge(2,5,graph,forest);
+    testInsertEdge(5,7,graph,forest);
+    testInsertEdge(7,3,graph,forest);
+    testInsertEdge(5,6,graph,forest);
+    testInsertEdge(4,8,graph,forest);
+}
+TEST(InsertTest, BlackHeightTest_1){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(7,8,graph,forest);
+    testInsertEdge(5,7,graph,forest);
+    testInsertEdge(8,0,graph,forest);
+    testInsertEdge(7,0,graph,forest);
+    testInsertEdge(3,7,graph,forest);
+    testInsertEdge(6,2,graph,forest);
+    testInsertEdge(4,7,graph,forest);
+    testInsertEdge(8,5,graph,forest);
+    testInsertEdge(2,7,graph,forest);
+    hitBreakPoint(7,1,graph,forest);
+    //testInsertEdge(7,1,graph,forest);
 }
