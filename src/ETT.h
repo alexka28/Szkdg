@@ -20,7 +20,7 @@ typedef struct ETTreeNode {
 
 //global változó, értékadás az ETT.cpp-ben
 extern ETTreeNode theNullNode;
-
+extern bool bid;
 
 typedef struct ETForest {
     ETTreeNode **first;

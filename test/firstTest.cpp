@@ -7,6 +7,8 @@
 #include "../src/DecrementalGraph.h"
 #include "../src/ETTQueries.h"
 
+
+
 void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
     graph.insert(x,y,forest);
     forest.verifyFirstLast();
@@ -14,6 +16,11 @@ void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
     EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
     EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
     EXPECT_TRUE(graph.connected(x,y, forest));
+}
+
+void hitBreakPoint(int x, int y, DecGraph graph, ETForest forest){
+    bid = true;
+    testInsertEdge(x,y,graph,forest);
 }
 
 TEST(CompareTest, CompareTrees) {

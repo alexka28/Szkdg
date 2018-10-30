@@ -26,6 +26,7 @@ ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, 
 }
 
 ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
+bool bid = false;
 
 ETTreeNode::ETTreeNode(int color, int nodeId, int rank, ETTreeNode *parent) :
         parent(parent),
@@ -232,6 +233,8 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
         T1 = new ETTreeNode(nullptr, pNode->left->left, pNode->left->right, pNode->left->color,
                             pNode->left->nodeId);
         T1->rank = pNode->left->rank;
+        setParent(T1->left, T1);
+        setParent(T1->right, T1);
     }
 
 //mentsük el a jobb részfát
@@ -276,6 +279,7 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
 
             T1 = join(subTree, root, T1);
 
+
         }
     }
     if (T1->color == RED) {
@@ -287,6 +291,7 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
         updateRank(T2);
     }
     std::pair<ETTreeNode *, ETTreeNode *> T1T2(T1, T2);
+    verify2SideConnection();
     return T1T2;
 
 }
@@ -544,9 +549,7 @@ void ETForest::reroot(int u) {
         T3 = join(T2, w, T1);
 
         T4 = join(T3, new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, u), &theNullNode);
-        if(u == 8){
-            print(findRoot(T4));
-        }
+        
         ETTreeNode **firstcpy;
         ETTreeNode **lastcpy;
         firstcpy = new ETTreeNode *[this->N];
