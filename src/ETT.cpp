@@ -129,6 +129,15 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
                 N = y->left;
 
             }
+
+            //TODO: a join másik felébe is átvinni!
+            if (N->parent->rank == x->rank) {
+                N = N->parent;
+                if (N->color == RED) {
+                    N = N->parent;
+                }
+            }
+
             setParent(u, N->parent);
             setLeftChild(N->parent, u);
             setParent(N, u);
@@ -136,19 +145,21 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             setLeftChild(u, x);
             setParent(x, u);
             setColor(u, RED);
-            if(x->color == RED){
+
+
+            if (x->color != RED) {
+                repair(u);
+                updateRank(u);
+
+            } else {
                 repair(x);
                 updateRank(x);
             }
-            else{
-                repair(u);
-                updateRank(u);
-            }
-
-
 
 
         }
+
+
     } //x > y
     else {
         ETTreeNode *N;
@@ -190,6 +201,11 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
 
 
         } else {
+            if(bid){
+                print(x);
+                std::cout<<"x fája"<<std::endl;
+                print(y);
+            }
             while (x->rank != y->rank) {
                 x = x->right;
             }
@@ -197,6 +213,10 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             if (x->color != BLACK) {
                 N = x->right;
             }
+            
+
+
+
             setParent(u, N->parent);
             setRightChild(N->parent, u);
             setParent(N, u);
@@ -204,20 +224,22 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             setLeftChild(u, N);
             setParent(y, u);
             setColor(u, RED);
-            if(y->color == RED){
+            if (y->color == RED) {
                 repair(y);
                 updateRank(y);
-            }
-            else{
+            } else {
                 repair(u);
                 updateRank(u);
             }
-
+            if(bid){
+                print(findRoot(u));
+            }
 
         }
 
 
     }
+
     return findRoot(u);
 }
 
@@ -301,12 +323,14 @@ void ETForest::insert(int u, int v) {
 
     auto *T1 = first[v];
     T1 = findRoot(T1);
+
     auto uNode = new ETTreeNode(nullptr, &theNullNode, &theNullNode, last[u]->color, last[u]->nodeId);
     uNode->rank = last[u]->rank;
 //TODO: a gyökér minimumából nézzük!!!!!
     if (ETTMinimum(T1)->nodeId != v) {
         reroot(v);
         T1 = findRoot(T1);
+
     }
 //    if (minimum(last[u])->nodeId != u) {
 //        reroot(u);
@@ -350,7 +374,7 @@ void ETForest::insert(int u, int v) {
     }
         //egyébként pedig törölhetünk
     else {
-        if(last[u] == minNode){
+        if (last[u] == minNode) {
             needToUpdateL = true;
         }
         newDelete(minNode);
@@ -360,7 +384,7 @@ void ETForest::insert(int u, int v) {
     if (needToUpdate) {
         first[u] = uNode;
     }
-    if(needToUpdateL){
+    if (needToUpdateL) {
         last[u] = nodeToJoin;
     }
 
@@ -447,7 +471,7 @@ void ETForest::remove(int u, int v) {
         minT2 = minimum(T2);
         auto tmpNode = new ETTreeNode(nullptr, &theNullNode, &theNullNode, minT2->color, minT2->nodeId);
         tmpNode->rank = minT2->rank;
-        if(minT2 == last[v]){
+        if (minT2 == last[v]) {
             last[v] = tmpNode;
         }
         newDelete(minT2);
@@ -474,7 +498,7 @@ void ETForest::remove(int u, int v) {
         maxT0 = maximum(T0);
         auto tmpNode = new ETTreeNode(nullptr, &theNullNode, &theNullNode, maxT0->color, maxT0->nodeId);
         tmpNode->rank = maxT0->rank;
-        if(maxT0 == first[v]){
+        if (maxT0 == first[v]) {
             first[v] = tmpNode;
         }
         newDelete(maxT0);
@@ -513,7 +537,6 @@ void ETForest::reroot(int u) {
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;
         T2 = tmp.second;
-
         if (isOneNode(T2)) {
             T2 = &theNullNode;
         } else if (maximum(T2) == findRoot(T2)) {
@@ -549,7 +572,7 @@ void ETForest::reroot(int u) {
         T3 = join(T2, w, T1);
 
         T4 = join(T3, new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, u), &theNullNode);
-        
+
         ETTreeNode **firstcpy;
         ETTreeNode **lastcpy;
         firstcpy = new ETTreeNode *[this->N];
@@ -623,9 +646,10 @@ void ETForest::reroot(int u) {
                 w = setBackToOneNode(w);
                 T1 = findRoot(T1);
             }
-
+            //TODO: volt olyan verify T2 ami itt elbukott
 
             T3 = join(T2, w, T1);
+
             uLast = new ETTreeNode(nullptr, &theNullNode, &theNullNode, BLACK, u);
             ETTreeNode *uLastSeen = last[u];
             ETTreeNode *uSucc = successor(uLastSeen);
@@ -766,7 +790,7 @@ void ETForest::newDelete(ETTreeNode *n) {
     }
     setBackToOneNode(n);
     n = nullptr;
-    return ;
+    return;
 }
 
 void ETForest::deleteCase1(ETTreeNode *n) {
@@ -994,6 +1018,9 @@ void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *pa
 
 
 void ETForest::verifyRankNumber(ETTreeNode *pNode, bool &isValid) {
+    if(pNode == nullptr || pNode == &theNullNode){
+        return;
+    }
     if (pNode->left != &theNullNode) {
         verifyRankNumber(pNode->left, isValid);
     }
@@ -1061,14 +1088,14 @@ void ETForest::print(ETTreeNode *pNode) {
     print(pNode, 0);
 }
 
-void ETForest::print(ETTreeNode* pNode, int indent){
-    if(pNode != &theNullNode){
-        print(pNode->right, indent+1);
-        for(int i = 0; i < indent; i++){
+void ETForest::print(ETTreeNode *pNode, int indent) {
+    if (pNode != &theNullNode) {
+        print(pNode->right, indent + 1);
+        for (int i = 0; i < indent; i++) {
             std::cout << "    ";
         }
-        std::cout<<((pNode->color == BLACK) ? "b[" : "r[") << pNode->nodeId << "]"<<std::endl;
-        print(pNode->left, indent+1);
+        std::cout << ((pNode->color == BLACK) ? "b[" : "r[") << pNode->nodeId << "]" << std::endl;
+        print(pNode->left, indent + 1);
     }
 }
 
@@ -1096,11 +1123,11 @@ void ETForest::print(ETTreeNode* pNode, int indent){
 
 
 void ETForest::verifyNodesAreTwoSideConnected(ETTreeNode *pNode) {
-    if(pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode){
+    if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode) {
         assert(pNode == pNode->left->parent);
         verifyNodesAreTwoSideConnected(pNode->left);
     }
-    if(pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode){
+    if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode) {
         assert(pNode == pNode->right->parent);
         verifyNodesAreTwoSideConnected(pNode->right);
     }
@@ -1108,7 +1135,7 @@ void ETForest::verifyNodesAreTwoSideConnected(ETTreeNode *pNode) {
 }
 
 void ETForest::verify2SideConnection() {
-    for(int i = 0; i < this->N; ++i){
+    for (int i = 0; i < this->N; ++i) {
         verifyNodesAreTwoSideConnected(findRoot(first[i]));
     }
 }

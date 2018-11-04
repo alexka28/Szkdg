@@ -190,7 +190,7 @@ TEST(InsertTest, ConnectedAfterInsert){
     testInsertEdge(0,6,graph,forest);
     testInsertEdge(6,3,graph,forest);
     testInsertEdge(1,5,graph,forest);
-    testInsertEdge(5,7,graph,forest);
+    hitBreakPoint(5,7,graph,forest);
     testInsertEdge(4,8,graph,forest);
     testInsertEdge(4,5,graph,forest);
     testInsertEdge(1,7,graph,forest);
@@ -259,6 +259,20 @@ TEST(InsertTest, BlackHeightTest_1){
     testInsertEdge(4,7,graph,forest);
     testInsertEdge(8,5,graph,forest);
     testInsertEdge(2,7,graph,forest);
-    hitBreakPoint(7,1,graph,forest);
-    //testInsertEdge(7,1,graph,forest);
+    testInsertEdge(7,1,graph,forest);
+}
+TEST(InsertTest, BlackHeightTest_2){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(3,1,graph,forest);
+    testInsertEdge(8,3,graph,forest);
+    testInsertEdge(3,7,graph,forest);
+    testInsertEdge(6,4,graph,forest);
+    testInsertEdge(3,6,graph,forest);
+    testInsertEdge(4,5,graph,forest);
+    testInsertEdge(5,8,graph,forest);
+    testInsertEdge(4,2,graph,forest);
+    testInsertEdge(1,4,graph,forest);
+    hitBreakPoint(0,3,graph,forest);
 }
