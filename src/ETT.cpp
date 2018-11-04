@@ -69,51 +69,51 @@ bool ETForest::contains(int u, int v) {
 }
 
 
-ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
-
+ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
+//j elott u volt hasznalva
 
     if (x->rank == y->rank) {
-        setLeftChild(u, x);
-        setRightChild(u, y);
-        setParent(x, u);
-        setParent(y, u);
-        setColor(u, BLACK);
-        updateRank(u);
+        setLeftChild(j, x);
+        setRightChild(j, y);
+        setParent(x, j);
+        setParent(y, j);
+        setColor(j, BLACK);
+        updateRank(j);
 
 
     } else if (x->rank < y->rank) {
 
-        ETTreeNode *N;
+        ETTreeNode *A;
         //ha az y még egy elemű fa, akkor elég a bal fiát u-ra állítani
         if (x == &theNullNode && isOneNode(y)) {
-            setLeftChild(y, u);
-            setParent(u, y);
-            setColor(u, RED);
-            setRank(u, 0);
-            repair(u);
-            updateRank(u);
+            setLeftChild(y, j);
+            setParent(j, y);
+            setColor(j, RED);
+            setRank(j, 0);
+            repair(j);
+            updateRank(j);
         } else if (x == &theNullNode && !isOneNode(y)) {
 
             while (y->rank != 1 || y->color != BLACK) {
                 y = y->left;
             }
-            N = y;
+            A = y;
             //ha ba oldalt nullNode van, akkor csak tegyük be az u-t mint egy elemű fánál és done
-            if (N->left == &theNullNode) {
-                setLeftChild(N, u);
-                setParent(u, N);
-                setColor(u, RED);
-                setRank(u, 0);
-                repair(u);
-                updateRank(u);
+            if (A->left == &theNullNode) {
+                setLeftChild(A, j);
+                setParent(j, A);
+                setColor(j, RED);
+                setRank(j, 0);
+                repair(j);
+                updateRank(j);
             } else {
-                N = N->left;
-                setLeftChild(N, u);
-                setParent(u, N);
-                setColor(u, RED);
-                setRank(u, 0);
-                repair(u);
-                updateRank(u);
+                A = A->left;
+                setLeftChild(A, j);
+                setParent(j, A);
+                setColor(j, RED);
+                setRank(j, 0);
+                repair(j);
+                updateRank(j);
 
             }
 
@@ -124,37 +124,39 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
             while (y->rank != x->rank) {
                 y = y->left;
             }
-            N = y;
-            if (y->color != BLACK) {
-                N = y->left;
+            A = y;
+//            if (y->color != BLACK) {
+//                A = y->left;
+//
+//            }
+//TODO: befejezni
+            assert(A->parent->color == BLACK);
+            auto B = A->parent;
+            assert(B->left == A);
 
+            setParent(j, A->parent);
+            setLeftChild(A->parent, j);
+            setParent(A, j);
+            setRightChild(j, A);
+            setLeftChild(j, x);
+            setParent(x, j);
+            //case 1
+            if(B->right->color == RED){
+                setColor(j, BLACK);
+                setColor(B->right, BLACK);
+                setColor(B, RED);
+                repair(B);
+                updateRank(j);
             }
-
-            //TODO: a join másik felébe is átvinni!
-            if (N->parent->rank == x->rank) {
-                N = N->parent;
-                if (N->color == RED) {
-                    N = N->parent;
+            //case 2
+            else{
+                if(A->color == BLACK && x->color == BLACK){
+                    setColor(j, RED);
+                    updateRank(j);
                 }
             }
 
-            setParent(u, N->parent);
-            setLeftChild(N->parent, u);
-            setParent(N, u);
-            setRightChild(u, N);
-            setLeftChild(u, x);
-            setParent(x, u);
-            setColor(u, RED);
 
-
-            if (x->color != RED) {
-                repair(u);
-                updateRank(u);
-
-            } else {
-                repair(x);
-                updateRank(x);
-            }
 
 
         }
@@ -162,15 +164,15 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
 
     } //x > y
     else {
-        ETTreeNode *N;
+        ETTreeNode *A;
         //ha x még egy elemű fa, akkor elég a jobb fiát u-ra beállítani
         if (y == &theNullNode && isOneNode(x)) {
-            setRightChild(x, u);
-            setParent(u, x);
-            setColor(u, RED);
-            setRank(u, 0);
-            repair(u);
-            updateRank(u);
+            setRightChild(x, j);
+            setParent(j, x);
+            setColor(j, RED);
+            setRank(j, 0);
+            repair(j);
+            updateRank(j);
         } else if (y == &theNullNode && !isOneNode(x)) {
 
             //TODO: éselés volt...
@@ -179,68 +181,98 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *u, ETTreeNode *y) {
                 x = x->right;
             }
 
-            N = x;
+            A = x;
             //ha nullNode a jobb gyerek, akkor csak simán behúzzuk u-t jobbra mint egy elemű fánál és done
-            if (N->right == &theNullNode) {
-                setRightChild(N, u);
-                setParent(u, N);
-                setColor(u, RED);
-                setRank(u, 0);
-                repair(u);
-                updateRank(u);
+            if (A->right == &theNullNode) {
+                setRightChild(A, j);
+                setParent(j, A);
+                setColor(j, RED);
+                setRank(j, 0);
+                repair(j);
+                updateRank(j);
             } else {
-                N = N->right;
-                setRightChild(N, u);
-                setParent(u, N);
-                setColor(u, RED);
-                setRank(u, 0);
-                repair(u);
-                updateRank(u);
+                A = A->right;
+                setRightChild(A, j);
+                setParent(j, A);
+                setColor(j, RED);
+                setRank(j, 0);
+                repair(j);
+                updateRank(j);
 
             }
 
 
         } else {
-            if(bid){
-                print(x);
-                std::cout<<"x fája"<<std::endl;
-                print(y);
-            }
+
             while (x->rank != y->rank) {
                 x = x->right;
             }
-            N = x;
-            if (x->color != BLACK) {
-                N = x->right;
+            A = x;
+//            if (x->color != BLACK) {
+//                A = x->right;
+//            }
+            assert(A->parent->color == BLACK);
+            auto B = A->parent;
+            assert(B->left != A);
+            setParent(j, A->parent);
+            setRightChild(A->parent, j);
+            setParent(A, j);
+            setRightChild(j, y);
+            setLeftChild(j, A);
+            setParent(y, j);
+            //case 1
+            if (B->left->color == RED) {
+                setColor(j, BLACK);
+                setColor(B->left, BLACK);
+                setColor(B, RED);
+                setRank(B->left, B->left->rank+1);
+                setRank(j, B->left->rank);
+                repair(B);
+                updateRank(B);
             }
-            
-
-
-
-            setParent(u, N->parent);
-            setRightChild(N->parent, u);
-            setParent(N, u);
-            setRightChild(u, y);
-            setLeftChild(u, N);
-            setParent(y, u);
-            setColor(u, RED);
-            if (y->color == RED) {
-                repair(y);
-                updateRank(y);
-            } else {
-                repair(u);
-                updateRank(u);
+                //case 2
+            else {
+                //case 2.1
+                if (A->color == BLACK && y->color == BLACK) {
+                    setColor(j, RED);
+                    updateRank(j);
+                }
+                    //case 2.2
+                else if (A->color == RED && y->color == RED) {
+                    setColor(B, BLACK);
+                    setColor(y, BLACK);
+                    setColor(j, RED);
+                    setRank(B, B->left->rank+1);
+                    setRank(y, B->rank);
+                    setRank(j, j->left->rank);
+                    rotateLeft(B);
+                    assert(j->left == B);
+                    assert(j->right == y);
+                    repair(j);
+                    updateRank(j);
+                } else if (A->color == BLACK && y->color == RED) {
+                    setColor(B, RED);
+                    setColor(j, BLACK);
+                    setRank(B, B->left->rank);
+                    setRank(j,j->left->rank+1);
+                    rotateLeft(B);
+                    assert(j->left == B);
+                    assert(j->right == y);
+                    updateRank(j);
+                } else if (A->color == RED && y->color == BLACK) {
+                    setColor(j, RED);
+                    rotateRight(j);
+                    setColor(A, BLACK);
+                    setColor(B, RED);
+                    setRank(A, A->left->rank+1);
+                    setRank(B, B->left->rank);
+                    rotateLeft(B);
+                    updateRank(j);
+                }
             }
-            if(bid){
-                print(findRoot(u));
-            }
-
         }
-
-
     }
-
-    return findRoot(u);
+    return findRoot(j);
 }
 
 std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
@@ -1018,7 +1050,7 @@ void ETForest::verifyBlackRankHelper(ETTreeNode *pNode, int black_count, int *pa
 
 
 void ETForest::verifyRankNumber(ETTreeNode *pNode, bool &isValid) {
-    if(pNode == nullptr || pNode == &theNullNode){
+    if (pNode == nullptr || pNode == &theNullNode) {
         return;
     }
     if (pNode->left != &theNullNode) {

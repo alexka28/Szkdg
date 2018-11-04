@@ -53,7 +53,8 @@ void rotateRight(ETTreeNode *pNode) {
 
 void updateRank(ETTreeNode *pNode) {
     if (pNode != nullptr && pNode != &theNullNode) {
-        pNode->rank = pNode->color == RED ? pNode->left->rank : pNode->left->rank + 1;
+       pNode->rank = pNode->color == RED ? pNode->left->rank : pNode->left->rank + 1;
+
         updateRank(pNode->parent);
     }
 
