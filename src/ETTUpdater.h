@@ -15,4 +15,8 @@ void updateRank(ETTreeNode *);
 
 void repair(ETTreeNode *);
 
+void rotateLeftWoRankUpdate(ETTreeNode *);
+
+void rotateRightWoRankUpdate(ETTreeNode *);
+
 #endif //SZAKDOLGOZAT_ETTUPDATER_H

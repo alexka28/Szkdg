@@ -51,6 +51,49 @@ void rotateRight(ETTreeNode *pNode) {
     updateRank(pNode);
 }
 
+void rotateLeftWoRankUpdate(ETTreeNode* pNode){
+    ETTreeNode *x = pNode->left,
+            *y = pNode->right,
+            *z = y->left,
+            *w = y->right;
+    setParent(z, pNode);
+    setParent(y, pNode->parent);
+    setLeftChild(y, pNode);
+
+    if (pNode->parent != nullptr) {
+        if (pNode == pNode->parent->left) {
+            setLeftChild(pNode->parent, y);
+        } else {
+            setRightChild(pNode->parent, y);
+        }
+    }
+
+    setParent(pNode, y);
+    setRightChild(pNode, z);
+}
+
+void rotateRightWoRankUpdate(ETTreeNode *pNode){
+    ETTreeNode *x = pNode->right,
+            *y = pNode->left,
+            *z = y->right,
+            *w = y->left;
+    setParent(z, pNode);
+    setParent(y, pNode->parent);
+    setRightChild(y, pNode);
+
+    if (pNode->parent != nullptr) {
+        if (pNode == pNode->parent->left) {
+            setLeftChild(pNode->parent, y);
+        } else {
+            setRightChild(pNode->parent, y);
+        }
+    }
+
+    setParent(pNode, y);
+    setLeftChild(pNode, z);
+}
+
+
 void updateRank(ETTreeNode *pNode) {
     if (pNode != nullptr && pNode != &theNullNode) {
        pNode->rank = pNode->color == RED ? pNode->left->rank : pNode->left->rank + 1;
