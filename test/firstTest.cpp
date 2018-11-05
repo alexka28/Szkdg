@@ -303,7 +303,7 @@ TEST(InsertTest, nullptrderef){
     testInsertEdge(0,8,graph,forest);
     testInsertEdge(4,8,graph,forest);
 }
-TEST(InsertTest, lastseenfail){
+TEST(InsertTest, DISABLED_lastseenfail){
     DecGraph graph(10);
     ETForest forest(10);
 
@@ -318,7 +318,7 @@ TEST(InsertTest, lastseenfail){
     testInsertEdge(1,6,graph,forest);
     testInsertEdge(0,5,graph,forest);
     testInsertEdge(4,0,graph,forest);
-    hitBreakPoint(7,5,graph,forest);
+    testInsertEdge(7,5,graph,forest);
 }
 TEST(InsertTest, hugeGraph){
     DecGraph graph(100);
@@ -391,5 +391,5 @@ TEST(InsertTest, hugeGraph){
     testInsertEdge(98,15,graph,forest);
     testInsertEdge(1,12,graph,forest);
     testInsertEdge(22,51,graph,forest);
-    testInsertEdge(51,42,graph,forest);
+    hitBreakPoint(51,42,graph,forest);
 }

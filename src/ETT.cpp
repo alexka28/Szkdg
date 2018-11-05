@@ -100,6 +100,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
             A = y;
             //ha ba oldalt nullNode van, akkor csak tegyük be az u-t mint egy elemű fánál és done
             if (A->left == &theNullNode) {
+                assert(A->right == &theNullNode || (A->right->color == RED && A->right->rank == 0));
                 setLeftChild(A, j);
                 setParent(j, A);
                 setColor(j, RED);
@@ -108,6 +109,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
                 updateRank(j);
             } else {
                 A = A->left;
+                assert(A->right == &theNullNode || (A->right->color == RED && A->right->rank == 0));
                 setLeftChild(A, j);
                 setParent(j, A);
                 setColor(j, RED);
@@ -249,6 +251,7 @@ else {
             A = x;
             //ha nullNode a jobb gyerek, akkor csak simán behúzzuk u-t jobbra mint egy elemű fánál és done
             if (A->right == &theNullNode) {
+                assert(A->left == &theNullNode || (A->left->rank == 0 && A->left->color == RED));
                 setRightChild(A, j);
                 setParent(j, A);
                 setColor(j, RED);
@@ -257,6 +260,7 @@ else {
                 updateRank(j);
             } else {
                 A = A->right;
+                assert(A->left == &theNullNode || (A->left->rank == 0 && A->left->color == RED));
                 setRightChild(A, j);
                 setParent(j, A);
                 setColor(j, RED);
@@ -368,6 +372,7 @@ else{
         }
         }
     }
+    verifyProperties(findRoot(j));
     return findRoot(j);
 }
 
