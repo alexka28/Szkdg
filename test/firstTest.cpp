@@ -190,7 +190,7 @@ TEST(InsertTest, ConnectedAfterInsert){
     testInsertEdge(0,6,graph,forest);
     testInsertEdge(6,3,graph,forest);
     testInsertEdge(1,5,graph,forest);
-    hitBreakPoint(5,7,graph,forest);
+    testInsertEdge(5,7,graph,forest);
     testInsertEdge(4,8,graph,forest);
     testInsertEdge(4,5,graph,forest);
     testInsertEdge(1,7,graph,forest);
@@ -274,5 +274,122 @@ TEST(InsertTest, BlackHeightTest_2){
     testInsertEdge(5,8,graph,forest);
     testInsertEdge(4,2,graph,forest);
     testInsertEdge(1,4,graph,forest);
-    hitBreakPoint(0,3,graph,forest);
+    testInsertEdge(0,3,graph,forest);
+}
+TEST(InsertTest, BlackHeightTest_3){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(4,3,graph,forest);
+    testInsertEdge(6,5,graph,forest);
+    testInsertEdge(3,0,graph,forest);
+    testInsertEdge(7,0,graph,forest);
+    testInsertEdge(1,7,graph,forest);
+    testInsertEdge(8,7,graph,forest);
+    testInsertEdge(8,5,graph,forest);
+    testInsertEdge(8,2,graph,forest);
+}
+TEST(InsertTest, nullptrderef){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(8,1,graph,forest);
+    testInsertEdge(7,8,graph,forest);
+    testInsertEdge(5,2,graph,forest);
+    testInsertEdge(0,6,graph,forest);
+    testInsertEdge(5,6,graph,forest);
+    testInsertEdge(3,5,graph,forest);
+    testInsertEdge(7,6,graph,forest);
+    testInsertEdge(0,8,graph,forest);
+    testInsertEdge(4,8,graph,forest);
+}
+TEST(InsertTest, lastseenfail){
+    DecGraph graph(10);
+    ETForest forest(10);
+
+    testInsertEdge(8,5,graph,forest);
+    testInsertEdge(0,6,graph,forest);
+    testInsertEdge(2,5,graph,forest);
+    testInsertEdge(8,1,graph,forest);
+    testInsertEdge(1,0,graph,forest);
+    testInsertEdge(4,1,graph,forest);
+    testInsertEdge(6,2,graph,forest);
+    testInsertEdge(6,3,graph,forest);
+    testInsertEdge(1,6,graph,forest);
+    testInsertEdge(0,5,graph,forest);
+    testInsertEdge(4,0,graph,forest);
+    hitBreakPoint(7,5,graph,forest);
+}
+TEST(InsertTest, hugeGraph){
+    DecGraph graph(100);
+    ETForest forest(100);
+
+    testInsertEdge(28,68,graph,forest);
+    testInsertEdge(30,13,graph,forest);
+    testInsertEdge(73,97,graph,forest);
+    testInsertEdge(33,75,graph,forest);
+    testInsertEdge(45,65,graph,forest);
+    testInsertEdge(91,86,graph,forest);
+    testInsertEdge(24,74,graph,forest);
+    testInsertEdge(4,86,graph,forest);
+    testInsertEdge(40,10,graph,forest);
+    testInsertEdge(53,66,graph,forest);
+    testInsertEdge(29,93,graph,forest);
+    testInsertEdge(18,0,graph,forest);
+    testInsertEdge(12,5,graph,forest);
+    testInsertEdge(19,22,graph,forest);
+    testInsertEdge(38,52,graph,forest);
+    testInsertEdge(58,48,graph,forest);
+    testInsertEdge(32,11,graph,forest);
+    testInsertEdge(36,76,graph,forest);
+    testInsertEdge(73,6,graph,forest);
+    testInsertEdge(67,62,graph,forest);
+    testInsertEdge(29,33,graph,forest);
+    testInsertEdge(86,46,graph,forest);
+    testInsertEdge(9,57,graph,forest);
+    testInsertEdge(85,76,graph,forest);
+    testInsertEdge(38,14,graph,forest);
+    testInsertEdge(51,29,graph,forest);
+    testInsertEdge(17,86,graph,forest);
+    testInsertEdge(59,82,graph,forest);
+    testInsertEdge(63,91,graph,forest);
+    testInsertEdge(78,18,graph,forest);
+    testInsertEdge(22,15,graph,forest);
+    testInsertEdge(53,21,graph,forest);
+    testInsertEdge(15,75,graph,forest);
+    testInsertEdge(25,57,graph,forest);
+    testInsertEdge(30,7,graph,forest);
+    testInsertEdge(35,96,graph,forest);
+    testInsertEdge(28,75,graph,forest);
+    testInsertEdge(96,40,graph,forest);
+    testInsertEdge(45,11,graph,forest);
+    testInsertEdge(60,49,graph,forest);
+    testInsertEdge(86,55,graph,forest);
+    testInsertEdge(70,30,graph,forest);
+    testInsertEdge(83,36,graph,forest);
+    testInsertEdge(34,48,graph,forest);
+    testInsertEdge(18,33,graph,forest);
+    testInsertEdge(1,41,graph,forest);
+    testInsertEdge(64,71,graph,forest);
+    testInsertEdge(71,28,graph,forest);
+    testInsertEdge(82,9,graph,forest);
+    testInsertEdge(27,35,graph,forest);
+    testInsertEdge(89,31,graph,forest);
+    testInsertEdge(32,68,graph,forest);
+    testInsertEdge(50,43,graph,forest);
+    testInsertEdge(48,65,graph,forest);
+    testInsertEdge(20,53,graph,forest);
+    testInsertEdge(55,6,graph,forest);
+    testInsertEdge(68,62,graph,forest);
+    testInsertEdge(2,64,graph,forest);
+    testInsertEdge(29,24,graph,forest);
+    testInsertEdge(74,75,graph,forest);
+    testInsertEdge(4,8,graph,forest);
+    testInsertEdge(49,39,graph,forest);
+    testInsertEdge(23,9,graph,forest);
+    testInsertEdge(91,16,graph,forest);
+    testInsertEdge(98,15,graph,forest);
+    testInsertEdge(1,12,graph,forest);
+    testInsertEdge(22,51,graph,forest);
+    testInsertEdge(51,42,graph,forest);
 }

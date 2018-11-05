@@ -19,11 +19,11 @@ int main() {
 
     //insertekhez a teszt
     // testInsert();
-
-    DecGraph grafom(10);
-    ETForest forestem(10);
-    Graph simagraf(10);
-std::list<std::pair<int,int>> insertList = fillGraph(10);
+int n = 100;
+    DecGraph grafom(n);
+    ETForest forestem(n);
+    Graph simagraf(n);
+std::list<std::pair<int,int>> insertList = fillGraph(n);
     std::list<std::pair<int,int>>::iterator insertIt;
     for(insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt){
         cout<<" testInsertEdge(" << insertIt->first<<"," << insertIt->second<<",graph,forest);" <<endl;
@@ -40,7 +40,7 @@ std::list<std::pair<int,int>> insertList = fillGraph(10);
 
 
 
-
+//
 //    std::list<std::pair<std::pair<int, int>, int>> delquer = createDQ(insertList,10);
 //    std::list<std::pair<std::pair<int, int>, int>>:: iterator queryIt;
 //    for(queryIt = delquer.begin(); queryIt != delquer.end(); ++queryIt){
