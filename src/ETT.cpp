@@ -86,6 +86,10 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
         ETTreeNode *A;
         //ha az y még egy elemű fa, akkor elég a bal fiát u-ra állítani
         if (x == &theNullNode && isOneNode(y)) {
+            if(y->color == RED){
+                y->color = BLACK;
+                y->rank = 1;
+            }
             setLeftChild(y, j);
             setParent(j, y);
             setColor(j, RED);
@@ -93,7 +97,10 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
             repair(j);
             updateRank(j);
         } else if (x == &theNullNode && !isOneNode(y)) {
-
+            if(y->color == RED){
+                y->color = BLACK;
+                ++y->rank;
+            }
             while (y->rank != 1 || y->color != BLACK) {
                 y = y->left;
             }
@@ -123,6 +130,10 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
         }
             //ha nem nullNode-ot kell joinolni
         else {
+            if(y->color == RED){
+                y->color = BLACK;
+                ++y->rank;
+            }
             bool isNullNode = false;
             if(isOneNode(x) && x->color == RED){
                 assert(x->rank == 0);
@@ -153,8 +164,12 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
 //TODO: befejezni
 
 if(isNullNode){
-    A->left = x;
-    x->parent = A;
+    A->left = j;
+    j->parent = A;
+    setColor(j, RED);
+    setRank(j, 0);
+    updateRank(j);
+    repair(j);
 }
 else {
 
@@ -234,6 +249,10 @@ else {
         ETTreeNode *A;
         //ha x még egy elemű fa, akkor elég a jobb fiát u-ra beállítani
         if (y == &theNullNode && isOneNode(x)) {
+            if(x->color == RED){
+                x->color = BLACK;
+                x->rank = 1;
+            }
             setRightChild(x, j);
             setParent(j, x);
             setColor(j, RED);
@@ -241,7 +260,10 @@ else {
             repair(j);
             updateRank(j);
         } else if (y == &theNullNode && !isOneNode(x)) {
-
+            if(x->color == RED){
+                x->color = BLACK;
+                ++x->rank;
+            }
             //TODO: éselés volt...
             while (x->rank != 1 || x->color != BLACK) {
 
@@ -273,6 +295,10 @@ else {
 
         } else {
             bool isNullNode = false;
+            if(x->color == RED){
+                x->color = BLACK;
+                ++x->rank;
+            }
             if(isOneNode(y) && y->color == RED){
                 assert(y->rank == 0);
                 while(x->rank != y->rank+1){
@@ -301,8 +327,12 @@ else {
 //                A = x->right;
 //            }
 if(isNullNode){
-    A->right = y;
-    y->parent = A;
+    A->right = j;
+    j->parent = A;
+    setColor(j, RED);
+    setRank(j, 0);
+    updateRank(j);
+    repair(j);
 }
 else{
 
@@ -372,6 +402,10 @@ else{
         }
         }
     }
+    if(findRoot(j)->color == RED){
+        print(findRoot(j));
+
+    }
     verifyProperties(findRoot(j));
     return findRoot(j);
 }
@@ -402,6 +436,10 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
     pNode->parent = nullptr;
     // T2 létrehozása, pNode már gyerekek nélkül és a jobb részfa
     //itt a pNodeRight miatt lehet, hogy a rootja a teljes fa rootja, ha nincs nullptr-re rakva
+    if(pNodeRight->color == RED){
+        pNodeRight->color = BLACK;
+        ++pNodeRight->rank;
+    }
     ETTreeNode *T2 = join(&theNullNode, pNode, pNodeRight);
 
     while (parent != nullptr) {

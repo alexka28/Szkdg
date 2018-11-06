@@ -391,5 +391,5 @@ TEST(InsertTest, hugeGraph){
     testInsertEdge(98,15,graph,forest);
     testInsertEdge(1,12,graph,forest);
     testInsertEdge(22,51,graph,forest);
-    hitBreakPoint(51,42,graph,forest);
+    testInsertEdge(51,42,graph,forest);
 }
