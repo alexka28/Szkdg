@@ -66,7 +66,7 @@ typedef struct ETForest {
     static bool verifyProperties(ETTreeNode*);
 
     static void verifyColor(ETTreeNode* pNode, bool& isValid);
-    static void verifyRootColor(ETTreeNode* pNode, bool& isValid);
+    static void verifyRootColor(ETTreeNode* root, bool& isValid);
     static void verifyRedNodeParentAndChildrenColors(ETTreeNode* pNode, bool& isValid);
     static void verifyBlackRank(ETTreeNode* pNode, bool& isValid);
     static void verifyBlackRankHelper(ETTreeNode* pNode,int black_count, int* path_black_count, bool& isValid);

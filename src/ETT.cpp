@@ -1131,9 +1131,9 @@ void ETForest::verifyColor(ETTreeNode *pNode, bool &isValid) {
     verifyColor(pNode->right, isValid);
 }
 
-void ETForest::verifyRootColor(ETTreeNode *pNode, bool &isValid) {
-    assert (pNode->color == BLACK);
-    if (pNode->color != BLACK) {
+void ETForest::verifyRootColor(ETTreeNode *root, bool &isValid) {
+    assert (root->color == BLACK);
+    if (root->color != BLACK) {
         isValid = false;
     }
 }
@@ -1230,6 +1230,9 @@ void ETForest::verifyFirstLast() {
         pNode = this->first[i];
         assert(i == pNode->nodeId);
         pNode = findRoot(pNode);
+        auto lastPNode = this->last[i];
+        lastPNode = findRoot(lastPNode);
+        assert(pNode == lastPNode);
         firstLastHelper(pNode, i, firstSeen, lastSeen);
         assert(firstSeen == first[i]);
         assert(lastSeen == last[i]);

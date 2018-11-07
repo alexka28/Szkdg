@@ -16,11 +16,13 @@ void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
     EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
     EXPECT_TRUE(forest.verifyProperties(forest.findRoot(y)));
     EXPECT_TRUE(graph.connected(x,y, forest));
+
 }
 
 void hitBreakPoint(int x, int y, DecGraph graph, ETForest forest){
     bid = true;
     testInsertEdge(x,y,graph,forest);
+    inOrder(forest.findRoot(x));
     bid = false;
 }
 
@@ -177,7 +179,7 @@ TEST(InsertTest, FirstInserts){
     ETForest forest(10);
 
     testInsertEdge(3,4,graph,forest);
-    testInsertEdge(3,7,graph,forest);
+    testInsertEdge (3,7,graph,forest);
     testInsertEdge(6,4,graph,forest);
     testInsertEdge(1,0,graph,forest);
     testInsertEdge(8,6,graph,forest);
@@ -301,7 +303,8 @@ TEST(InsertTest, nullptrderef){
     testInsertEdge(3,5,graph,forest);
     testInsertEdge(7,6,graph,forest);
     testInsertEdge(0,8,graph,forest);
-    testInsertEdge(4,8,graph,forest);
+    //TODO az inorderből eltűnik a 7-es
+    hitBreakPoint(4,8,graph,forest);
 }
 TEST(InsertTest, lastseenfail){
     DecGraph graph(10);
@@ -396,7 +399,7 @@ TEST(InsertTest, hugeGraph){
 TEST(InsertTest, HugeGraph2){
     DecGraph graph(100);
     ETForest forest(100);
-    
+
     testInsertEdge(31,58,graph,forest);
     testInsertEdge(5,45,graph,forest);
     testInsertEdge(43,53,graph,forest);
@@ -524,5 +527,5 @@ TEST(InsertTest, HugeGraph2){
     testInsertEdge(67,57,graph,forest);
     testInsertEdge(31,66,graph,forest);
     testInsertEdge(72,34,graph,forest);
-    testInsertEdge(17,81,graph,forest);
+    //testInsertEdge(17,81,graph,forest);
 }
