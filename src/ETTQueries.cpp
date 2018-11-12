@@ -101,7 +101,13 @@ void inOrder(ETTreeNode *pNode) {
     if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode) {
         inOrder(pNode->left);
     }
-    if (pNode != nullptr) { std::cout << pNode->nodeId << "-"; }
+    if (pNode != nullptr && isFirstTime) {
+        std::cout << pNode->nodeId;
+        isFirstTime = false;
+    }
+    else if(pNode != nullptr){
+    std::cout<<"-"<<pNode->nodeId;
+}
 
     if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode) {
         inOrder(pNode->right);
@@ -121,4 +127,30 @@ ETTreeNode* ETForest::findRoot(ETTreeNode *u) {
         pNode = pNode->parent;
     }
     return pNode;
+}
+
+void inOrder (ETTreeNode* pNode, std::list<int>& treeInOrder){
+    if (pNode != nullptr && pNode != &theNullNode && pNode->left != &theNullNode) {
+        inOrder(pNode->left, treeInOrder);
+    }
+    if (pNode != nullptr) {
+        treeInOrder.push_back(pNode->nodeId);
+    }
+
+
+    if (pNode != nullptr && pNode != &theNullNode && pNode->right != &theNullNode) {
+        inOrder(pNode->right, treeInOrder);
+    }
+}
+
+bool isSameInOrder(const std::list<int>& expectedInOrder, const std::list<int>& treeInOrder){
+    auto expectedIt = expectedInOrder.begin();
+    auto treeIt = treeInOrder.begin();
+    for(; expectedIt != expectedInOrder.end(); ++expectedIt,++treeIt){
+        if(*expectedIt != *treeIt){
+            return false;
+        }
+    }
+    return true;
+
 }

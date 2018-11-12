@@ -6,7 +6,7 @@
 #define SZAKDOLGOZAT_ETTQUERIES_H
 
 #include "ETT.h"
-
+#include <list>
 
 
 ETTreeNode *predecessor(ETTreeNode *);
@@ -37,5 +37,7 @@ bool isOneNode(ETTreeNode *);
 
 void inOrder(ETTreeNode *);
 
+void inOrder(ETTreeNode* pNode, std::list<int>& treeInOrder);
 
+bool isSameInOrder(const std::list<int>& expectedInOrder, const std::list<int>& treeInOrder);
 #endif //SZAKDOLGOZAT_ETTQUERIES_H

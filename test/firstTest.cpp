@@ -7,7 +7,7 @@
 #include "../src/DecrementalGraph.h"
 #include "../src/ETTQueries.h"
 
-
+using list = std::list<int>;
 
 void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
     graph.insert(x,y,forest);
@@ -21,9 +21,22 @@ void testInsertEdge(int x, int y, DecGraph graph, ETForest forest){
 
 void hitBreakPoint(int x, int y, DecGraph graph, ETForest forest){
     bid = true;
+    std::cout<<"Insert("<<x<<", "<<y<<")"<<std::endl; 
     testInsertEdge(x,y,graph,forest);
+
+    isFirstTime = true;
     inOrder(forest.findRoot(x));
+    std::cout<<std::endl;
+    std::cout<<std::endl;
     bid = false;
+}
+
+void testInsertEdgeAndInOrder(int x, int y, DecGraph graph, ETForest forest, const std::list<int>& expectedInorder){
+    testInsertEdge(x,y,graph,forest);
+    std::list<int> treeInOrder;
+    inOrder(forest.findRoot(x), treeInOrder);
+    assert(expectedInorder.size () == treeInOrder.size());
+    assert(isSameInOrder(expectedInorder, treeInOrder));
 }
 
 TEST(CompareTest, CompareTrees) {
@@ -177,134 +190,132 @@ TEST(ForestMember, logN_Test){
 TEST(InsertTest, FirstInserts){
     DecGraph graph(10);
     ETForest forest(10);
-
-    testInsertEdge(3,4,graph,forest);
-    testInsertEdge (3,7,graph,forest);
-    testInsertEdge(6,4,graph,forest);
-    testInsertEdge(1,0,graph,forest);
-    testInsertEdge(8,6,graph,forest);
+    testInsertEdgeAndInOrder(3,4,graph,forest,list {3,4,3});
+    testInsertEdgeAndInOrder(3,7,graph,forest,list {3,4,3,7,3});
+    testInsertEdgeAndInOrder(6,4,graph,forest,list {4,3,7,3,4,6,4});
+    testInsertEdgeAndInOrder(1,0,graph,forest,list {0,1,0});
+    testInsertEdgeAndInOrder(8,6,graph,forest,list {6,4,3,7,3,4,6,8,6});
 }
 TEST(InsertTest, ConnectedAfterInsert){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(1,3,graph,forest);
-    testInsertEdge(0,6,graph,forest);
-    testInsertEdge(6,3,graph,forest);
-    testInsertEdge(1,5,graph,forest);
-    testInsertEdge(5,7,graph,forest);
-    testInsertEdge(4,8,graph,forest);
-    testInsertEdge(4,5,graph,forest);
-    testInsertEdge(1,7,graph,forest);
-    testInsertEdge(0,1,graph,forest);
-    testInsertEdge(8,3,graph,forest);
+    testInsertEdgeAndInOrder(1,3,graph,forest,list {1,3,1});
+    testInsertEdgeAndInOrder(0,6,graph,forest,list {0,6,0});
+    testInsertEdgeAndInOrder(6,3,graph,forest,list {3,1,3,6,0,6,3});
+    testInsertEdgeAndInOrder(1,5,graph,forest,list {1,3,6,0,6,3,1,5,1});
+    testInsertEdgeAndInOrder(5,7,graph,forest,list {5,1,3,6,0,6,3,1,5,7,5});
+    testInsertEdgeAndInOrder(4,8,graph,forest,list {4,8,4});
+    testInsertEdgeAndInOrder(4,5,graph,forest,list {4,8,4,5,1,3,6,0,6,3,1,5,7,5,4});
+    testInsertEdgeAndInOrder(1,7,graph,forest,list {4,8,4,5,1,3,6,0,6,3,1,5,7,5,4});
+    testInsertEdgeAndInOrder(0,1,graph,forest,list {4,8,4,5,1,3,6,0,6,3,1,5,7,5,4});
+    testInsertEdgeAndInOrder(8,3,graph,forest,list {4,8,4,5,1,3,6,0,6,3,1,5,7,5,4});
 }
 TEST(InsertTest, InfiniteLoopTest_1){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(4,8,graph,forest);
-    testInsertEdge(4,3,graph,forest);
-    testInsertEdge(0,5,graph,forest);
-    testInsertEdge(1,5,graph,forest);
-    testInsertEdge(3,0,graph,forest);
-    testInsertEdge(8,6,graph,forest);
+    testInsertEdgeAndInOrder(4,8,graph,forest,list {4,8,4});
+    testInsertEdgeAndInOrder(4,3,graph,forest,list {3,4,8,4,3});
+    testInsertEdgeAndInOrder(0,5,graph,forest,list {0,5,0});
+    testInsertEdgeAndInOrder(1,5,graph,forest,list {1,5,0,5,1});
+    testInsertEdgeAndInOrder(3,0,graph,forest,list {0,5,1,5,0,3,4,8,4,3,0});
+    testInsertEdgeAndInOrder(8,6,graph,forest,list {6,8,4,3,0,5,1,5,0,3,4,8,6});
 }
 TEST(InsertTest, InfiniteLoopTest_2){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(6,2,graph,forest);
-    testInsertEdge(8,7,graph,forest);
-    testInsertEdge(0,8,graph,forest);
-    testInsertEdge(2,1,graph,forest);
-    testInsertEdge(0,1,graph,forest);
-    testInsertEdge(3,5,graph,forest);
-    testInsertEdge(6,8,graph,forest);
-    testInsertEdge(1,7,graph,forest);
-    testInsertEdge(7,4,graph,forest);
-    testInsertEdge(7,0,graph,forest);
-    testInsertEdge(5,6,graph,forest);
+    testInsertEdgeAndInOrder(6,2,graph,forest,list {2,6,2});
+    testInsertEdgeAndInOrder(8,7,graph,forest,list {7,8,7});
+    testInsertEdgeAndInOrder(0,8,graph,forest,list {0,8,7,8,0});
+    testInsertEdgeAndInOrder(2,1,graph,forest,list {1,2,6,2,1});
+    testInsertEdgeAndInOrder(0,1,graph,forest,list {0,8,7,8,0,1,2,6,2,1,0});
+    testInsertEdgeAndInOrder(3,5,graph,forest,list {3,5,3});
+    testInsertEdgeAndInOrder(6,8,graph,forest,list {0,8,7,8,0,1,2,6,2,1,0});
+    testInsertEdgeAndInOrder(1,7,graph,forest,list {0,8,7,8,0,1,2,6,2,1,0});
+    testInsertEdgeAndInOrder(7,4,graph,forest,list {4,7,8,0,1,2,6,2,1,0,8,7,4});
+    testInsertEdgeAndInOrder(7,0,graph,forest,list {4,7,8,0,1,2,6,2,1,0,8,7,4});
+    testInsertEdgeAndInOrder(5,6,graph,forest,list {5,3,5,6,2,1,0,8,7,4,7,8,0,1,2,6,5});
 }
 TEST(InsertTest, InfiniteLoopTest_3) {
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(4,5,graph,forest);
-    testInsertEdge(0,6,graph,forest);
-    testInsertEdge(0,5,graph,forest);
-    testInsertEdge(2,1,graph,forest);
-    testInsertEdge(5,1,graph,forest);
-    testInsertEdge(2,0,graph,forest);
-    testInsertEdge(3,2,graph,forest);
-    testInsertEdge(4,6,graph,forest);
-    testInsertEdge(4,4,graph,forest);
-    testInsertEdge(0,1,graph,forest);
-    testInsertEdge(7,0,graph,forest);
-    testInsertEdge(4,7,graph,forest);
-    testInsertEdge(2,5,graph,forest);
-    testInsertEdge(5,7,graph,forest);
-    testInsertEdge(7,3,graph,forest);
-    testInsertEdge(5,6,graph,forest);
-    testInsertEdge(4,8,graph,forest);
+    testInsertEdgeAndInOrder(4,5,graph,forest,list {4,5,4});
+    testInsertEdgeAndInOrder(0,6,graph,forest,list {0,6,0});
+    testInsertEdgeAndInOrder(0,5,graph,forest,list {0,6,0,5,4,5,0});
+    testInsertEdgeAndInOrder(2,1,graph,forest,list {1,2,1});
+    testInsertEdgeAndInOrder(5,1,graph,forest,list {1,2,1,5,4,5,0,6,0,5,1});
+    testInsertEdgeAndInOrder(2,0,graph,forest,list {1,2,1,5,4,5,0,6,0,5,1});
+    testInsertEdgeAndInOrder(3,2,graph,forest,list {2,1,5,4,5,0,6,0,5,1,2,3,2});
+    testInsertEdgeAndInOrder(4,6,graph,forest,list {2,1,5,4,5,0,6,0,5,1,2,3,2});
+    testInsertEdgeAndInOrder(0,1,graph,forest,list {2,1,5,4,5,0,6,0,5,1,2,3,2});
+    testInsertEdgeAndInOrder(7,0,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(4,7,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(2,5,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(5,7,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(7,3,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(5,6,graph,forest,list {0,6,0,5,1,2,3,2,1,5,4,5,0,7,0});
+    testInsertEdgeAndInOrder(4,8,graph,forest,list {4,5,0,7,0,6,0,5,1,2,3,2,1,5,4,8,4});
 }
 TEST(InsertTest, BlackHeightTest_1){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(7,8,graph,forest);
-    testInsertEdge(5,7,graph,forest);
-    testInsertEdge(8,0,graph,forest);
-    testInsertEdge(7,0,graph,forest);
-    testInsertEdge(3,7,graph,forest);
-    testInsertEdge(6,2,graph,forest);
-    testInsertEdge(4,7,graph,forest);
-    testInsertEdge(8,5,graph,forest);
-    testInsertEdge(2,7,graph,forest);
-    testInsertEdge(7,1,graph,forest);
+    testInsertEdgeAndInOrder(7,8,graph,forest,list {7,8,7});
+    testInsertEdgeAndInOrder(5,7,graph,forest,list {5,7,8,7,5});
+    testInsertEdgeAndInOrder(8,0,graph,forest,list {0,8,7,5,7,8,0});
+    testInsertEdgeAndInOrder(7,0,graph,forest,list {0,8,7,5,7,8,0});
+    testInsertEdgeAndInOrder(3,7,graph,forest,list {3,7,5,7,8,0,8,7,3});
+    testInsertEdgeAndInOrder(6,2,graph,forest,list {2,6,2});
+    testInsertEdgeAndInOrder(4,7,graph,forest,list {4,7,5,7,8,0,8,7,3,7,4});
+    testInsertEdgeAndInOrder(8,5,graph,forest,list {4,7,5,7,8,0,8,7,3,7,4});
+    testInsertEdgeAndInOrder(2,7,graph,forest,list {2,6,2,7,5,7,8,0,8,7,3,7,4,7,2});
+    testInsertEdgeAndInOrder(7,1,graph,forest,list {1,7,5,7,8,0,8,7,3,7,4,7,2,6,2,7,1});
 }
 TEST(InsertTest, BlackHeightTest_2){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(3,1,graph,forest);
-    testInsertEdge(8,3,graph,forest);
-    testInsertEdge(3,7,graph,forest);
-    testInsertEdge(6,4,graph,forest);
-    testInsertEdge(3,6,graph,forest);
-    testInsertEdge(4,5,graph,forest);
-    testInsertEdge(5,8,graph,forest);
-    testInsertEdge(4,2,graph,forest);
-    testInsertEdge(1,4,graph,forest);
-    testInsertEdge(0,3,graph,forest);
+    testInsertEdgeAndInOrder(3,1,graph,forest,list {1,3,1});
+    testInsertEdgeAndInOrder(8,3,graph,forest,list {3,1,3,8,3});
+    testInsertEdgeAndInOrder(3,7,graph,forest,list {3,1,3,8,3,7,3});
+    testInsertEdgeAndInOrder(6,4,graph,forest,list {4,6,4});
+    testInsertEdgeAndInOrder(3,6,graph,forest,list {3,1,3,8,3,7,3,6,4,6,3});
+    testInsertEdgeAndInOrder(4,5,graph,forest,list {4,6,3,1,3,8,3,7,3,6,4,5,4});
+    testInsertEdgeAndInOrder(5,8,graph,forest,list {4,6,3,1,3,8,3,7,3,6,4,5,4});
+    testInsertEdgeAndInOrder(4,2,graph,forest,list {2,4,6,3,1,3,8,3,7,3,6,4,5,4,2});
+    testInsertEdgeAndInOrder(1,4,graph,forest,list {2,4,6,3,1,3,8,3,7,3,6,4,5,4,2});
+    testInsertEdgeAndInOrder(0,3,graph,forest,list {0,3,1,3,8,3,7,3,6,4,5,4,2,4,6,3,0});
 }
 TEST(InsertTest, BlackHeightTest_3){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(4,3,graph,forest);
-    testInsertEdge(6,5,graph,forest);
-    testInsertEdge(3,0,graph,forest);
-    testInsertEdge(7,0,graph,forest);
-    testInsertEdge(1,7,graph,forest);
-    testInsertEdge(8,7,graph,forest);
-    testInsertEdge(8,5,graph,forest);
-    testInsertEdge(8,2,graph,forest);
+    testInsertEdgeAndInOrder(4,3,graph,forest,list {3,4,3});
+    testInsertEdgeAndInOrder(6,5,graph,forest,list {5,6,5});
+    testInsertEdgeAndInOrder(3,0,graph,forest,list {0,3,4,3,0});
+    testInsertEdgeAndInOrder(7,0,graph,forest,list {0,3,4,3,0,7,0});
+    testInsertEdgeAndInOrder(1,7,graph,forest,list {1,7,0,3,4,3,0,7,1});
+    testInsertEdgeAndInOrder(8,7,graph,forest,list {7,0,3,4,3,0,7,1,7,8,7});
+    testInsertEdgeAndInOrder(8,5,graph,forest,list {5,6,5,8,7,0,3,4,3,0,7,1,7,8,5});
+    testInsertEdgeAndInOrder(8,2,graph,forest,list {2,8,7,0,3,4,3,0,7,1,7,8,5,6,5,8,2});
 }
 TEST(InsertTest, nullptrderef){
     DecGraph graph(10);
     ETForest forest(10);
 
-    testInsertEdge(8,1,graph,forest);
-    testInsertEdge(7,8,graph,forest);
-    testInsertEdge(5,2,graph,forest);
-    testInsertEdge(0,6,graph,forest);
-    testInsertEdge(5,6,graph,forest);
-    testInsertEdge(3,5,graph,forest);
-    testInsertEdge(7,6,graph,forest);
-    testInsertEdge(0,8,graph,forest);
+    testInsertEdgeAndInOrder(8,1,graph,forest,list {1,8,1});
+    testInsertEdgeAndInOrder(7,8,graph,forest,list {7,8,1,8,7});
+    testInsertEdgeAndInOrder(5,2,graph,forest,list {2,5,2});
+    testInsertEdgeAndInOrder(0,6,graph,forest,list {0,6,0});
+    testInsertEdgeAndInOrder(5,6,graph,forest,list {5,2,5,6,0,6,5});
+    testInsertEdgeAndInOrder(3,5,graph,forest,list {3,5,2,5,6,0,6,5,3});
+    testInsertEdgeAndInOrder(7,6,graph,forest,list {6,0,6,5,3,5,2,5,6,7,8,1,8,7,6});
+    testInsertEdgeAndInOrder(0,8,graph,forest,list {6,0,6,5,3,5,2,5,6,7,8,1,8,7,6});
     //TODO az inorderből eltűnik a 7-es
-    hitBreakPoint(4,8,graph,forest);
+    testInsertEdgeAndInOrder(4,8,graph,forest,list {4,8,1,8,7,6,0,6,5,3,5,2,5,6,7,8,4});
 }
 TEST(InsertTest, lastseenfail){
     DecGraph graph(10);

@@ -27,6 +27,7 @@ ETTreeNode::ETTreeNode(ETTreeNode *parent, ETTreeNode *left, ETTreeNode *right, 
 
 ETTreeNode theNullNode(nullptr, nullptr, nullptr, BLACK);
 bool bid = false;
+bool isFirstTime = false;
 
 ETTreeNode::ETTreeNode(int color, int nodeId, int rank, ETTreeNode *parent) :
         parent(parent),
@@ -689,6 +690,10 @@ void ETForest::remove(int u, int v) {
 }
 
 void ETForest::reroot(int u) {
+   if(bid){
+       std::cout<<"reroot: "<<u<<std::endl;
+   }
+
     ETTreeNode *pNode = first[u];
     int it = 1;
     std::stack<ETTreeNode *> nodeStack;

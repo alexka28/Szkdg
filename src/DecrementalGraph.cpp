@@ -59,6 +59,12 @@ void DecGraph::insert(int u, int v, ETForest F) {
     if (!connected(u, v, F)) {
         F.insert(u, v);                          // F-be besz�rjuk, �sszek�tve u-t �s v-t
     }
+    else {
+        if(bid){
+            std::cout<<"Nem leptunk insertbe, mivel " <<u<<" es "<<v<<" connected!"<<std::endl;
+        }
+
+    }
 
 }
 
