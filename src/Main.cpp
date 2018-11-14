@@ -19,12 +19,13 @@ int main() {
 
     //insertekhez a teszt
     // testInsert();
-int n = 100;
+int n = 1000;
     DecGraph grafom(n);
     ETForest forestem(n);
     Graph simagraf(n);
 std::list<std::pair<int,int>> insertList = fillGraph(n);
     std::list<std::pair<int,int>>::iterator insertIt;
+    std::cout<<"lista kesz!"<<std::endl;
     for(insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt){
         cout<<" testInsertEdge(" << insertIt->first<<"," << insertIt->second<<",graph,forest);" <<endl;
         grafom.insert(insertIt->first,insertIt->second,forestem);

@@ -314,7 +314,6 @@ TEST(InsertTest, nullptrderef){
     testInsertEdgeAndInOrder(3,5,graph,forest,list {3,5,2,5,6,0,6,5,3});
     testInsertEdgeAndInOrder(7,6,graph,forest,list {6,0,6,5,3,5,2,5,6,7,8,1,8,7,6});
     testInsertEdgeAndInOrder(0,8,graph,forest,list {6,0,6,5,3,5,2,5,6,7,8,1,8,7,6});
-    //TODO az inorderből eltűnik a 7-es
     testInsertEdgeAndInOrder(4,8,graph,forest,list {4,8,1,8,7,6,0,6,5,3,5,2,5,6,7,8,4});
 }
 TEST(InsertTest, lastseenfail){
@@ -538,5 +537,5 @@ TEST(InsertTest, HugeGraph2){
     testInsertEdge(67,57,graph,forest);
     testInsertEdge(31,66,graph,forest);
     testInsertEdge(72,34,graph,forest);
-    //testInsertEdge(17,81,graph,forest);
+    testInsertEdge(17,81,graph,forest);
 }

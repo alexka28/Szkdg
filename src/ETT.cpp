@@ -87,7 +87,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
         ETTreeNode *A;
         //ha az y még egy elemű fa, akkor elég a bal fiát u-ra állítani
         if (x == &theNullNode && isOneNode(y)) {
-            if(y->color == RED){
+            if (y->color == RED) {
                 y->color = BLACK;
                 y->rank = 1;
             }
@@ -98,7 +98,7 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
             repair(j);
             updateRank(j);
         } else if (x == &theNullNode && !isOneNode(y)) {
-            if(y->color == RED){
+            if (y->color == RED) {
                 y->color = BLACK;
                 ++y->rank;
             }
@@ -131,27 +131,27 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
         }
             //ha nem nullNode-ot kell joinolni
         else {
-            if(y->color == RED){
+            if (y->color == RED) {
                 y->color = BLACK;
                 ++y->rank;
             }
             bool isNullNode = false;
-            if(isOneNode(x) && x->color == RED){
+            if (isOneNode(x) && x->color == RED) {
                 assert(x->rank == 0);
-                while(y->rank != x->rank+1){
+                while (y->rank != x->rank + 1) {
                     y = y->left;
                 }
-                if(y->left != &theNullNode){
+                if (y->left != &theNullNode) {
                     y = y->left;
                 }
-                if(y->color == BLACK && y->left != &theNullNode){
+                if (y->color == BLACK && y->left != &theNullNode) {
                     y = y->left;
-                }
-                else{
+                } else if (y->color == BLACK && y->left == &theNullNode) {
                     isNullNode = true;
+                } else {
+                    assert(y->color == RED && y->rank == 0);
                 }
-            }
-            else{
+            } else {
                 while (y->rank != x->rank) {
                     y = y->left;
                 }
@@ -164,84 +164,110 @@ ETTreeNode *ETForest::join(ETTreeNode *x, ETTreeNode *j, ETTreeNode *y) {
 //            }
 //TODO: befejezni
 
-if(isNullNode){
-    A->left = j;
-    j->parent = A;
-    setColor(j, RED);
-    setRank(j, 0);
-    updateRank(j);
-    repair(j);
-}
-else {
+            if (isNullNode) {
+                A->left = j;
+                j->parent = A;
+                j->right = &theNullNode;
+                j->left = x;
+                x->parent = j;
+//case 1
+                if (A->right->color == RED) {
+                    setColor(j, BLACK);
+                    setColor(A->right, BLACK);
+                    setColor(A, RED);
+                    assert(A->right->rank == 0);
+                    ++A->right->rank;
+                    j->rank = 1;
+                    A->rank = 1;
 
-    assert(A->parent->color == BLACK);
-    auto B = A->parent;
-    auto Br = B->right;
-    assert(Br != A);
-    assert(B->left == A);
+                    repair(A);
+                    updateRank(A);
+                }
+                //case 2.3
+                else if (j->right->color == BLACK && x->color == RED) {
+                    setColor(A, RED);
+                    setColor(j, BLACK);
+                    setRank(A, 0);
+                    setRank(j, 1);
+                    rotateRight(A);
+                    updateRank(j);
+                }
+                //    A->left = j;
+//    j->parent = A;
+//    setColor(j, RED);
+//    setRank(j, 0);
+//    updateRank(j);
+//    repair(j);
+            } else {
 
-    setParent(j, A->parent);
-    setLeftChild(A->parent, j);
-    setParent(A, j);
-    setRightChild(j, A);
-    setLeftChild(j, x);
-    setParent(x, j);
-    //case 1
-    if (B->right->color == RED) {
-        setColor(j, BLACK);
-        setColor(B->right, BLACK);
-        setColor(B, RED);
-        setRank(j, x->rank + 1);
-        setRank(Br, j->rank);
-        setRank(B, j->rank);
-        assert(B->left == j);
-        repair(B);
-        updateRank(j);
-    }
-        //case 2
-    else {
-        //sub 2.1
-        if (A->color == BLACK && x->color == BLACK) {
-            setColor(j, RED);
-            updateRank(j);
-        }
-            //sub 2.2
-        else if (A->color == RED && x->color == RED) {
-            setColor(x, BLACK);
-            setColor(j, RED);
-            setRank(x, B->rank);
-            setRank(j, B->rank);
-            rotateRight(B);
-            assert(j->right == B);
-            assert(j->left == x);
-            repair(j);
-        }
-            //sub 2.3
-        else if (A->color == BLACK && x->color == RED) {
-            setColor(j, BLACK);
-            setColor(B, RED);
-            setRank(B, x->rank);
-            setRank(j, B->rank + 1);
-            rotateRight(B);
-        }
-            //sub 2.4
-        else if (A->color == RED && x->color == BLACK) {
-            rotateLeftWoRankUpdate(j);
-            rotateRightWoRankUpdate(B);
-            setColor(B, RED);
-            setColor(j, RED);
-            setColor(A, BLACK);
-            setRank(B, Br->rank);
-            setRank(j, B->rank);
-            setRank(A, A->left->rank + 1);
-            assert(A->left == j);
-            assert(A->right == B);
-            updateRank(A);
-        }
-    }
+                assert(A->parent->color == BLACK);
+                auto B = A->parent;
+                auto Br = B->right;
+                assert(Br != A);
+                assert(B->left == A);
+
+                setParent(j, A->parent);
+                setLeftChild(A->parent, j);
+                setParent(A, j);
+                setRightChild(j, A);
+                setLeftChild(j, x);
+                setParent(x, j);
+                //case 1
+                if (B->right->color == RED) {
+                    setColor(j, BLACK);
+                    setColor(B->right, BLACK);
+                    setColor(B, RED);
+                    setRank(j, x->rank + 1);
+                    setRank(Br, j->rank);
+                    setRank(B, j->rank);
+                    assert(B->left == j);
+                    repair(B);
+                    updateRank(j);
+                }
+                    //case 2
+                else {
+                    //sub 2.1
+                    if (A->color == BLACK && x->color == BLACK) {
+                        setColor(j, RED);
+                        updateRank(j);
+                    }
+                        //sub 2.2
+                    else if (A->color == RED && x->color == RED) {
+                        setColor(x, BLACK);
+                        setColor(j, RED);
+                        setRank(x, B->rank);
+                        setRank(j, B->rank);
+                        rotateRight(B);
+                        assert(j->right == B);
+                        assert(j->left == x);
+                        repair(j);
+                    }
+                        //sub 2.3
+                    else if (A->color == BLACK && x->color == RED) {
+                        setColor(j, BLACK);
+                        setColor(B, RED);
+                        setRank(B, x->rank);
+                        setRank(j, B->rank + 1);
+                        rotateRight(B);
+                    }
+                        //sub 2.4
+                    else if (A->color == RED && x->color == BLACK) {
+                        rotateLeftWoRankUpdate(j);
+                        rotateRightWoRankUpdate(B);
+                        setColor(B, RED);
+                        setColor(j, RED);
+                        setColor(A, BLACK);
+                        setRank(B, Br->rank);
+                        setRank(j, B->rank);
+                        setRank(A, A->left->rank + 1);
+                        assert(A->left == j);
+                        assert(A->right == B);
+                        updateRank(A);
+                    }
+                }
 
 
-}
+            }
         }
 
 
@@ -250,7 +276,7 @@ else {
         ETTreeNode *A;
         //ha x még egy elemű fa, akkor elég a jobb fiát u-ra beállítani
         if (y == &theNullNode && isOneNode(x)) {
-            if(x->color == RED){
+            if (x->color == RED) {
                 x->color = BLACK;
                 x->rank = 1;
             }
@@ -261,7 +287,7 @@ else {
             repair(j);
             updateRank(j);
         } else if (y == &theNullNode && !isOneNode(x)) {
-            if(x->color == RED){
+            if (x->color == RED) {
                 x->color = BLACK;
                 ++x->rank;
             }
@@ -296,27 +322,26 @@ else {
 
         } else {
             bool isNullNode = false;
-            if(x->color == RED){
+            if (x->color == RED) {
                 x->color = BLACK;
                 ++x->rank;
             }
-            if(isOneNode(y) && y->color == RED){
+            if (isOneNode(y) && y->color == RED) {
                 assert(y->rank == 0);
-                while(x->rank != y->rank+1){
+                while (x->rank != y->rank + 1) {
                     x = x->right;
                 }
-                if(x->right != &theNullNode){
+                if (x->right != &theNullNode) {
                     x = x->right;
                 }
-                if(x->color == BLACK && x->right != &theNullNode){
+                if (x->color == BLACK && x->right != &theNullNode) {
                     x = x->right;
-                }
-
-                else{
+                } else if (x->color == BLACK && x->right == &theNullNode) {
                     isNullNode = true;
+                } else {
+                    assert(x->color == RED && x->rank == 0);
                 }
-            }
-            else {
+            } else {
                 while (x->rank != y->rank) {
                     x = x->right;
                 }
@@ -327,83 +352,112 @@ else {
 //            if (x->color != BLACK) {
 //                A = x->right;
 //            }
-if(isNullNode){
-    A->right = j;
-    j->parent = A;
-    setColor(j, RED);
-    setRank(j, 0);
-    updateRank(j);
-    repair(j);
-}
-else{
+            if (isNullNode) {
+                assert(A->color == BLACK && A->rank == 1 && A->right == &theNullNode);
 
-
-            assert(A->parent->color == BLACK);
-            auto B = A->parent;
-            assert(B->left != A);
-            setParent(j, A->parent);
-            setRightChild(A->parent, j);
-            setParent(A, j);
-            setRightChild(j, y);
-            setLeftChild(j, A);
-            setParent(y, j);
-            //case 1
-            if (B->left->color == RED) {
-                setColor(j, BLACK);
-                setColor(B->left, BLACK);
-                setColor(B, RED);
-                setRank(B->left, B->left->rank+1);
-                setRank(j, B->left->rank);
-                repair(B);
-                updateRank(B);
-            }
-                //case 2
-            else {
-                //case 2.1
-                if (A->color == BLACK && y->color == BLACK) {
-                    setColor(j, RED);
-                    updateRank(j);
-                }
-                    //case 2.2
-                else if (A->color == RED && y->color == RED) {
-                    setColor(B, BLACK);
-                    setColor(y, BLACK);
-                    setColor(j, RED);
-                    setRank(B, B->left->rank+1);
-                    setRank(y, B->rank);
-                    setRank(j, j->left->rank);
-                    rotateLeft(B);
-                    assert(j->left == B);
-                    assert(j->right == y);
-                    repair(j);
-                    updateRank(j);
-                } else if (A->color == BLACK && y->color == RED) {
-                    setColor(B, RED);
+//    A->right = j;
+//    j->parent = A;
+//    setColor(j, RED);
+//    setRank(j, 0);
+//    updateRank(j);
+//    repair(j);
+                A->right = j;
+                j->parent = A;
+                j->left = &theNullNode;
+                j->right = y;
+                y->parent = j;
+                //case 1
+                if (A->left->color == RED) {
                     setColor(j, BLACK);
-                    setRank(B, B->left->rank);
-                    setRank(j,j->left->rank+1);
-                    rotateLeft(B);
-                    assert(j->left == B);
-                    assert(j->right == y);
-                    updateRank(j);
-                } else if (A->color == RED && y->color == BLACK) {
-                    rotateRightWoRankUpdate(j);
-                    rotateLeftWoRankUpdate(B);
-                    setColor(j, RED);
-                    setColor(A, BLACK);
-                    setColor(B, RED);
-                    setRank(A, A->left->rank+1);
-                    setRank(B, B->left->rank);
-                    setRank(j, B->rank);
-                    assert(A->left == B);
-                    assert(A->right == j);
+                    setColor(A->left, BLACK);
+                    setColor(A, RED);
+                    assert(A->left->rank == 0);
+                    ++A->left->rank;
+                    j->rank = 1;
+                    A->rank = 1;
+
+                    repair(A);
                     updateRank(A);
                 }
+                    //case 2.3 other cases dont need bcuz y always red and A child is always black (nullnode)
+                else if (j->left->color == BLACK && y->color == RED) {
+                    setColor(A, RED);
+                    setColor(j, BLACK);
+                    setRank(A, 0);
+                    setRank(j, 1);
+                    rotateLeft(A);
+                    updateRank(j);
+                }
+
+            } else {
+
+
+                assert(A->parent->color == BLACK);
+                auto B = A->parent;
+                assert(B->left != A);
+                setParent(j, A->parent);
+                setRightChild(A->parent, j);
+                setParent(A, j);
+                setRightChild(j, y);
+                setLeftChild(j, A);
+                setParent(y, j);
+                //case 1
+                if (B->left->color == RED) {
+                    setColor(j, BLACK);
+                    setColor(B->left, BLACK);
+                    setColor(B, RED);
+                    setRank(B->left, B->left->rank + 1);
+                    setRank(j, B->left->rank);
+                    repair(B);
+                    updateRank(B);
+                }
+                    //case 2
+                else {
+                    //case 2.1
+                    if (A->color == BLACK && y->color == BLACK) {
+                        setColor(j, RED);
+                        updateRank(j);
+                    }
+                        //case 2.2
+                    else if (A->color == RED && y->color == RED) {
+                        setColor(B, BLACK);
+                        setColor(y, BLACK);
+                        setColor(j, RED);
+                        setRank(B, B->left->rank + 1);
+                        setRank(y, B->rank);
+                        setRank(j, j->left->rank);
+                        rotateLeft(B);
+                        assert(j->left == B);
+                        assert(j->right == y);
+                        repair(j);
+                        updateRank(j);
+                    } else if (A->color == BLACK && y->color == RED) {
+                        setColor(B, RED);
+                        setColor(j, BLACK);
+                        setRank(B, B->left->rank);
+                        setRank(j, j->left->rank + 1);
+                        rotateLeft(B);
+                        assert(j->left == B);
+                        assert(j->right == y);
+                        updateRank(j);
+                    } else if (A->color == RED && y->color == BLACK) {
+                        rotateRightWoRankUpdate(j);
+                        rotateLeftWoRankUpdate(B);
+                        setColor(j, RED);
+                        setColor(A, BLACK);
+                        setColor(B, RED);
+                        setRank(A, A->left->rank + 1);
+                        setRank(B, B->left->rank);
+                        setRank(j, B->rank);
+                        assert(A->left == B);
+                        assert(A->right == j);
+                        updateRank(A);
+                    }
+                }
             }
         }
-        }
     }
-    if(findRoot(j)->color == RED){
+    if (findRoot(j)->color == RED) {
         print(findRoot(j));
 
     }
@@ -437,7 +491,7 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
     pNode->parent = nullptr;
     // T2 létrehozása, pNode már gyerekek nélkül és a jobb részfa
     //itt a pNodeRight miatt lehet, hogy a rootja a teljes fa rootja, ha nincs nullptr-re rakva
-    if(pNodeRight->color == RED){
+    if (pNodeRight->color == RED) {
         pNodeRight->color = BLACK;
         ++pNodeRight->rank;
     }
@@ -502,7 +556,6 @@ void ETForest::insert(int u, int v) {
     if (ETTMinimum(T1)->nodeId != v) {
         reroot(v);
         T1 = findRoot(T1);
-
     }
 //    if (minimum(last[u])->nodeId != u) {
 //        reroot(u);
@@ -690,11 +743,12 @@ void ETForest::remove(int u, int v) {
 }
 
 void ETForest::reroot(int u) {
-   if(bid){
-       std::cout<<"reroot: "<<u<<std::endl;
-   }
+    if (bid) {
+        std::cout << "reroot: " << u << std::endl;
+    }
 
     ETTreeNode *pNode = first[u];
+
     int it = 1;
     std::stack<ETTreeNode *> nodeStack;
     //tegyük bele pNode-ot a verembe
@@ -713,6 +767,7 @@ void ETForest::reroot(int u) {
         std::pair<ETTreeNode *, ETTreeNode *> tmp = split(first[u]);
         T1 = tmp.first;
         T2 = tmp.second;
+
         if (isOneNode(T2)) {
             T2 = &theNullNode;
         } else if (maximum(T2) == findRoot(T2)) {
