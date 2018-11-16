@@ -668,13 +668,40 @@ void ETForest::remove(int u, int v) {
     std::pair<ETTreeNode *, ETTreeNode *> firstSplitResult = split(first[u]);
     T0 = firstSplitResult.first;
     T1 = firstSplitResult.second;
+    T1 = findRoot(T1);
+
+    assert(maximum(findRoot(T0))->nodeId == v);
 
 
-    std::pair<ETTreeNode *, ETTreeNode *> secondSplitResult = split(last[u]);
+
+
+
+    assert(minimum(T1) == first[u]);
+    assert(findRoot(first[u]) == findRoot(last[u]));
+    assert(findRoot(last[v]) == findRoot(first[u]));
+    auto secondSplit = successor(last[u]);
+    assert(secondSplit != nullptr);
+
+    std::pair<ETTreeNode *, ETTreeNode *> secondSplitResult = split(secondSplit);
     //kisebb egyenlőek ->T3-ba
     T3 = secondSplitResult.first;
     T2 = secondSplitResult.second;
 
+    //TODO:törölni
+//    if(bid){
+//        isFirstTime = true;
+//        inOrder(T0);
+//        std::cout<<std::endl<<std::endl;
+//        isFirstTime = true;
+//        inOrder(findRoot(T1));
+//        std::cout<<std::endl<<std::endl;
+//        isFirstTime = true;
+//        inOrder(T2);
+//        std::cout<<std::endl<<std::endl;
+//        isFirstTime = true;
+//        inOrder(T3);
+//        std::cout<<std::endl<<std::endl;
+//    }
 
     ETTreeNode *minT2, *maxT0;
 
@@ -706,7 +733,9 @@ void ETForest::remove(int u, int v) {
     }
 
     if (isOneNode(T0)) {
+        assert(T0->nodeId == v);
         maxT0 = T0;
+        first[v] = maxT0;
         T0 = &theNullNode;
     }
         //ha nem egy elemű fa, és a maximuma a gyökér, akkor van egy bal gyereke
@@ -733,6 +762,17 @@ void ETForest::remove(int u, int v) {
         T0 = findRoot(T0);
     }
     T4 = join(T0, vNode, T2);
+
+    T3 = findRoot(T3);
+    auto minT3 = minimum(T3);
+    auto maxT3 = maximum(T3);
+    assert(minT3->nodeId == u);
+    assert(maxT3->nodeId == u);
+    first[u] = minT3;
+    last[u] = maxT3;
+    if(isOneNode(T4)){
+        first[v] = last[v] = vNode;
+    }
     if (maxT0 == first[v]) {
         first[v] = vNode;
     }

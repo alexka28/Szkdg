@@ -75,7 +75,7 @@ void DecGraph::remove(int u, int v, ETForest F) {
     //kiszedj�k a szintet
     int k = level.find(std::make_pair(u, v))->second;
     level.erase(std::make_pair(u, v));
-    if (F.contains(u, v)) { return; }
+    if (!F.contains(u, v)) { return; }
     F.remove(u, v);
 
     ETTreeNode *smallerTree;
