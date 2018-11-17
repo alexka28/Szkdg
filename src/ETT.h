@@ -45,6 +45,10 @@ typedef struct ETForest {
 
     std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *);
 
+    std::pair<ETTreeNode *, ETTreeNode *> split(ETTreeNode *, int u);
+
+    std::pair<ETTreeNode *, ETTreeNode *> splitInRemove(ETTreeNode *);
+
     void reroot(int);
 
     //deletehez

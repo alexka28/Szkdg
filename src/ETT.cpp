@@ -665,9 +665,11 @@ void ETForest::remove(int u, int v) {
     vNode->rank = last[v]->rank;
 
 
-    std::pair<ETTreeNode *, ETTreeNode *> firstSplitResult = split(first[u]);
+    //std::pair<ETTreeNode *, ETTreeNode *> firstSplitResult = split(first[u]);
+    auto firstSplitResult = splitInRemove(first[u]);
     T0 = firstSplitResult.first;
     T1 = firstSplitResult.second;
+    T0 = findRoot(T0);
     T1 = findRoot(T1);
 
     assert(maximum(findRoot(T0))->nodeId == v);
@@ -682,11 +684,14 @@ void ETForest::remove(int u, int v) {
     auto secondSplit = successor(last[u]);
     assert(secondSplit != nullptr);
 
-    std::pair<ETTreeNode *, ETTreeNode *> secondSplitResult = split(secondSplit);
+//    std::pair<ETTreeNode *, ETTreeNode *> secondSplitResult = split(secondSplit);
+    auto secondSplitResult = splitInRemove(secondSplit);
     //kisebb egyenlőek ->T3-ba
     T3 = secondSplitResult.first;
     T2 = secondSplitResult.second;
 
+    T2 = findRoot(T2);
+    T3 = findRoot(T3);
     //TODO:törölni
 //    if(bid){
 //        isFirstTime = true;
@@ -1412,4 +1417,176 @@ void ETForest::verify2SideConnection() {
     for (int i = 0; i < this->N; ++i) {
         verifyNodesAreTwoSideConnected(findRoot(first[i]));
     }
+}
+
+std::pair<ETTreeNode*,ETTreeNode*> ETForest::split(ETTreeNode *pNode, int u) {
+    //saveljük el a parentjét és, hogy jobb vagy bal gyerek-e
+    ETTreeNode *parent = pNode->parent;
+    ETTreeNode *T1;
+    bool isLeftNode = isLeft(pNode);
+    //T1 létrehozása, ő a pNode bal gyereke
+    if (pNode->left == &theNullNode) {
+        T1 = &theNullNode;
+    } else {
+
+        T1 = new ETTreeNode(nullptr, pNode->left->left, pNode->left->right, pNode->left->color,
+                            pNode->left->nodeId);
+        T1->rank = pNode->left->rank;
+        setParent(T1->left, T1);
+        setParent(T1->right, T1);
+        if(pNode->left->nodeId == u){
+            if(first[u] == pNode->left){
+                first[u] = T1;
+            }
+            if(last[u] == pNode->left){
+                last[u] = T1;
+            }
+        }
+    }
+
+//mentsük el a jobb részfát
+    ETTreeNode *pNodeRight = pNode->right;
+    //valszleg a szülőjét nem árt nullptr-re rakni
+    pNodeRight->parent = nullptr;
+    //pNode visszaállítása 1 elemű fára
+    pNode->right = &theNullNode;
+    pNode->left = &theNullNode;
+    pNode->parent = nullptr;
+    // T2 létrehozása, pNode már gyerekek nélkül és a jobb részfa
+    //itt a pNodeRight miatt lehet, hogy a rootja a teljes fa rootja, ha nincs nullptr-re rakva
+    if (pNodeRight->color == RED) {
+        pNodeRight->color = BLACK;
+        ++pNodeRight->rank;
+    }
+    ETTreeNode *T2 = join(&theNullNode, pNode, pNodeRight);
+
+    while (parent != nullptr) {
+        if (isLeftNode) {
+            ETTreeNode *subTree = parent->right;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+            T2->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+            T2 = join(T2, root, subTree);
+
+
+        } else {
+            ETTreeNode *subTree = parent->left;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+
+            T1->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+
+            T1 = join(subTree, root, T1);
+
+
+        }
+    }
+    if (T1->color == RED) {
+        T1->color = BLACK;
+        updateRank(T1);
+    }
+    if (T2->color == RED) {
+        T2->color = BLACK;
+        updateRank(T2);
+    }
+    std::pair<ETTreeNode *, ETTreeNode *> T1T2(T1, T2);
+    verify2SideConnection();
+    return T1T2;
+}
+
+std::pair<ETTreeNode*,ETTreeNode*> ETForest::splitInRemove(ETTreeNode *pNode) {
+    //saveljük el a parentjét és, hogy jobb vagy bal gyerek-e
+    ETTreeNode *parent = pNode->parent;
+    ETTreeNode *T1;
+    bool isLeftNode = isLeft(pNode);
+    //T1 létrehozása, ő a pNode bal gyereke
+    if (pNode->left == &theNullNode) {
+        T1 = &theNullNode;
+    } else {
+        auto pLeft = pNode->left;
+        T1 = new ETTreeNode(nullptr, pNode->left->left, pNode->left->right, pNode->left->color,
+                            pNode->left->nodeId);
+        T1->rank = pNode->left->rank;
+        setParent(T1->left, T1);
+        setParent(T1->right, T1);
+        if(first[pLeft->nodeId] == pLeft){
+            first[pLeft->nodeId] = T1;
+        }
+        if(last[pLeft->nodeId] == pLeft){
+            last[pLeft->nodeId] = T1;
+        }
+    }
+
+//mentsük el a jobb részfát
+    ETTreeNode *pNodeRight = pNode->right;
+    //valszleg a szülőjét nem árt nullptr-re rakni
+    pNodeRight->parent = nullptr;
+    //pNode visszaállítása 1 elemű fára
+    pNode->right = &theNullNode;
+    pNode->left = &theNullNode;
+    pNode->parent = nullptr;
+    // T2 létrehozása, pNode már gyerekek nélkül és a jobb részfa
+    //itt a pNodeRight miatt lehet, hogy a rootja a teljes fa rootja, ha nincs nullptr-re rakva
+    if (pNodeRight->color == RED) {
+        pNodeRight->color = BLACK;
+        ++pNodeRight->rank;
+    }
+    ETTreeNode *T2 = join(&theNullNode, pNode, pNodeRight);
+
+    while (parent != nullptr) {
+        if (isLeftNode) {
+            ETTreeNode *subTree = parent->right;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+            T2->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+            T2 = join(T2, root, subTree);
+
+
+        } else {
+            ETTreeNode *subTree = parent->left;
+            ETTreeNode *root = parent;
+            isLeftNode = isLeft(parent);
+            parent = parent->parent;
+
+            root->left = &theNullNode;
+            root->right = &theNullNode;
+
+            T1->parent = nullptr;
+            root->parent = nullptr;
+            subTree->parent = nullptr;
+
+            T1 = join(subTree, root, T1);
+
+
+        }
+    }
+    if (T1->color == RED) {
+        T1->color = BLACK;
+        updateRank(T1);
+    }
+    if (T2->color == RED) {
+        T2->color = BLACK;
+        updateRank(T2);
+    }
+    std::pair<ETTreeNode *, ETTreeNode *> T1T2(T1, T2);
+    verify2SideConnection();
+    return T1T2;
 }

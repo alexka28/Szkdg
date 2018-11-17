@@ -23,6 +23,10 @@ std::list<std::pair<int, int>> fillGraph(int n) {
             if ((it->first == nodeOne && it->second == nodeTwo) || (it->first == nodeTwo && it->second == nodeOne)) {
                 nodeOne = rand() % (n - 1);
                 nodeTwo = rand() % (n - 1);
+                while (nodeOne == nodeTwo) {
+                    nodeOne = rand() % (n - 1);
+                    nodeTwo = rand() % (n - 1);
+                }
                 it = insertList.begin();
             }
         }
