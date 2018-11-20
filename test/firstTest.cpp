@@ -570,7 +570,7 @@ TEST(InsertTest, HugeGraph2){
     testInsertEdge(17,81,graph,forest);
 }
 
-TEST(DeleteTest, firstDelete){
+TEST(DeleteTest, DISABLED_firstDelete){
     DecGraph graph(100);
     ETForest forest(100);
     testInsertEdgeAndInOrder(16,0,graph,forest,list {0,16,0});
@@ -731,7 +731,7 @@ TEST(DeleteTest, firstDelete){
 //    testRemoveEdge(18,15,graph,forest);
 //    testRemoveEdge(11,13,graph,forest);
 }
-TEST(DeleteTest, FirstDeleteWOInorder){
+TEST(DeleteTest, DISABLED_FirstDeleteWOInorder){
     DecGraph graph(20);
     ETForest forest(20);
     testInsertEdgeAndInOrder(16,0,graph,forest,list {0,16,0});

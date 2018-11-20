@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.3)
 
-set(REPO ~/ClionProjects/.repo)
+set(REPO ../../repo)
 
 project(Test)
 

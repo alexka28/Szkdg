@@ -42,7 +42,7 @@ std::list<std::pair<int,int>> insertList = fillGraph(n);
 
 
 
-    auto delquer = createDQ(insertList,10);
+    auto delquer = createDQ(insertList,n);
     for(auto queryIt = delquer.begin(); queryIt != delquer.end(); ++queryIt){
         if(queryIt->second == 0){
             cout<<"torles :" << queryIt->first.first << " - " <<queryIt->first.second<<endl;

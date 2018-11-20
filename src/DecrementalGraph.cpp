@@ -59,13 +59,6 @@ void DecGraph::insert(int u, int v, ETForest F) {
     if (!connected(u, v, F)) {
         F.insert(u, v);                          // F-be besz�rjuk, �sszek�tve u-t �s v-t
     }
-    else {
-        if(bid){
-            std::cout<<"Nem leptunk insertbe, mivel " <<u<<" es "<<v<<" connected!"<<std::endl;
-        }
-
-    }
-
 }
 
 void DecGraph::remove(int u, int v, ETForest F) {
@@ -80,7 +73,7 @@ void DecGraph::remove(int u, int v, ETForest F) {
 
     ETTreeNode *smallerTree;
     int biggerTreeId;
-    for (int m = k; m < logN; ++m) {
+    for (int m = k; m <= logN; ++m) {
         smallerTree = getSmallerTree(F.first[u], F.first[v], k, F);
         if (smallerTree->nodeId == u) {
             biggerTreeId = v;
@@ -142,10 +135,11 @@ bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
     while (pNode != nullptr) {
         w = pNode->nodeId;
 /* itt elv�gezz�k pNode->nodeId-vel, amit a cs�csokkal tenni akarunk */
-        if (m > 0) {
-            for (it = node[w].neighbours[m].begin(); it != node[w].neighbours[m].end(); ++it) {
+int index = m - 1;
+        if (index > 0) {
+            for (it = node[w].neighbours[index].begin(); it != node[w].neighbours[index].end(); ++it) {
                 z = (*it)->id;
-                node[w].neighbours[m - 1].insert(*it);
+                node[w].neighbours[index - 1].insert(*it);
 
                 if (w > z) {
                     if (level.count(std::make_pair(z, w)) > 0) {
@@ -163,10 +157,10 @@ bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
                     F.insert(w, z);
                     return true;
                 }
-                node[w].neighbours[m].erase(*it);
+                node[w].neighbours[index].erase(*it);
             }
         } else {
-            for (it = node[w].neighbours[m].begin(); it != node[w].neighbours[m].end(); ++it) {
+            for (it = node[w].neighbours[index].begin(); it != node[w].neighbours[index].end(); ++it) {
                 z = (*it)->id;
 
 
