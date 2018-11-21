@@ -479,6 +479,9 @@ std::pair<ETTreeNode *, ETTreeNode *> ETForest::split(ETTreeNode *pNode) {
         T1->rank = pNode->left->rank;
         setParent(T1->left, T1);
         setParent(T1->right, T1);
+        if(last[pNode->left->nodeId] == pNode->left){
+            std::cout<<"splitben egy last mutatos bal gyereket vagunk le, node id: "<<pNode->left->nodeId<<std::endl;
+        }
     }
 
 //mentsük el a jobb részfát
@@ -565,7 +568,7 @@ void ETForest::insert(int u, int v) {
     }
     //állítsuk vissza gyökérre
 
-    std::pair<ETTreeNode *, ETTreeNode *> spl = split(last[u]);
+    std::pair<ETTreeNode *, ETTreeNode *> spl = splitInRemove(last[u]);
     auto T2 = spl.first;
     auto T3 = spl.second;
 
@@ -1332,6 +1335,7 @@ void ETForest::verifyFirstLast() {
     ETTreeNode *firstSeen = nullptr;
     ETTreeNode *lastSeen = nullptr;
     for (int i = 0; i < this->N; ++i) {
+        if(i == 7){ continue;}
         pNode = this->first[i];
         assert(i == pNode->nodeId);
         pNode = findRoot(pNode);

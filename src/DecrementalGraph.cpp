@@ -7,6 +7,7 @@
 #include "ETT.h"
 #include <cmath>
 #include "ETTQueries.h"
+#include <list>
 /**
  * constructor for GraphNode
  * @param N: number of the neighbour levels
@@ -61,7 +62,7 @@ void DecGraph::insert(int u, int v, ETForest F) {
     }
 }
 
-void DecGraph::remove(int u, int v, ETForest F) {
+void DecGraph::remove(int u, int v, ETForest& F) {
     if (u == v) return;
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) == 0) return;
@@ -75,6 +76,9 @@ void DecGraph::remove(int u, int v, ETForest F) {
     int biggerTreeId;
     for (int m = k; m <= logN; ++m) {
         smallerTree = getSmallerTree(F.first[u], F.first[v], k, F);
+        if(bid){
+            F.verifyFirstLast();
+        }
         if (smallerTree->nodeId == u) {
             biggerTreeId = v;
         } else {
@@ -86,7 +90,7 @@ void DecGraph::remove(int u, int v, ETForest F) {
     }
 }
 
-ETTreeNode *DecGraph::firstSeen(int u, int m, ETForest F) {
+ETTreeNode *DecGraph::firstSeen(int u, int m, ETForest& F) {
     ETTreeNode *pNode = F.first[u];
     ETTreeNode *pv = predecessor(pNode);
     if (pv == nullptr) return pNode;
@@ -102,7 +106,7 @@ ETTreeNode *DecGraph::firstSeen(int u, int m, ETForest F) {
 
 }
 
-ETTreeNode *DecGraph::firstSeen(ETTreeNode *pNode, int m, ETForest F) {
+ETTreeNode *DecGraph::firstSeen(ETTreeNode *pNode, int m, ETForest& F) {
     return firstSeen(pNode->nodeId, m, F);
 }
 
@@ -128,7 +132,7 @@ void DecGraph::dfsETLimit(int u, int m, ETForest F) {
     }
 }
 
-bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
+bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest& F) {
     ETTreeNode *pNode = firstSeen(u, m, F);
     std::set<GraphNode *>::iterator it;
     int z, w;
@@ -136,6 +140,7 @@ bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest F) {
         w = pNode->nodeId;
 /* itt elv�gezz�k pNode->nodeId-vel, amit a cs�csokkal tenni akarunk */
 int index = m - 1;
+std::list<GraphNode*> graphNodesToDelete;
         if (index > 0) {
             for (it = node[w].neighbours[index].begin(); it != node[w].neighbours[index].end(); ++it) {
                 z = (*it)->id;
@@ -154,10 +159,15 @@ int index = m - 1;
                     level.insert(std::make_pair(std::make_pair(w, z), m - 1));
                 }
                 if (F.findRoot(w) != F.findRoot(z) && F.findRoot(v) == F.findRoot(z)) {
+                    for(auto deleterIt = graphNodesToDelete.begin(); deleterIt != graphNodesToDelete.end(); ++deleterIt){
+                        node[w].neighbours[index].erase(*deleterIt);
+                    }
                     F.insert(w, z);
                     return true;
                 }
-                node[w].neighbours[index].erase(*it);
+                //node[w].neighbours[index].erase(*it);
+                auto toDelete = *it;
+                graphNodesToDelete.push_back(toDelete);
             }
         } else {
             for (it = node[w].neighbours[index].begin(); it != node[w].neighbours[index].end(); ++it) {
@@ -170,14 +180,16 @@ int index = m - 1;
                 }
             }
         }
-
+        for(auto deleterIt = graphNodesToDelete.begin(); deleterIt != graphNodesToDelete.end(); ++deleterIt){
+            node[w].neighbours[index].erase(*deleterIt);
+        }
         pNode = step(pNode, m, F);
     }
 
     return false;
 }
 
-ETTreeNode *DecGraph::getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest F) {
+ETTreeNode *DecGraph::getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest& F) {
     ETTreeNode *pNode = firstSeen(lhs, m, F);  //a f�k bej�r�s�t a legkor�bban l�tott cs�csukb�l ind�tjuk
     ETTreeNode *qNode = firstSeen(rhs, m, F);
     while ((pNode != nullptr) && (qNode != nullptr)) {
@@ -188,7 +200,7 @@ ETTreeNode *DecGraph::getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ET
     return rhs;                         // rhs f�ja fogyott el el?bb
 }
 
-ETTreeNode *DecGraph::step(ETTreeNode *pNode, int m, ETForest F) {
+ETTreeNode *DecGraph::step(ETTreeNode *pNode, int m, ETForest& F) {
     int u = pNode->nodeId;
     int v;
     ETTreeNode *qNode;

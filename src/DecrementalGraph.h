@@ -25,19 +25,19 @@ typedef struct DecGraph {
 
     void insert(int, int, ETForest);
 
-    void remove(int, int, ETForest F);
+    void remove(int, int, ETForest& F);
 
-    ETTreeNode *firstSeen(int, int, ETForest);
+    ETTreeNode *firstSeen(int, int, ETForest&);
 
-    ETTreeNode *firstSeen(ETTreeNode *, int, ETForest);
+    ETTreeNode *firstSeen(ETTreeNode *, int, ETForest&);
 
     void dfsETLimit(int u, int m, ETForest);
 
-    bool dfsETLimit2(int u, int m,int, ETForest);
+    bool dfsETLimit2(int u, int m,int, ETForest&);
 
-    ETTreeNode *getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest);
+    ETTreeNode *getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest&);
 
-    ETTreeNode *step(ETTreeNode *pNode, int m, ETForest F);
+    ETTreeNode *step(ETTreeNode *pNode, int m, ETForest& F);
 } DecGraph;
 
 
