@@ -19,7 +19,7 @@ int main() {
 
     //insertekhez a teszt
     // testInsert();
-int n = 50;
+int n = 100;
     DecGraph grafom(n);
     ETForest forestem(n);
     Graph simagraf(n);
