@@ -28,7 +28,6 @@ void rotateLeft(ETTreeNode *pNode) {
     updateRank(pNode);
 }
 
-//TODO: nullNode check
 void rotateRight(ETTreeNode *pNode) {
     ETTreeNode *x = pNode->right,
             *y = pNode->left,

@@ -34,3 +34,4 @@
 # Auto generated files and dir's by Clion
 .idea/
 cmake-build-debug/
+cmake-build-release/

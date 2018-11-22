@@ -31,8 +31,6 @@ typedef struct DecGraph {
 
     ETTreeNode *firstSeen(ETTreeNode *, int, ETForest&);
 
-    void dfsETLimit(int u, int m, ETForest);
-
     bool dfsETLimit2(int u, int m,int, ETForest&);
 
     ETTreeNode *getSmallerTree(ETTreeNode *lhs, ETTreeNode *rhs, int m, ETForest&);

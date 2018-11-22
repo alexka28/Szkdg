@@ -8,10 +8,7 @@
 #include <cmath>
 #include "ETTQueries.h"
 #include <list>
-/**
- * constructor for GraphNode
- * @param N: number of the neighbour levels
- */
+
 GraphNode::GraphNode(int N) {
     this->N = N;
     neighbours = new std::set<GraphNode *>[N];
@@ -26,7 +23,6 @@ DecGraph::DecGraph(int n) {
     this->logN = ceil(tmpLog);
     node = std::vector<GraphNode>();
 
-//TODO: instead of 10 count logN
     GraphNode a_node(logN);
 
     for (int i = 0; i < n; ++i) {
@@ -44,8 +40,7 @@ void DecGraph::insert(int u, int v, ETForest F) {
     if (u == v) return;
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) > 0) { return; }
-//beszurjuk logN szinttel, valamint a map-be is felvesszuk logN szinttel
-    //TODO: indexel�s logN m�ret?-e a t�mb, vagy logN-ig indexelhet??
+
     GraphNode *uNode = new GraphNode(logN);
     GraphNode *vNode = new GraphNode(logN);
     uNode->id = u;
@@ -56,9 +51,8 @@ void DecGraph::insert(int u, int v, ETForest F) {
     std::pair<std::pair<int, int>, int> key_value(key, this->logN);
     level.insert(key_value);
 
-
     if (!connected(u, v, F)) {
-        F.insert(u, v);                          // F-be besz�rjuk, �sszek�tve u-t �s v-t
+        F.insert(u, v);
     }
 }
 
@@ -66,7 +60,7 @@ void DecGraph::remove(int u, int v, ETForest& F) {
     if (u == v) return;
     if (v < u) std::swap(u, v);
     if (level.count(std::make_pair(u, v)) == 0) return;
-    //kiszedj�k a szintet
+    //kiszedjuk a szintet
     int k = level.find(std::make_pair(u, v))->second;
     level.erase(std::make_pair(u, v));
     if (!F.contains(u, v)) { return; }
@@ -94,9 +88,9 @@ ETTreeNode *DecGraph::firstSeen(int u, int m, ETForest& F) {
     ETTreeNode *pNode = F.first[u];
     ETTreeNode *pv = predecessor(pNode);
     if (pv == nullptr) return pNode;
-    //van-e a kulcshoz �rt�k
+    //van-e a kulcshoz ertek
     if (level.count(std::make_pair(u, pv->nodeId)) > 0) {
-        //ha van szedj�k ki a szintet
+        //ha van szedjuk ki a szintet
 
         if (level.find(std::make_pair(u, pv->nodeId))->second > m) {
             return pNode;
@@ -110,27 +104,6 @@ ETTreeNode *DecGraph::firstSeen(ETTreeNode *pNode, int m, ETForest& F) {
     return firstSeen(pNode->nodeId, m, F);
 }
 
-void DecGraph::dfsETLimit(int u, int m, ETForest F) {
-/* itt elv�gezz�k, amit u-val tenni akarunk, pl a r� illeszked? m szint? �leket cs�kkentj�k stb */
-    ETTreeNode *pNode = F.first[u];
-    ETTreeNode *qNode;
-    int v;
-    while (pNode != F.last[u]) /* bej�rjuk az u aktu�lis pNode visitje ut�n k�vetkez? cs�csot*/
-    {
-        qNode = successor(
-                pNode);  /*tkp jobbr�l balra is bej�rhatn�nk, ha erre az egy c�lra k�ne a successor -- mindegy */
-        v = qNode->nodeId;
-        if (level.count(std::make_pair(u, v)) > 0) {
-            if (level.find(std::make_pair(u, v))->second <= m) {
-                dfsETLimit(v, m, F);
-            }
-        }
-//        if (level(u, v) <= m)  {    /*ha oda tudunk l�pni, akkor bej�rjuk */
-//            dfsETLimit(v);}
-        pNode = successor(
-                F.last[v]); /*ak�r bej�rtuk, ak�r nem, visszal�p�nk u-ra v bej�r�sa ut�n �s n�zz�k a k�vetkez? szomsz�dot */
-    }
-}
 
 bool DecGraph::dfsETLimit2(int u, int m, int v, ETForest& F) {
     ETTreeNode *pNode = firstSeen(u, m, F);
@@ -165,7 +138,6 @@ std::list<GraphNode*> graphNodesToDelete;
                     F.insert(w, z);
                     return true;
                 }
-                //node[w].neighbours[index].erase(*it);
                 auto toDelete = *it;
                 graphNodesToDelete.push_back(toDelete);
             }

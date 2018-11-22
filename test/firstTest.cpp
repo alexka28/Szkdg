@@ -47,11 +47,11 @@ void testInsertEdgeAndInOrder(int x, int y, DecGraph &graph, ETForest &forest, c
     assert(isSameInOrder(expectedInorder, treeInOrder));
 }
 
-void testRemoveEdgeAndInOrder(const int x, const int y, DecGraph &graph, ETForest forest,
+void testRemoveEdgeAndInOrder(const int x, const int y, DecGraph & graph, ETForest forest,
                               const std::list<int> &expectedXInorder, const std::list<int> &expectedYInorder) {
     if (forest.contains(x, y)) {
-        graph.remove(x, y, forest);
-        //EXPECT_FALSE(graph.connected(x,y,forest));
+        forest.remove(x, y);
+        EXPECT_FALSE(graph.connected(x,y,forest));
         forest.verifyFirstLast();
         forest.verify2SideConnection();
         EXPECT_TRUE(forest.verifyProperties(forest.findRoot(x)));
@@ -59,9 +59,6 @@ void testRemoveEdgeAndInOrder(const int x, const int y, DecGraph &graph, ETFores
         std::list<int> xTreeInOrder, yTreeInOrder;
         inOrder(forest.findRoot(x), xTreeInOrder);
         inOrder(forest.findRoot(y), yTreeInOrder);
-//        isFirstTime = true;
-//        inOrder(forest.findRoot(y));
-
         assert(expectedXInorder.size() == xTreeInOrder.size());
         assert(isSameInOrder(expectedXInorder, xTreeInOrder));
         assert(expectedYInorder.size() == yTreeInOrder.size());
@@ -582,7 +579,7 @@ TEST(InsertTest, HugeGraph2) {
     testInsertEdge(17, 81, graph, forest);
 }
 
-TEST(DeleteTest, DISABLED_firstDelete) {
+TEST(DeleteTest, firstDelete) {
     DecGraph graph(100);
     ETForest forest(100);
     testInsertEdgeAndInOrder(16, 0, graph, forest, list{0, 16, 0});
@@ -1001,15 +998,9 @@ TEST(DeleteTest, DISABLED_firstDelete) {
                              list{11, 9, 11, 10, 13, 1, 13, 10, 11});
     testRemoveEdgeAndInOrder(18, 15, graph, forest, list{18}, list{15});
     testRemoveEdgeAndInOrder(11, 13, graph, forest, list{}, list{});
-//    testRemoveEdge(5,7,graph,forest);
-//    testRemoveEdge(18,3,graph,forest);
-//    testRemoveEdge(8,0,graph,forest);
-//    testRemoveEdge(0,11,graph,forest);
-//    testRemoveEdge(18,15,graph,forest);
-//    testRemoveEdge(11,13,graph,forest);
 }
 
-TEST(DeleteTest, DISABLED_FirstDeleteWOInorder) {
+TEST(DeleteTest, FirstDeleteWOInorder) {
     DecGraph graph(20);
     ETForest forest(20);
     testInsertEdgeAndInOrder(16, 0, graph, forest, list{0, 16, 0});
@@ -1748,13 +1739,10 @@ TEST(DeleteTest, thirdTest) {
     testInsertEdge(9, 14, graph, forest);
 
     testRemoveEdge(10, 15, graph, forest);
-//    query :6 - 5
-//    query :0 - 5
-//    torles :10 - 15
-//Expression: pNode == lastPNode
+
 }
 
-TEST(DeleteTest, DISABLED_ConnectionProblem) {
+TEST(DeleteTest, ConnectionProblem) {
     DecGraph graph(20);
     ETForest forest(20);
 
@@ -2899,7 +2887,6 @@ TEST(DeleteTest, lastupdatefail) {
     testInsertEdge(38, 17, graph, forest);
     testInsertEdge(9, 39, graph, forest);
     testInsertEdge(1, 36, graph, forest);
-    bid = true;
-    testRemoveEdge(13, 7, graph, forest);
 
+    testRemoveEdge(13, 7, graph, forest);
 }
