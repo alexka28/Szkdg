@@ -14,12 +14,12 @@
 #include "DFS.h"
 #include <cassert>
 
-void testInsert() {
+void testInsert(const int numberOfNodes, const int numberOfTests) {
     bool *ret;
     ret = (bool *) malloc(sizeof(bool));
     *ret = false;
     srand(time(NULL));
-    int n = 100;
+    int n = numberOfNodes;
     std::list<std::list<struct IQ> > smNodes;
     /*
     Creating 50 iqList to graphs with 100 nodes
@@ -29,7 +29,8 @@ void testInsert() {
     int max = maxinserts * 0.9;
     int min = maxinserts * 0.7;
     int finalNum = rand() % (max - min + 1) + min;
-    for (int i = 0; i < 50; ++i) {
+    std::cout<<"Number of inserts and queries: "<<finalNum<<std::endl;
+    for (int i = 0; i < numberOfTests; ++i) {
         smNodes.push_back(createIQ(n, finalNum));
     }
     std::cout << "List created!" << std::endl;
@@ -55,8 +56,8 @@ void testInsert() {
         endTrad += (std::clock() - startTrad) / (long double) CLOCKS_PER_SEC;
     }
     std::cout << "Both algorithms ended!" << std::endl;
-    std::cout << "Incremental running time: " << endInc << " sec." << std::endl;
-    std::cout << "Traditional running time: " << endTrad << " sec." << std::endl;
+    std::cout << "Incremental running time: " << endInc/numberOfTests << " sec." << std::endl;
+    std::cout << "Traditional running time: " << endTrad/numberOfTests << " sec." << std::endl;
     std::cout << "Program finished!";
 
 
@@ -70,12 +71,17 @@ void testDelete(const int& numberOfNodes, const int& numberOfTests) {
     std::clock_t startTrad;
     long double endDec = 0;
     long double endTrad = 0;
+
     for (int i = 1; i <= numberOfTests; ++i) {
         DecGraph decGraph(n);
         ETForest forest(n);
         Graph graph(n);
+
+
+
         std::list<std::pair<int, int>> insertList = fillGraph(n);
         std::list<std::pair<int, int>>::iterator insertIt;
+
 
         std::cout << "Teszt: " << i << std::endl;
         for (insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt) {

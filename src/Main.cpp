@@ -18,8 +18,8 @@ using namespace std;
 int main() {
 
     //insertekhez a teszt
-     testInsert();
-    testDelete(100,50);
+     //testInsert(500,50);
+    testDelete(500,20);
     //testDeleteWithVerify(100,10);
 
     return 0;

@@ -1,6 +1,7 @@
 #include "CreateInsertquery.h"
 #include <time.h>
 #include <stdlib.h>
+#include <set>
 /*
 iq: insert or query. 0 = insert, 1 query
 a: a node which will be inserted
@@ -28,6 +29,10 @@ std::list<struct IQ> createIQ(int n, int numInserts)
     int rnd, count_i=0, count_q=0, node1, node2;
     std::list<struct IQ> iqList;
     srand (time(NULL));
+    std::set<std::pair<int,int>> inserts;
+    std::set<std::pair<int,int>> queries;
+    std::pair<int,int> edge;
+    std::pair<int,int> swapedge;
 
     while(count_i != numInserts )
     {
@@ -58,26 +63,46 @@ std::list<struct IQ> createIQ(int n, int numInserts)
                 /*
                 iterate over the list and check nodes
                 */
-                for(it = iqList.begin(); it != iqList.end(); ++it)
-                {
-                    /*
-                    check: is it an insert? If its not an insert just increment the iterator
-                    these if's can be merged into one if statement
-                    */
-                    if(it->iq == 0)
-                    {
-                        /*
-                        if the nodes equals with an insert, we generate new nodes, and start the iteration again
-                        */
-                        if((it->a == node1 && it->b == node2) || (it->a == node2 && it->b == node1) )
-                        {
-                            node1 = rand() % (n+1);
-                            node2 = rand() % (n+1);
-                            it = iqList.begin();
-                        }
-                    }
+//                for(it = iqList.begin(); it != iqList.end(); ++it)
+//                {
+//                    /*
+//                    check: is it an insert? If its not an insert just increment the iterator
+//                    these if's can be merged into one if statement
+//                    */
+//                    if(it->iq == 0)
+//                    {
+//                        /*
+//                        if the nodes equals with an insert, we generate new nodes, and start the iteration again
+//                        */
+//                        if((it->a == node1 && it->b == node2) || (it->a == node2 && it->b == node1) )
+//                        {
+//                            node1 = rand() % (n+1);
+//                            node2 = rand() % (n+1);
+//                            it = iqList.begin();
+//                        }
+//                    }
+//
+//                }
 
+            edge.first = node1;
+            edge.second = node2;
+            swapedge.first = node2;
+            swapedge.second = node1;
+
+            while(inserts.count(edge) > 0 || inserts.count(swapedge) > 0){
+                node1 = rand() % (n+1);
+                node2 = rand() % (n+1);
+                while(node1 == node2)
+                {
+                    node1 = rand() % (n+1);
+                    node2 = rand() % (n+1);
                 }
+                edge.first = node1;
+                edge.second = node2;
+                swapedge.first = node2;
+                swapedge.second = node1;
+            }
+                inserts.insert(edge);
                 IQ iq(0,node1,node2);
                 iqList.push_back(iq);
             }
@@ -86,6 +111,7 @@ std::list<struct IQ> createIQ(int n, int numInserts)
             */
             else
             {
+                inserts.insert(std::make_pair(node1,node2));
                 IQ iq(0,node1,node2);
                 iqList.push_back(iq);
             }
@@ -100,25 +126,44 @@ std::list<struct IQ> createIQ(int n, int numInserts)
             if(count_q != 0)
             {
                 std::list <struct IQ> :: iterator it;
-                for(it = iqList.begin(); it != iqList.end(); ++it)
-                {
-                    /*
-                    check: is it a query? If its not a query just increment the iterator
-                    these if's can be merged into one if statement
-                    */
-                    if(it->iq == 1)
+//                for(it = iqList.begin(); it != iqList.end(); ++it)
+//                {
+//                    /*
+//                    check: is it a query? If its not a query just increment the iterator
+//                    these if's can be merged into one if statement
+//                    */
+//                    if(it->iq == 1)
+//                    {
+//                        /*
+//                        if the nodes equals with a query, we generate new nodes, and start the iteration again
+//                        */
+//                        if((it->a == node1 && it->b == node2) || (it->a == node2 && it->b == node1) )
+//                        {
+//                            node1 = rand() % (n+1);
+//                            node2 = rand() % (n+1);
+//                            it = iqList.begin();
+//                        }
+//                    }
+//                }
+                edge.first = node1;
+                edge.second = node2;
+                swapedge.first = node2;
+                swapedge.second = node1;
+
+                while(queries.count(edge) > 0 || queries.count(swapedge) > 0){
+                    node1 = rand() % (n+1);
+                    node2 = rand() % (n+1);
+                    while(node1 == node2)
                     {
-                        /*
-                        if the nodes equals with a query, we generate new nodes, and start the iteration again
-                        */
-                        if((it->a == node1 && it->b == node2) || (it->a == node2 && it->b == node1) )
-                        {
-                            node1 = rand() % (n+1);
-                            node2 = rand() % (n+1);
-                            it = iqList.begin();
-                        }
+                        node1 = rand() % (n+1);
+                        node2 = rand() % (n+1);
                     }
+                    edge.first = node1;
+                    edge.second = node2;
+                    swapedge.first = node2;
+                    swapedge.second = node1;
                 }
+                queries.insert(edge);
                 IQ iq(1,node1,node2);
                 iqList.push_back(iq);
             }
@@ -127,6 +172,7 @@ std::list<struct IQ> createIQ(int n, int numInserts)
             */
             else
             {
+                queries.insert(std::make_pair(node1,node2));
                 IQ iq(1,node1,node2);
                 iqList.push_back(iq);
             }

@@ -25,6 +25,9 @@ void DFSUtil(Graph g, int v, bool visited[], int f, bool *ret)
 
     for(i = g.getList()[v].begin(); i != g.getList()[v].end(); ++i)
     {
+        if(*ret){
+            return;
+        }
         if(*i == f)
         {
             *ret = true;

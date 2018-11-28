@@ -1,14 +1,15 @@
 #include "CreateDeleteQuery.h"
 #include <time.h>
 #include <list>
+#include <set>
 #include <stdlib.h>
-
 std::list<std::pair<int, int>> fillGraph(int n) {
 
     int nodeOne, nodeTwo, numInserts;
     numInserts = ((n * (n - 1)) / 2) * 0.8;
     std::list<std::pair<int, int>> insertList;
     srand(time(NULL));
+    std::set<std::pair<int, int>> edges;
 //80%-osra töltjük fel
     for (int i = 1; i <= numInserts; ++i) {
         nodeOne = rand() % (n - 1);
@@ -18,19 +19,35 @@ std::list<std::pair<int, int>> fillGraph(int n) {
             nodeOne = rand() % (n - 1);
             nodeTwo = rand() % (n - 1);
         }
-        std::list<std::pair<int, int>>::iterator it;
-        for (it = insertList.begin(); it != insertList.end(); ++it) {
-            if ((it->first == nodeOne && it->second == nodeTwo) || (it->first == nodeTwo && it->second == nodeOne)) {
+//        std::list<std::pair<int, int>>::iterator it;
+//        for (it = insertList.begin(); it != insertList.end(); ++it) {
+//            if ((it->first == nodeOne && it->second == nodeTwo) || (it->first == nodeTwo && it->second == nodeOne)) {
+//                nodeOne = rand() % (n - 1);
+//                nodeTwo = rand() % (n - 1);
+//                while (nodeOne == nodeTwo) {
+//                    nodeOne = rand() % (n - 1);
+//                    nodeTwo = rand() % (n - 1);
+//                }
+//                it = insertList.begin();
+//            }
+//        }
+        std::pair<int, int> edge(nodeOne, nodeTwo);
+        std::pair<int, int> swappedEdge (nodeTwo, nodeOne);
+        while(edges.count(edge) > 0 || edges.count(swappedEdge) > 0){
+            nodeOne = rand() % (n - 1);
+            nodeTwo = rand() % (n - 1);
+
+            while (nodeOne == nodeTwo) {
                 nodeOne = rand() % (n - 1);
                 nodeTwo = rand() % (n - 1);
-                while (nodeOne == nodeTwo) {
-                    nodeOne = rand() % (n - 1);
-                    nodeTwo = rand() % (n - 1);
-                }
-                it = insertList.begin();
             }
+            edge.first = nodeOne;
+            edge.second = nodeTwo;
+            swappedEdge.first = nodeTwo;
+            swappedEdge.second = nodeOne;
         }
-        std::pair<int, int> edge(nodeOne, nodeTwo);
+        edges.insert(edge);
+
         insertList.push_back(edge);
 
     }
@@ -50,17 +67,18 @@ std::list<std::pair<std::pair<int, int>, int>> createDQ(std::list<std::pair<int,
         r = rand() % 10 + 1;
         //ebben az esetben töröljünk
         if (r <= 5) {
-result.push_back(std::make_pair(std::make_pair(it->first,it->second),0));
-       it++; }
-        //query esetén generáljunk egy random élt
-        else{
-            nodeOne = rand() % (n-1);
-            nodeTwo = rand() % (n-1);
-            while(nodeOne == nodeTwo){
-                nodeOne = rand() % (n-1);
-                nodeTwo = rand() % (n-1);
+            result.push_back(std::make_pair(std::make_pair(it->first, it->second), 0));
+            it++;
+        }
+            //query esetén generáljunk egy random élt
+        else {
+            nodeOne = rand() % (n - 1);
+            nodeTwo = rand() % (n - 1);
+            while (nodeOne == nodeTwo) {
+                nodeOne = rand() % (n - 1);
+                nodeTwo = rand() % (n - 1);
             }
-            result.push_back(std::make_pair(std::make_pair(nodeOne,nodeTwo),1));
+            result.push_back(std::make_pair(std::make_pair(nodeOne, nodeTwo), 1));
             it++;
         }
     }

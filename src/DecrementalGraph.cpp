@@ -70,9 +70,6 @@ void DecGraph::remove(int u, int v, ETForest& F) {
     int biggerTreeId;
     for (int m = k; m <= logN; ++m) {
         smallerTree = getSmallerTree(F.first[u], F.first[v], k, F);
-        if(bid){
-            F.verifyFirstLast();
-        }
         if (smallerTree->nodeId == u) {
             biggerTreeId = v;
         } else {
