@@ -85,8 +85,12 @@ void testDelete(const int& numberOfNodes, const int& numberOfTests) {
 
         std::cout << "Teszt: " << i << std::endl;
         for (insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt) {
+            startDec = std::clock();
             decGraph.insert(insertIt->first, insertIt->second, forest);
+            endDec += (std::clock() - startDec) / (long double) CLOCKS_PER_SEC;
+            startTrad = std::clock();
             graph.addEdge(insertIt->first, insertIt->second);
+            endTrad += (std::clock() - startTrad) / (long double) CLOCKS_PER_SEC;
         }
 
 
