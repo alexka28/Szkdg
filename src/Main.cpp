@@ -17,8 +17,8 @@
 using namespace std;
 
 int main() {
-    testInsert(100, 50);
-    testDelete(100, 50);
+    testInsert(250, 50);
+    testDelete(250, 50);
     //testDeleteWithVerify(100,10);
     return 0;
 }

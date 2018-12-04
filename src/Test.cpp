@@ -29,7 +29,6 @@ void testInsert(const int numberOfNodes, const int numberOfTests) {
     int max = maxinserts * 0.9;
     int min = maxinserts * 0.7;
     int finalNum = rand() % (max - min + 1) + min;
-    std::cout<<"Number of inserts and queries: "<<finalNum<<std::endl;
     for (int i = 0; i < numberOfTests; ++i) {
         smNodes.push_back(createIQ(n, finalNum));
     }
@@ -58,7 +57,6 @@ void testInsert(const int numberOfNodes, const int numberOfTests) {
     std::cout << "Both algorithms ended!" << std::endl;
     std::cout << "Incremental running time: " << endInc/numberOfTests << " sec." << std::endl;
     std::cout << "Traditional running time: " << endTrad/numberOfTests << " sec." << std::endl;
-    std::cout << "Program finished!";
 
 
     free(ret);
@@ -66,6 +64,7 @@ void testInsert(const int numberOfNodes, const int numberOfTests) {
 }
 
 void testDelete(const int& numberOfNodes, const int& numberOfTests) {
+    std::cout<<"Starting fully dynamic and traditional algorithms!" <<std::endl;
     int n = numberOfNodes;
     std::clock_t startDec;
     std::clock_t startTrad;
@@ -83,7 +82,6 @@ void testDelete(const int& numberOfNodes, const int& numberOfTests) {
         std::list<std::pair<int, int>>::iterator insertIt;
 
 
-        std::cout << "Teszt: " << i << std::endl;
         for (insertIt = insertList.begin(); insertIt != insertList.end(); ++insertIt) {
             startDec = std::clock();
             decGraph.insert(insertIt->first, insertIt->second, forest);
@@ -118,10 +116,9 @@ void testDelete(const int& numberOfNodes, const int& numberOfTests) {
             }
         }
     }
-    std::cout << "dekremental ossz : " << endDec << std::endl;
-    std::cout << "hagyomanyos ossz: " << endTrad << std::endl;
-    std::cout << "dekremental atlag: " << endDec / numberOfTests << std::endl;
-    std::cout << "hagyomanyos atlag: " << endTrad / numberOfTests << std::endl;
+
+    std::cout << "Fully dynamic running time: " << endDec / numberOfTests << std::endl;
+    std::cout << "Traditional running time: " << endTrad / numberOfTests << std::endl;
 
 }
 
