@@ -13,14 +13,12 @@
 #include <cmath>
 #include "ETTQueries.h"
 #include <ctime>
+
 using namespace std;
 
 int main() {
-
-    //insertekhez a teszt
-     //testInsert(500,50);
-    testDelete(500,20);
+    testInsert(100, 50);
+    testDelete(100, 50);
     //testDeleteWithVerify(100,10);
-
     return 0;
 }
